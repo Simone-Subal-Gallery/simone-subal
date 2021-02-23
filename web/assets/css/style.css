@@ -1,0 +1,214 @@
+/* @font-face {
+    font-family: 'Neuzeit Grotesk';
+    src: url('NeuzeitGroExt-Bla.eot');
+    src: local('Neuzeit Grotesk Extra-condensed Black'), local('NeuzeitGroExt-Bla'),
+        url('NeuzeitGroExt-Bla.eot?#iefix') format('embedded-opentype'),
+        url('NeuzeitGroExt-Bla.woff2') format('woff2'),
+        url('NeuzeitGroExt-Bla.woff') format('woff'),
+        url('NeuzeitGroExt-Bla.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+} */
+
+@font-face {
+    font-family: 'Neuzeit Grotesk';
+    src: url('~/assets/fonts/NeuzeitGro-Bla.eot');
+    src: local('Neuzeit Grotesk Black'), local('NeuzeitGro-Bla'),
+        url('~/assets/fonts/NeuzeitGro-Bla.eot?#iefix') format('embedded-opentype'),
+        url('~/assets/fonts/NeuzeitGro-Bla.woff2') format('woff2'),
+        url('~/assets/fonts/NeuzeitGro-Bla.woff') format('woff'),
+        url('~/assets/fonts/NeuzeitGro-Bla.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neuzeit Grotesk';
+    src: url('~/assets/fonts/NeuzeitGro-Reg.eot');
+    src: local('Neuzeit Grotesk Regular'), local('NeuzeitGro-Reg'),
+        url('~/assets/fonts/NeuzeitGro-Reg.eot?#iefix') format('embedded-opentype'),
+        url('~/assets/fonts/NeuzeitGro-Reg.woff2') format('woff2'),
+        url('~/assets/fonts/NeuzeitGro-Reg.woff') format('woff'),
+        url('~/assets/fonts/NeuzeitGro-Reg.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neuzeit Grotesk';
+    src: url('~/assets/fonts/NeuzeitGro-Lig.eot');
+    src: local('Neuzeit Grotesk Light'), local('NeuzeitGro-Lig'),
+        url('~/assets/fonts/NeuzeitGro-Lig.eot?#iefix') format('embedded-opentype'),
+        url('~/assets/fonts/NeuzeitGro-Lig.woff2') format('woff2'),
+        url('~/assets/fonts/NeuzeitGro-Lig.woff') format('woff'),
+        url('~/assets/fonts/NeuzeitGro-Lig.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neuzeit Grotesk';
+    src: url('~/assets/fonts/NeuzeitGro-Bol.eot');
+    src: local('Neuzeit Grotesk Bold'), local('NeuzeitGro-Bol'),
+        url('~/assets/fonts/NeuzeitGro-Bol.eot?#iefix') format('embedded-opentype'),
+        url('~/assets/fonts/NeuzeitGro-Bol.woff2') format('woff2'),
+        url('~/assets/fonts/NeuzeitGro-Bol.woff') format('woff'),
+        url('~/assets/fonts/NeuzeitGro-Bol.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* @font-face {
+    font-family: 'Neuzeit Grotesk';
+    src: url('NeuzeitGroCon-Bla.eot');
+    src: local('Neuzeit Grotesk Condensed Black'), local('NeuzeitGroCon-Bla'),
+        url('NeuzeitGroCon-Bla.eot?#iefix') format('embedded-opentype'),
+        url('NeuzeitGroCon-Bla.woff2') format('woff2'),
+        url('NeuzeitGroCon-Bla.woff') format('woff'),
+        url('NeuzeitGroCon-Bla.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+} */
+
+body {
+  background-color: #eee;
+  padding: 1.5rem;
+  padding-right: 4rem;
+  font-family: 'Neuzeit Grotesk', 'Helvetica', sans-serif;
+}
+
+h1 {
+  font-weight: 400;
+}
+
+header {
+  border: 1px solid #000;
+  background-color: #fff;
+  z-index:2;
+  position:absolute;
+  top:1.5rem;
+  left:1.5rem;
+  right: 4rem;
+}
+
+.main-nav-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index:2;
+  align-items: center;
+  height: 3rem;
+}
+
+header h1 {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+}
+
+nav {
+  display: inline-block;
+  margin-right: 2rem;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+nav a {
+  margin: 0 0.5rem;
+}
+
+.overlay-toggle {
+  border:1px solid black;
+  border-radius: 0.75rem;
+  width: 3rem;
+  height: 3rem;
+  position: absolute;
+  top:1.5rem;
+  right:1.5rem;
+  z-index:1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.overlay-toggle .circle {
+  border-radius: 100%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid #000;
+}
+
+.overlay-toggle:hover .circle, .overlay-toggle.active .circle {
+  background-color: #000;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  padding-top: 0rem;
+  background: #fff;
+  position: fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  right:0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index:0;
+  display: none;
+}
+.overlay.active {
+  display:flex;
+}
+
+main {
+  margin-top: 4.5rem;
+}
+
+section {
+  margin: 1.5rem 0;
+  background: #fff;
+  border: 1px solid #000;
+}
+
+section.featured {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+section.announcement{
+  height: 160px;
+  border-radius: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section.search {
+  height: 80px;
+  width: 80%;
+  margin: 1.5rem auto;
+  border-radius: 3rem;
+  display: flex;
+  align-items:center;
+  justify-content: flex-end;
+  padding:0 3rem;
+}
+
+/*** ARTISTSS ***/
+body.artists main div {
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid #000;
+  display: inline-block;
+  font-size: 2rem;
+  margin: 1rem;
+  border-radius: 3rem;
+}

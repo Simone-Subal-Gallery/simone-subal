@@ -1,0 +1,11 @@
+{
+  "SanityContent": {
+    "description": "Auto imported from node_modules/@nuxtjs/sanity/dist/components/sanity-content.js"
+  },
+  "SanityImage": {
+    "description": "Auto imported from node_modules/@nuxtjs/sanity/dist/components/sanity-image.js"
+  },
+  "Logo": {
+    "description": "Auto imported from components/Logo.vue"
+  }
+}
