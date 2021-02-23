@@ -9,3 +9,4 @@ You can directly use them in pages and other components without the need to impo
 - `<SanityContent>` | `<sanity-content>` (node_modules/@nuxtjs/sanity/dist/components/sanity-content.js)
 - `<SanityImage>` | `<sanity-image>` (node_modules/@nuxtjs/sanity/dist/components/sanity-image.js)
 - `<Logo>` | `<logo>` (components/Logo.vue)
+- `<Nav>` | `<nav>` (components/Nav.vue)

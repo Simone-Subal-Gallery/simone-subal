@@ -1,8 +1,30 @@
 [
   {
+    "name": "artists",
+    "path": "/artists",
+    "component": "/Users/blaine/sites/simone-subal/web/pages/artists/index.vue",
+    "chunkName": "pages/artists/index",
+    "_name": "_c7f78c30"
+  },
+  {
+    "name": "exhibitions",
+    "path": "/exhibitions",
+    "component": "/Users/blaine/sites/simone-subal/web/pages/exhibitions/index.vue",
+    "chunkName": "pages/exhibitions/index",
+    "_name": "_42a35440"
+  },
+  {
+    "name": "fairs",
+    "path": "/fairs",
+    "component": "/Users/blaine/sites/simone-subal/web/pages/fairs/index.vue",
+    "chunkName": "pages/fairs/index",
+    "_name": "_6f8ba22b"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "/Users/blaine/sites/simone-subal/web/pages/index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_565bdb2b"
   }
 ]

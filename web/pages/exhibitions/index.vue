@@ -3,7 +3,7 @@
     <header>
       <div class="main-nav-wrapper">
         <a href="/">
-          <h1>Simone Subal Gallery</h1>
+          <h1>Exhibitions</h1>
         </a>
         <Nav />
       </div>
@@ -20,15 +20,6 @@
     </aside>
 
     <main>
-      <section class="featured">
-        featured
-      </section>
-      <section class="announcement">
-        ANNOUNCEMENT
-      </section>
-      <section class="search">
-        SEARCH
-      </section>
     </main>
 
   </div>
@@ -36,7 +27,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Nav from '~/components/Nav'
 
 export default Vue.extend({})
 </script>

@@ -3,9 +3,13 @@
     <header>
       <div class="main-nav-wrapper">
         <a href="/">
-          <h1>Simone Subal Gallery</h1>
+          <h1>Artists</h1>
         </a>
-        <Nav />
+        <nav>
+          <a href="#">Artists</a>
+          <a href="#">Exhibitions</a>
+          <a href="#">Fairs</a>
+        </nav>
       </div>
     </header>
 
@@ -20,23 +24,13 @@
     </aside>
 
     <main>
-      <section class="featured">
-        featured
-      </section>
-      <section class="announcement">
-        ANNOUNCEMENT
-      </section>
-      <section class="search">
-        SEARCH
-      </section>
     </main>
-
+    
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import Nav from '~/components/Nav'
 
 export default Vue.extend({})
 </script>
