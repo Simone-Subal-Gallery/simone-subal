@@ -13,7 +13,7 @@
   </main>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
@@ -22,9 +22,9 @@ export default Vue.extend({
   name: 'Fairs',
   async asyncData({ app: { $sanity }}) {
     const query = groq`*[_type == "fair"]`
-    const fairs: [] = await $sanity.fetch(query)
+    const fairs = await $sanity.fetch(query)
 
-    function setYear(objectArray: []) {
+    function setYear(objectArray) {
       for (const object of objectArray) {
         const dt = DateTime.fromISO(object.open_date)
         const year = dt.year
@@ -62,11 +62,11 @@ export default Vue.extend({
     }
   },
   methods: {
-    formatDates (open: string, close: string) {
+    formatDates (open, close) {
       open = DateTime.fromISO(open)
       close = DateTime.fromISO(close)
       const from = open.toLocaleString({ month: 'long', day: 'numeric' })
-      let to: string = ''
+      let to = ''
       if (open.month == close.month) {
         to = close.toLocaleString({ day: 'numeric' })
       } else {

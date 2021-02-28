@@ -75,7 +75,7 @@
   </main>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
@@ -98,15 +98,15 @@ export default Vue.extend({
 
     const today = DateTime.now()
 
-    let future = exhibitions.filter((item: any) => {
+    let future = exhibitions.filter((item) => {
       return DateTime.fromISO(item.open_date) >= today
     })
 
-    let past = exhibitions.filter((item: any) => {
+    let past = exhibitions.filter((item) => {
       return DateTime.fromISO(item.close_date) < today
     })
 
-    let current = exhibitions.filter((item: any) => {
+    let current = exhibitions.filter((item) => {
       return DateTime.fromISO(item.open_date) <= today &&
              DateTime.fromISO(item.close_date) >= today
     })
@@ -142,13 +142,13 @@ export default Vue.extend({
       }
       return text
     },
-    formatDates (open: string, close: string) {
+    formatDates (open, close) {
       open = DateTime.fromISO(open)
       close = DateTime.fromISO(close)
 
       if (this.view == 'grid') {
         const from = open.toLocaleString({ month: 'long', day: 'numeric' })
-        let to: string = ''
+        let to = ''
         if (open.month == close.month) {
           to = close.toLocaleString({ day: 'numeric' })
         } else {

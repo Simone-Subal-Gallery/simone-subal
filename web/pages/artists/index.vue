@@ -6,7 +6,7 @@
   </main>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 
