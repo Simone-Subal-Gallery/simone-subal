@@ -33,7 +33,7 @@
                 </template>
                 <p v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" />
               </div>
-              <div class="dates" v-text="formatDates(exhibition.open_date, exhibition.close_date)" />
+              <div class="dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
           </nuxt-link>
         </div>
       </div>
@@ -67,7 +67,7 @@
                 </template>
               </div>
               <div class="title"><span>{{ exhibition.title }}</span></div>
-              <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date)" />
+              <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'past')" />
           </nuxt-link>
         </div>
       </div>
@@ -142,11 +142,11 @@ export default Vue.extend({
       }
       return text
     },
-    formatDates (open, close) {
+    formatDates (open, close, section) {
       open = DateTime.fromISO(open)
       close = DateTime.fromISO(close)
 
-      if (this.view == 'grid') {
+      if (this.view == 'grid' && section == 'past' || section == 'future') {
         const from = open.toLocaleString({ month: 'long', day: 'numeric' })
         let to = ''
         if (open.month == close.month) {
