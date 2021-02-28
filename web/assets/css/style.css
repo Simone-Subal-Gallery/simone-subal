@@ -70,6 +70,23 @@
     font-style: normal;
 } */
 
+html {
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
 body {
   background-color: #eee;
   padding: 1.5rem;
@@ -77,37 +94,8 @@ body {
   font-family: 'Neuzeit Grotesk', 'Helvetica', sans-serif;
 }
 
-h1 {
+h1, h2, h3 {
   font-weight: 400;
-}
-
-header {
-  border: 1px solid #000;
-  background-color: #fff;
-  z-index:2;
-  position:absolute;
-  top:1.5rem;
-  left:1.5rem;
-  right: 4rem;
-}
-
-.main-nav-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  z-index:2;
-  align-items: center;
-  height: 3rem;
-}
-
-header h1 {
-  margin-left: 1rem;
-  font-size: 1.5rem;
-}
-
-nav {
-  display: inline-block;
-  margin-right: 2rem;
 }
 
 a {
@@ -115,100 +103,28 @@ a {
   text-decoration: none;
 }
 
-nav a {
-  margin: 0 0.5rem;
+img {
+  max-width: 100%;
 }
 
-.overlay-toggle {
-  border:1px solid black;
-  border-radius: 0.75rem;
-  width: 3rem;
-  height: 3rem;
-  position: absolute;
-  top:1.5rem;
-  right:1.5rem;
-  z-index:1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+.artist-title {
+  display:block;
+  font-size: 2em;
+  padding: 0.5em 1em;
+  margin: 0.25em;
+  background-color: #fff;
+  border:1px solid #000;
+  border-radius: 2em;
+  line-height: 1;
+  text-align: center;
 }
-
-.overlay-toggle .circle {
-  border-radius: 100%;
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 1px solid #000;
-}
-
-.overlay-toggle:hover .circle, .overlay-toggle.active .circle {
-  background-color: #000;
-}
-
-.overlay {
-  width: 100%;
-  height: 100%;
-  padding-top: 0rem;
-  background: #fff;
-  position: fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  right:0;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index:0;
-  display: none;
-}
-.overlay.active {
-  display:flex;
-}
-
-main {
-  margin-top: 4.5rem;
-}
-
-section {
-  margin: 1.5rem 0;
-  background: #fff;
-  border: 1px solid #000;
-}
-
-section.featured {
-  height: 50vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-transform: uppercase;
-}
-
-section.announcement{
-  height: 160px;
-  border-radius: 6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-section.search {
-  height: 80px;
-  width: 80%;
-  margin: 1.5rem auto;
-  border-radius: 3rem;
-  display: flex;
-  align-items:center;
-  justify-content: flex-end;
-  padding:0 3rem;
-}
-
-/*** ARTISTSS ***/
-body.artists main div {
-  padding: 1.5rem;
-  background: #fff;
-  border: 1px solid #000;
-  display: inline-block;
-  font-size: 2rem;
-  margin: 1rem;
-  border-radius: 3rem;
+.exhibition-title {
+  display:block;
+  font-size: 2em;
+  padding: 0.5em 1em;
+  margin: 0.25em;
+  background-color: #fff;
+  border:1px solid #000;
+  line-height: 1;
+  text-align: center;
 }

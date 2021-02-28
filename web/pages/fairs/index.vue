@@ -1,35 +1,107 @@
 <template>
-  <div class="container">
-    <header>
-      <div class="main-nav-wrapper">
-        <a href="/">
-          <h1>Fairs</h1>
-        </a>
-        <Nav />
+  <main class="fairs">
+    <div v-for="(year, index) in years" :key="index" class="year-list">
+      <!-- <div class="year">{{ year }}</div> -->
+      <div v-for="fair in groups[year]" :key="fair._id" class="fair-listing">
+        <div class="year" v-text="fair.year" />
+        <nuxt-link :to="'/fairs/'+fair.slug.current" class="fair-item">
+          <div class="title" v-text="fair.title" />
+          <div class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
+        </nuxt-link>
       </div>
-    </header>
-
-    <div class="overlay-toggle">
-      <div class="circle"></div>
     </div>
-
-    <aside class="overlay">
-      <p>131 Bowery, 2nd floor<br>New York, NY 10002</p>
-      <p>917 409 0612</p>
-      <p>info@simonesubal.com</p>
-    </aside>
-
-    <main>
-    </main>
-
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { groq } from '@nuxtjs/sanity'
+import { DateTime } from 'luxon'
 
-export default Vue.extend({})
+export default Vue.extend({
+  name: 'Fairs',
+  async asyncData({ app: { $sanity }}) {
+    const query = groq`*[_type == "fair"]`
+    const fairs: [] = await $sanity.fetch(query)
+
+    function setYear(objectArray: []) {
+      for (const object of objectArray) {
+        const dt = DateTime.fromISO(object.open_date)
+        const year = dt.year
+        object.year = year
+      }
+    }
+
+    function groupBy(objectArray, property) {
+       return objectArray.reduce((acc, obj) => {
+          const key = obj[property]
+          if (!acc[key]) {
+             acc[key] = []
+          }
+          // Add object to list for given key's value
+          acc[key].push(obj)
+          return acc;
+       }, {})
+    }
+
+    setYear(fairs)
+    fairs.sort((a, b) => new Date(b.open_date) - new Date(a.open_date))
+    let groups = groupBy(fairs, 'year')
+    let years = Object.keys(groups)
+    years.sort( function ( a, b ) { return b - a } )
+
+    console.log(groups)
+    return {
+      groups,
+      years
+    }
+  },
+  data () {
+    return {
+      title: 'Fairs'
+    }
+  },
+  methods: {
+    formatDates (open: string, close: string) {
+      open = DateTime.fromISO(open)
+      close = DateTime.fromISO(close)
+      const from = open.toLocaleString({ month: 'long', day: 'numeric' })
+      let to: string = ''
+      if (open.month == close.month) {
+        to = close.toLocaleString({ day: 'numeric' })
+      } else {
+        to = close.toLocaleString({ month: 'long', day: 'numeric' })
+      }
+      const year = close.year
+      return `${from} - ${to}, ${year}`
+    }
+  }
+})
 </script>
 
-<style>
+<style lang="scss">
+main.fairs {
+  .year-list {
+    margin: 1rem;
+  }
+  .fair-listing {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    margin: 1em 0;
+    .year {
+      opacity:0;
+    }
+    .fair-item {
+      display: flex;
+      & > div {
+        flex: 1;
+      }
+    }
+  }
+  .year-list > .fair-listing:first-child {
+    .year {
+      opacity:1;
+    }
+  }
+}
 </style>

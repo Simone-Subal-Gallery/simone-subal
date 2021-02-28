@@ -1,62 +1,163 @@
 <template>
   <div>
+    <header>
+      <div class="main-nav-wrapper">
+        <a href="/">
+          <h1>Simone Subal Gallery</h1>
+        </a>
+        <Nav />
+      </div>
+    </header>
+    <div class="overlay-toggle">
+      <div class="circle"></div>
+    </div>
+
+    <Log />
+
     <Nuxt />
+
+    <aside class="overlay">
+      <p>131 Bowery, 2nd floor<br>New York, NY 10002</p>
+      <p>917 409 0612</p>
+      <p>info@simonesubal.com</p>
+    </aside>
+
   </div>
 </template>
 
-<style>
-html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<style lang="scss">
+header {
+  border: 1px solid #000;
+  background-color: #fff;
+  z-index:2;
+  position:absolute;
+  top:1.5rem;
+  left:1.5rem;
+  right: 4rem;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
+.main-nav-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index:2;
+  align-items: center;
+  height: 3rem;
 }
 
-.button--green {
+header h1 {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+}
+
+nav {
   display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+  margin-right: 2rem;
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+main {
+  margin-top: 4.5rem;
 }
 
-.button--grey {
+.overlay-toggle {
+  border:1px solid black;
+  border-radius: 0.75rem;
+  width: 3rem;
+  height: 3rem;
+  position: absolute;
+  top:1.5rem;
+  right:1.5rem;
+  z-index:1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.overlay-toggle .circle {
+  border-radius: 100%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid #000;
+}
+
+.overlay-toggle:hover .circle, .overlay-toggle.active .circle {
+  background-color: #000;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  padding-top: 0rem;
+  background: #fff;
+  position: fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  right:0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index:0;
+  display: none;
+}
+.overlay.active {
+  display:flex;
+}
+
+main.index {
+  section {
+    margin: 1.5rem 0;
+    background: #fff;
+    border: 1px solid #000;
+    &.featured {
+      height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-transform: uppercase;
+    }
+    &.announcement{
+      height: 160px;
+      border-radius: 6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &.search {
+      height: 80px;
+      width: 80%;
+      margin: 1.5rem auto;
+      border-radius: 3rem;
+      display: flex;
+      align-items:center;
+      justify-content: flex-end;
+      padding:0 3rem;
+    }
+  }
+}
+
+/*** ARTISTSS ***/
+body.artists main div {
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid #000;
   display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
+  font-size: 2rem;
+  margin: 1rem;
+  border-radius: 3rem;
 }
 
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+@media screen and (min-width: 1024px) {
+  main {
+    font-size: 1.25rem;
+  }
 }
+
+@media screen and (min-width: 1280px) {
+  main {
+    font-size: 1.5rem;
+  }
+}
+
 </style>
