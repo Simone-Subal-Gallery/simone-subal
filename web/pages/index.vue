@@ -7,8 +7,12 @@
            :style="'background-image:url('+$urlFor(item.thumbnail.asset).size(2800)+')'"
            @click="clickFeatured(item)">
         <div class="artists">
-          <div v-if="item.artists && item.artists.length > 0" v-for="artist in item.artists" v-text="artist.title" class="artist-title" />
-          <div v-if="item.artists_additional && item.artists_additional.length > 0" v-for="artist in item.artists_additional" v-text="artist" class="artist-title" />
+          <template v-if="item.artists && item.artists.length > 0">
+            <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="artist-title" />
+          </template>
+          <template v-if="item.artists_additional && item.artists_additional.length > 0">
+            <div v-for="artist in item.artists_additional" :key="artist._id" v-text="artist" class="artist-title" />
+          </template>
         </div>
         <h2 class="exhibition-title" v-text="item.title" />
       </div>

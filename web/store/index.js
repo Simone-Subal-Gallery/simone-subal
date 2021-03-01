@@ -1,7 +1,5 @@
 export const state = () => ({
-  site: {
-    overlayActive: false
-  }
+  site: {}
 })
 
 export const getters = {
