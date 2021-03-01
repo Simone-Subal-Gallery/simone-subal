@@ -3,7 +3,7 @@
     <header>
       <div class="main-nav-wrapper">
         <a href="/">
-          <h1>Simone Subal Gallery</h1>
+          <h1 v-text="site.title" />
         </a>
         <Nav />
       </div>
@@ -24,6 +24,22 @@
 
   </div>
 </template>
+
+<script>
+import Vue from 'vue'
+import { groq } from '@nuxtjs/sanity'
+
+export default Vue.extend({
+  computed: {
+    site() {
+      return this.$store.state.site
+    }
+  },
+  mounted () {
+    console.log(this.$store.state.site)
+  }
+})
+</script>
 
 <style lang="scss">
 header {
@@ -103,38 +119,6 @@ main {
 }
 .overlay.active {
   display:flex;
-}
-
-main.index {
-  section {
-    margin: 1.5rem 0;
-    background: #fff;
-    border: 1px solid #000;
-    &.featured {
-      height: 50vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-transform: uppercase;
-    }
-    &.announcement{
-      height: 160px;
-      border-radius: 6rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    &.search {
-      height: 80px;
-      width: 80%;
-      margin: 1.5rem auto;
-      border-radius: 3rem;
-      display: flex;
-      align-items:center;
-      justify-content: flex-end;
-      padding:0 3rem;
-    }
-  }
 }
 
 /*** ARTISTSS ***/
