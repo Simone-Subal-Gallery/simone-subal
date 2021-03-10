@@ -145,9 +145,9 @@ main {
   transform:translateY(-100%);
   transition: transform 250ms ease-in-out;
   pointer-events:none;
+  display:flex;
 }
 .overlay.open {
-  display:flex;
   transform:translateY(0);
   pointer-events:auto;
 }

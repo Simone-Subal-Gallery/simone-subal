@@ -4,10 +4,27 @@
       <!-- <div class="year">{{ year }}</div> -->
       <div v-for="fair in groups[year]" :key="fair._id" class="fair-listing">
         <div class="year" v-text="fair.year" />
-        <nuxt-link :to="'/fairs/'+fair.slug.current" class="fair-item">
-          <div class="title" v-text="fair.title" />
-          <div class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
-        </nuxt-link>
+        <template v-if="fair.more_content">
+          <nuxt-link :to="'/fairs/'+fair.slug.current" class="fair-item">
+            <div class="title" v-text="fair.title" />
+            <div class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
+          </nuxt-link>
+        </template>
+        <template v-else>
+          <template v-if="fair.link">
+            <a :href="fair.link" class="fair-item">
+              <div class="title" v-text="fair.title" />
+              <div class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
+            </a>
+          </template>
+          <template v-else>
+            <div class="fair-item">
+              <div class="title" v-text="fair.title" />
+              <div class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
+            </div>
+          </template>
+        </template>
+
       </div>
     </div>
   </main>

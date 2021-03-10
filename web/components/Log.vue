@@ -208,9 +208,6 @@ export default Vue.extend({
   transform:translateX(0px);
   &.is-open {
     width: calc(100% - 4rem);
-    .dot {
-      margin:1rem;
-    }
   }
   .event {
     display: flex;
@@ -233,7 +230,7 @@ export default Vue.extend({
   .dot {
     width:1rem;
     height: 1rem;
-    margin:1rem;
+    margin:0.5rem;
     border: 1px solid #000;
     border-radius: 100%;
     transition: transform 100ms ease-in-out;

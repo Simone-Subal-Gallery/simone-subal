@@ -11,7 +11,7 @@
             <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="artist-title" />
           </template>
           <template v-if="item.artists_additional && item.artists_additional.length > 0">
-            <div v-for="artist in item.artists_additional" :key="artist._id" v-text="artist" class="artist-title" />
+            <div v-for="(artist, i) in item.artists_additional" :key="i" v-text="artist" class="artist-title" />
           </template>
         </div>
         <h2 class="exhibition-title" v-text="item.title" />

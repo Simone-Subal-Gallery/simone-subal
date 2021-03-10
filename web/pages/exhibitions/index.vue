@@ -3,13 +3,14 @@
     <section class="current">
       <h2>Current</h2>
       <div v-for="exhibition in current" :key="exhibition._id" class="exhibition-listing">
+        <p class="exhibition-dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
           <h3 class="exhibition-header">
             <div class="artists">
               <div v-if="exhibition.artists && exhibition.artists.length > 0" v-for="artist in exhibition.artists" v-text="artist.title" class="artist-title" />
               <div v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-for="artist in exhibition.artists_additional" v-text="artist" class="artist-title" />
             </div>
-            <div v-text="exhibition.title" class="exhibition-title"/>
+            <div class="exhibition-title" v-text="exhibition.title" />
           </h3>
           <div class="thumbnail">
             <img
@@ -21,7 +22,7 @@
         </nuxt-link>
       </div>
     </section>
-    <section class="future">
+    <section class="future" v-if="future.length > 0">
       <h2>Future</h2>
       <div class="exhibition-list">
         <div v-for="exhibition in future" :key="exhibition._id" class="exhibition-listing">
@@ -182,6 +183,7 @@ main.exhibitions {
   }
   .exhibition-header {
     display: flex;
+    justify-content: center;
   }
   .thumbnail {
     border: 1px solid #000;
@@ -189,6 +191,18 @@ main.exhibitions {
   }
   section {
     margin:3em 0;
+    &.current {
+      .exhibition-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction:column;
+        p {
+          font-size: 0.5em;
+          margin-top: 0.5em;
+        }
+      }
+    }
     &.future {
       .exhibition-list {
         background-color: #fff;

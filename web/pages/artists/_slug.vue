@@ -1,7 +1,46 @@
 <template>
-  <main>
+  <main class="artists-index">
     <h1 class="title" v-text="artist.title" />
+    <Gallery :images="artist.gallery" />
     <div class="content">
+      <SanityContent :blocks="artist.description" :serializers="serializers" class="description"/>
+      <section class="selected-exhibitions" v-if="artist.exhibitions.length > 0">
+        <h2>Selected Exhibitions</h2>
+        <div class="exhibition-list grid">
+        <div v-for="exhibition in artist.exhibitions" :key="exhibition._key" class="exhibition-listing">
+          <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
+              <div class="thumbnail">
+                <img
+                  :src="$urlFor(exhibition.thumbnail.asset).size(1280, 1024)"
+                  loading="lazy"
+                />
+              </div>
+              <div class="artists">
+                <template v-if="exhibition.artists && exhibition.artists.length > 0">
+                  <p v-for="artist in exhibition.artists" :key="artist._id" v-text="artist.title" />
+                </template>
+                <!-- <p v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" /> -->
+              </div>
+              <div class="title"><span>{{ exhibition.title }}</span></div>
+              <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date)" />
+          </nuxt-link>
+        </div>
+      </div>
+      </section>
+      <div class="more row">
+        <section class="press" v-if="artist.press && artist.press.length > 0">
+          <h2>Press</h2>
+          <SanityContent :blocks="artist.press" :serializers="serializers" />
+        </section>
+        <section class="bibliography" v-if="artist.bibliography && artist.bibliography.length > 0">
+          <h2>Bibliography</h2>
+          <SanityContent :blocks="artist.bibliography" :serializers="serializers" />
+        </section>
+        <section class="awards" v-if="artist.awards && artist.awards.length > 0">
+          <h2>Residencies, Fellowships, & Awards</h2>
+          <SanityContent :blocks="artist.awards" :serializers="serializers" />
+        </section>
+      </div>
     </div>
   </main>
 </template>
@@ -11,14 +50,50 @@ import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
 
+import PDFBlock from '~/components/blocks/PDFBlock.vue'
+import URLBlock from '~/components/blocks/URLBlock.vue'
+
+const Link = {
+  props: {
+    href: {
+      type: String
+    }
+  },
+  render(createElement) {
+    const props = {
+      attrs: {
+        href: this.href,
+        target: '_blank'
+      }
+    }
+    return createElement('a', props, this.$slots.default)
+  }
+}
+
 export default Vue.extend({
   async asyncData({ params, app: { $sanity }}) {
-    const query = groq`*[_type == "artist" && slug.current == "${params.slug}"][0]`
+    const query = groq`*[_type == "artist" && slug.current == "${params.slug}"][0] {
+      ...,
+      gallery[] {
+      	...,
+      	asset->
+    	},
+      "exhibitions": *[ _type == "exhibition" && ^._id in artists[]._ref  ]
+    }`
     const artist = await $sanity.fetch(query)
     return { artist }
   },
   data () {
     return {
+      serializers: {
+        types: {
+          pdf: PDFBlock,
+          link: URLBlock
+        },
+        marks: {
+          link: Link
+        }
+      }
     }
   },
   mounted() {
@@ -42,4 +117,86 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+  main.artists-index {
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 2em;
+    padding: 2rem;
+    h1 {
+      margin-top:0;
+    }
+    .content {
+      width: 75%;
+      section {
+        margin: 2em 0;
+      }
+      .description {
+        margin-top: 2em;
+      }
+    }
+    .description p {
+      margin: 1em 0;
+    }
+    .exhibition-list {
+      font-size: 1em;
+      .exhibition-listing {
+        margin-bottom: 2em;
+        line-height: 1;
+        div {
+          margin: 0.25em 0;
+        }
+      }
+      &.grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 1em;
+        .thumbnail {
+          margin-bottom: 0.5em;
+        }
+      }
+      &.list {
+        font-size: 1.25rem;
+        padding-top:2em;
+        .exhibition-item {
+          display: flex;
+          justify-content: space-between;
+          .title {
+            order: -1;
+            width:35%;
+            span {
+              display: inline-block;
+              background-color: #fff;
+              border:1px solid #000;
+              padding: 1em;
+            }
+          }
+          .artists {
+            width:45%;
+            p {
+              display: inline-block;
+              background-color: #fff;
+              border:1px solid #000;
+              padding: 1em;
+              border-radius: 3em;
+              margin:0.25em;
+              text-align: center;
+            }
+          }
+          .dates {
+            padding-top:1em;
+          }
+        }
+      }
+    }
+    .more.row {
+      display: flex;
+      flex-wrap: wrap;
+      .press, .bibliography {
+        width:50%;
+      }
+      .awards {
+        width:50%;
+      }
+    }
+  }
 </style>
