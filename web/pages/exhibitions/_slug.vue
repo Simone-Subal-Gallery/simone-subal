@@ -7,6 +7,7 @@
       <div class="content" v-if="exhibition.content.length > 0">
         <template v-for="block in exhibition.content">
           <Banner v-if="block._type == 'banner'" :key="block._key" :banner="block" />
+          <ExhGallery v-if="block._type == 'exh_gallery'" :key="block._key" :works="block.works" :install="block.install" />
         </template>
       </div>
     </main>
@@ -62,6 +63,7 @@ import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
 
 import Banner from '~/components/blocks/Banner.vue'
+import ExhGallery from '~/components/blocks/ExhGallery.vue'
 
 export default Vue.extend({
   async asyncData({ params, app: { $sanity }}) {
@@ -83,7 +85,8 @@ export default Vue.extend({
     return { exhibition: response.exhibition, exhibitions: response.exhibitions }
   },
   components: {
-    Banner
+    Banner,
+    ExhGallery
   },
   data () {
     return {
@@ -91,7 +94,11 @@ export default Vue.extend({
     }
   },
   mounted() {
-    document.body.style.backgroundColor = "#fff"
+    if (this.exhibition.bg_color != undefined) {
+      document.body.style.backgroundColor = this.exhibition.bg_color
+    } else {
+      document.body.style.backgroundColor = "#fff"
+    }
   },
   beforeDestroy() {
     document.body.style.backgroundColor = "#eee"

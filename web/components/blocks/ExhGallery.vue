@@ -1,24 +1,20 @@
 <template>
-  <div :class="['banner', banner.type]">
-    <template v-if="banner.type == 'image'">
-      <figure class="image">
+  <div class="exhibition-gallery">
+    <template v-for="image in works">
         <SanityImage
-          :asset-id="banner.image.asset._ref"
+          :asset-id="image.asset._ref"
           auto="format"
-          :alt="banner.image.asset.altText"
+          :alt="image.asset.altText"
           loading="lazy"
         />
-        <figcaption>
-          <SanityContent :blocks="banner.image.caption" />
-        </figcaption>
-      </figure>
-    <!-- <img
-      :src="$urlFor(banner.image.asset).size(2800, 1280)"
-      loading="lazy"
-    /> -->
     </template>
-    <template v-if="banner.type == 'text'">
-      <SanityContent :blocks="banner.text" />
+    <template v-for="image in install">
+      <SanityImage
+        :asset-id="image.asset._ref"
+        auto="format"
+        :alt="image.asset.altText"
+        loading="lazy"
+      />
     </template>
   </div>
 </template>
@@ -26,9 +22,12 @@
 <script>
 export default {
   props: {
-    banner: {
+    works: {
       type: Object
     },
+    install: {
+      type: Object
+    }
   },
   methods: {
   }
