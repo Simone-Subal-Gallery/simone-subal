@@ -206,6 +206,7 @@ export default Vue.extend({
   right:1rem;
   transition: transform 333ms ease-in-out;
   transform:translateX(0px);
+  z-index:1;
   &.is-open {
     width: calc(100% - 4rem);
   }

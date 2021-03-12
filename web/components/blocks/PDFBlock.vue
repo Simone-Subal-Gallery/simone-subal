@@ -1,8 +1,4 @@
 <template>
-    <!-- <nuxt-link v-if="currentSlug" :to="{ path: `/speakers/${currentSlug}` }">
-      <b>{{ personName }} </b>
-    </nuxt-link>
-    <b v-if="!currentSlug">{{ personName }} </b> -->
     <a :href="getUrlFromId(asset._ref)" target="_blank" class="pdf button">
       {{ title }}
       <!-- <span class="date">{{ date_published }}</span> -->

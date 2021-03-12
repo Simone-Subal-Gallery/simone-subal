@@ -1,5 +1,6 @@
 <template>
-  <main class="artists-index">
+  <div class="artist-single">
+  <main>
     <h1 class="title" v-text="artist.title" />
     <Gallery :images="artist.gallery" />
     <div class="content">
@@ -30,19 +31,43 @@
       <div class="more row">
         <section class="press" v-if="artist.press && artist.press.length > 0">
           <h2>Press</h2>
-          <SanityContent :blocks="artist.press" :serializers="serializers" />
+          <div v-for="item in artist.press" :key="item._key" class="press-item">
+          <template v-if="Boolean(item.pdf)">
+            <a :href="item.pdf.asset.url" target="_blank">
+            {{ item.title }}
+            </a>
+          </template>
+          <template v-else-if="Boolean(item.url)">
+            <a :href="item.url" target="_blank">
+            {{ item.title }}
+            </a>
+          </template>
+          <template v-else>
+            {{ item.title }}
+          </template>
+          </div>
         </section>
         <section class="bibliography" v-if="artist.bibliography && artist.bibliography.length > 0">
           <h2>Bibliography</h2>
           <SanityContent :blocks="artist.bibliography" :serializers="serializers" />
         </section>
         <section class="awards" v-if="artist.awards && artist.awards.length > 0">
-          <h2>Residencies, Fellowships, & Awards</h2>
+          <h2>Awards</h2>
           <SanityContent :blocks="artist.awards" :serializers="serializers" />
         </section>
       </div>
     </div>
   </main>
+  <section class="more-artists">
+    <div v-for="(artist, i) in artists"
+        :key="artist._id"
+        class="artist-listing">
+      <nuxt-link :to="'/artists/'+artist.slug.current"
+      v-text="artist.title"
+      class="artist-item artist-title" />
+    </div>
+  </section>
+  </div>
 </template>
 
 <script>
@@ -72,16 +97,25 @@ const Link = {
 
 export default Vue.extend({
   async asyncData({ params, app: { $sanity }}) {
-    const query = groq`*[_type == "artist" && slug.current == "${params.slug}"][0] {
-      ...,
-      gallery[] {
-      	...,
-      	asset->
-    	},
-      "exhibitions": *[ _type == "exhibition" && ^._id in artists[]._ref  ]
+    const query = groq`{
+      "artist": *[_type == "artist" && slug.current == "${params.slug}"][0] {
+        ...,
+        gallery[] {
+        	...,
+        	asset->
+      	},
+        press[] {
+          ...,
+          pdf {
+            asset->
+          }
+        },
+        "exhibitions": *[ _type == "exhibition" && ^._id in artists[]._ref  ] | order(open_date desc)
+      },
+      "artists": *[_type == "artist"][slug.current != "${params.slug}"] | order(title asc)
     }`
-    const artist = await $sanity.fetch(query)
-    return { artist }
+    const response = await $sanity.fetch(query)
+    return { artist: response.artist, artists: response.artists }
   },
   data () {
     return {
@@ -117,7 +151,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-  main.artists-index {
+.artist-single {
+  main {
     background-color: #fff;
     border: 1px solid #000;
     border-radius: 2em;
@@ -199,4 +234,31 @@ export default Vue.extend({
       }
     }
   }
+  .more-artists {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5rem 0;
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .more-artists {
+    font-size: 1.25rem;
+  }
+}
+@media screen and (min-width: 1440px) {
+  .more-artists {
+    font-size: 1.5rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  .more-artists {
+    font-size: 0.75rem;
+  }
+}
+@media screen and (max-width: 640px) {
+  .more-artists {
+    font-size: 0.5rem;
+  }
+}
 </style>

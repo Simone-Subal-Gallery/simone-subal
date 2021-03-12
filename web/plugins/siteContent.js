@@ -5,12 +5,11 @@ const query = groq`{
     ...,
  		featured[]->{
       ...,
-      artists[]->,
-			artists_additional[]->
+      artists[]->
     }
   }
 }
-`  
+`
 /**
  * We do this to achieve server side rendering for
  * content displayed by layouts components

@@ -6,8 +6,8 @@
         <p class="exhibition-dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
           <h3 class="exhibition-header">
-            <div class="artists">
-              <div v-if="exhibition.artists && exhibition.artists.length > 0" v-for="artist in exhibition.artists" v-text="artist.title" class="artist-title" />
+            <div :class="[exhibition.artists.length > 2 || exhibition.artists_additional.length > 2 ? 'many':'', 'artists']">
+              <div v-if="exhibition.artists && exhibition.artists.length > 0" :key="artist._i" v-for="artist in exhibition.artists" v-text="artist.title" class="artist-title" />
               <div v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-for="artist in exhibition.artists_additional" v-text="artist" class="artist-title" />
             </div>
             <div class="exhibition-title" v-text="exhibition.title" />
@@ -194,12 +194,19 @@ main.exhibitions {
     &.current {
       .exhibition-title {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
+        align-self: center;
         flex-direction:column;
         p {
           font-size: 0.5em;
           margin-top: 0.5em;
+        }
+      }
+      .artists.many {
+          margin: 2em 0;
+        .artist-title {
+          margin: -0.5em 0.25em;
         }
       }
     }
@@ -279,6 +286,7 @@ main.exhibitions {
             }
             .dates {
               padding-top:1em;
+              font-size: 0.75em;
             }
           }
         }

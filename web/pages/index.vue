@@ -6,7 +6,7 @@
            :key="item._id"
            :style="'background-image:url('+$urlFor(item.thumbnail.asset).size(2800)+')'"
            @click="clickFeatured(item)">
-        <div class="artists">
+        <div :class="[item.artists.length > 2 || item.artists_additional.length > 2 ? 'many':'', 'artists']">
           <template v-if="item.artists && item.artists.length > 0">
             <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="artist-title" />
           </template>
@@ -41,6 +41,9 @@ export default Vue.extend({
     const feed = await $sanity.fetch(query)
     return { feed }
   },
+  mounted() {
+    console.log(this.$store.state.site)
+  },
   computed: {
     site() {
       return this.$store.state.site
@@ -71,14 +74,19 @@ main.index {
     background: #fff;
     border: 1px solid #000;
     &.featured .featured-block {
-      height: 50vh;
+      height: 60vh;
+      min-height:480px;
       display: flex;
       justify-content: center;
       align-items: center;
-      text-transform: uppercase;
       background-size: cover;
       background-position: center;
       cursor:pointer;
+      .artists.many {
+        .artist-title {
+          margin: -0.5em 1em;
+        }
+      }
     }
     &.announcement{
       height: 160px;

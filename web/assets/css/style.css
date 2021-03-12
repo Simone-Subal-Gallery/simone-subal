@@ -89,6 +89,9 @@ html {
 
 body {
   background-color: #eee;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding: 1.5rem;
   padding-right: 4rem;
   font-family: 'Neuzeit Grotesk', 'Helvetica', sans-serif;

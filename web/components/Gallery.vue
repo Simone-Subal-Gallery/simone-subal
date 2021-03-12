@@ -7,21 +7,23 @@
             :asset-id="image.asset._id"
             auto="format"
             class="mainImage"
+            height="480"
             :alt="image.asset.altText"
           />
           <figcaption>
             <SanityContent :blocks="image.caption" />
           </figcaption>
         </figure>
+        <div class="swiper-pagination"></div>
       </div>
-      <div class="swiper-pagination"></div>
     </div>
   </section>
 </template>
 
 <script>
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
-import '~/assets/css/swiper.css'
+import "swiper/css/swiper.css"
+// import '~/assets/css/swiper.css'
 
 export default {
   components: {
@@ -42,13 +44,11 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 'auto',
-        centeredSlides: true,
         spaceBetween: 32,
         pagination: {
           el: '.swiper-pagination',
-          clickable: true,
-          type: 'fraction'
+          type: 'progressbar',
+          clickable: true
         },
         keyboard: {
           enabled: true,
@@ -67,16 +67,17 @@ export default {
 <style lang="scss">
 .gallery {
   width:100%;
-  .swiper-container {
-    height:60vh;
+  .swiper-container{
+    width: 100%;
   }
-  .swiper-wrapper {
-    .swiper-slide {
-      width:unset;
-      img {
-        height:100%;
-        width:auto;
-      }
+  .swiper-slide {
+    text-align: left;
+    width: auto;
+    margin:0;
+    img {
+      width: auto;
+      height:67vh;
+      object-fit: contain;
     }
   }
   figcaption {

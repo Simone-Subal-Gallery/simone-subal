@@ -18,9 +18,27 @@
     <Nuxt />
 
     <aside :class="['overlay', (overlayOpen==true)?'open':'']">
-      <p>131 Bowery, 2nd floor<br>New York, NY 10002</p>
-      <p>917 409 0612</p>
-      <p>info@simonesubal.com</p>
+      <div class="grid">
+        <div class="left-col">
+          <div class="address">
+            <p>131 Bowery, 2nd floor<br>New York, NY 10002</p>
+            <p>917 409 0612</p>
+            <p>info@simonesubal.com</p>
+          </div>
+          <div class="map">
+          </div>
+          <div class="signup">
+            <input placeholder="Email address" />
+          </div>
+        </div>
+        <div class="right-col">
+          <div class="team">
+            <p>Simone Subal, Founder/Owner<br>
+            Kelly McGee, Director<br>
+            Moira Sims, Gallery Manager</p>
+          </div>
+        </div>
+      </div>
     </aside>
 
   </div>
@@ -68,7 +86,7 @@ header {
   border: 1px solid #000;
   background-color: #fff;
   z-index:2;
-  position:absolute;
+  position:fixed;
   top:1.5rem;
   left:1.5rem;
   right: 4rem;
@@ -103,7 +121,7 @@ main {
   border-radius: 0rem 0.75rem 0.75rem 0;
   width: 3rem;
   height: 3rem;
-  position: absolute;
+  position: fixed;
   top:1.5rem;
   right:1rem;
   z-index:1;
@@ -146,6 +164,24 @@ main {
   transition: transform 250ms ease-in-out;
   pointer-events:none;
   display:flex;
+  .grid {
+    display: flex;
+    width:50vw;
+    height: 60vh;
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 2em;
+    }
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin:2em;
+      align-items: center;
+    }
+  }
 }
 .overlay.open {
   transform:translateY(0);
