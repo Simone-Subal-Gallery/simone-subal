@@ -21,10 +21,10 @@
       <SanityContent :blocks="site.announcement" />
     </section>
     <section class="search">
-      SEARCH
+      <input type="text" placeholder="Search" v-model="searchFeedValue" />
     </section>
     <div class="recent">
-      <div v-for="item in feed" :key="item._id" :class="item._type">
+      <div v-for="item in filteredFeed" :key="item._id" :class="item._type">
         <nuxt-link :to="'/'+item._type+'s/'+item.slug.current" :class="item._type + '-title'" v-text="item.title" />
       </div>
     </div>
@@ -47,11 +47,40 @@ export default Vue.extend({
   computed: {
     site() {
       return this.$store.state.site
+    },
+    filteredFeed() {
+      function compare(a, b) {
+        if (a.title < b.title) return -1
+        if (a.title > b.title) return 1
+
+        return 0
+      }
+
+      let feed = this.feed.filter(obj => {
+        return (
+          obj.title
+            .toLowerCase()
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+          ||
+          obj.slug.current
+            .toLowerCase().replace(/-/g,' ')
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+        )
+      })
+
+      feed.sort(compare)
+
+      return feed
     }
   },
   methods: {
     clickFeatured(item) {
       this.$router.push('/'+item._type+'s/'+item.slug.current)
+    }
+  },
+  data() {
+    return {
+      searchFeedValue: ''
     }
   }
 })
@@ -62,6 +91,8 @@ main.index {
   .recent {
     display: flex;
     flex-wrap: wrap;
+    min-height:calc(100vh - 220px);
+    align-content: flex-start;
   }
   .fair {
     align-items: center;
@@ -98,12 +129,20 @@ main.index {
     &.search {
       height: 80px;
       width: 80%;
+      position: sticky;
+      top: 6.5rem;
       margin: 1.5rem auto;
       border-radius: 3rem;
       display: flex;
       align-items:center;
-      justify-content: flex-end;
+      justify-content: flex-start;
       padding:0 3rem;
+      input {
+        font-size: 2em;
+        height: 100%;
+        width: 100%;
+        border: 0px;
+      }
     }
   }
 }
