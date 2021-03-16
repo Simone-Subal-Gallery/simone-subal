@@ -4,7 +4,7 @@
       <h1 class="title" v-html="exhibition.title + '<br>' + artistsString" />
         <p v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <p v-if="exhibition.opening != undefined" v-text="exhibition.opening" />
-      <div class="content" v-if="exhibition.content.length > 0">
+      <div class="content" v-if="exhibition.content != undefined && exhibition.content.length > 0">
         <template v-for="block in exhibition.content">
           <Banner v-if="block._type == 'banner'" :key="block._key" :banner="block" />
           <ExhGallery v-if="block._type == 'exh_gallery'" :key="block._key" :works="block.works" :install="block.install" />
@@ -40,10 +40,10 @@
                 />
               </div>
               <div class="artists">
-                <template v-if="exhibition.artists && exhibition.artists.length > 0">
+                <template v-if="exhibition.artists != undefined && exhibition.artists.length > 0">
                   <p v-for="artist in exhibition.artists" :key="artist._id" v-text="artist.title" />
                 </template>
-                <p v-if="view == 'grid' && exhibition.artists_additional && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" />
+                <p v-if="view == 'grid' && exhibition.artists_additional != undefined && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" />
                 <template v-if="view == 'list' && exhibition.artists_additional && exhibition.artists_additional.length > 0">
                   <p v-for="artist in exhibition.artists_additional" :key="artist._id" v-text="artist" />
                 </template>
@@ -69,7 +69,8 @@ export default Vue.extend({
   async asyncData({ params, app: { $sanity }}) {
     const query = groq`{
       "exhibition": *[_type == "exhibition" && slug.current == "${params.slug}"][0] {
-        ...
+        ...,
+        "artists": artists[] -> {title, slug, _id}
       },
       "exhibitions": *[_type == "exhibition" && slug.current != "${params.slug}"] | order(open_date desc) {
       	...,
@@ -91,6 +92,7 @@ export default Vue.extend({
   data () {
     return {
       view: 'grid',
+      artistsString: ''
     }
   },
   mounted() {
@@ -99,15 +101,18 @@ export default Vue.extend({
     } else {
       document.body.style.backgroundColor = "#fff"
     }
+
+    let artists = this.exhibition.artists
+    let artists_addtl = this.exhibition.artists_additional
+    if (artists_addtl != undefined) { this.artistsString = artists_addtl.join(", ") } else {
+        this.artistsString = artists.map(artist => artist.title).join(", ")
+    }
+
   },
   beforeDestroy() {
     document.body.style.backgroundColor = "#eee"
   },
   computed: {
-    artistsString() {
-      let artists = this.exhibition.artists_additional
-      return artists.join(", ")
-    }
   },
   methods: {
     formatDates (open, close, section) {
