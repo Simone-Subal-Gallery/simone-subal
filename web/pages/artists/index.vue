@@ -19,12 +19,8 @@ import { groq } from '@nuxtjs/sanity'
 export default Vue.extend({
   name: 'Artists',
   async asyncData({ app: { $sanity }}) {
-    const query = groq`*[_type == "artist"]`
+    const query = groq`*[_type == "artist"] | order(sortName asc)`
     const artists = await $sanity.fetch(query)
-
-    artists.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
-
-    console.log(artists)
     return {
       artists
     }

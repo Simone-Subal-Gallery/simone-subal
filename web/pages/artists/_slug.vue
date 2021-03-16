@@ -10,11 +10,19 @@
         <div class="exhibition-list grid">
         <div v-for="exhibition in artist.exhibitions" :key="exhibition._key" class="exhibition-listing">
           <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
-              <div class="thumbnail">
+              <div :class="['thumbnail', exhibition.thumbnail==undefined?'empty':'']">
                 <img
                   :src="$urlFor(exhibition.thumbnail.asset).size(1280, 1024)"
                   loading="lazy"
+                  v-if="exhibition.thumbnail != undefined"
                 />
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 1280 1024"
+                     width="1280"
+                     height="1024"
+                     v-if="exhibition.thumbnail == undefined">
+                  <rect width="1280" height="1024" fill="#eee"></rect>
+                </svg>
               </div>
               <div class="artists">
                 <template v-if="exhibition.artists && exhibition.artists.length > 0">
@@ -187,6 +195,12 @@ export default Vue.extend({
         grid-column-gap: 1em;
         .thumbnail {
           margin-bottom: 0.5em;
+          &.empty {
+            svg {
+              max-width: 100%;
+              height: auto;
+            }
+          }
         }
       }
       &.list {
