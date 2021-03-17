@@ -37,17 +37,25 @@ export default {
 
 <style lang="scss">
 .banner {
-  height:67vh;
-  margin: 1rem -4rem 2rem -1.5rem;
-  img {
-    object-fit: cover;
-    width:100vw;
+  margin: 1em -4rem 3em -1.5rem;
+  &.image {
+    height: calc(100vh - 3rem);
+    figure {
+      height:100%;
+      img {
+        object-fit: cover;
+        max-width:100%;
+        height: 100%;
+        width:100%;
+      }
+    }
   }
   figcaption {
-    margin: 0.5em 1em;
+    margin: 0.5em 2em;
+    font-size: 0.5em;
   }
   &.text {
-    height: 60vh;
+    padding: 20vh 2em;
     display: flex;
     font-size: 2em;
     align-items: center;

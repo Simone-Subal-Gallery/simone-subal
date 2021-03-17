@@ -67,7 +67,7 @@
     </div>
   </main>
   <section class="more-artists">
-    <div v-for="(artist, i) in artists"
+    <div v-for="artist in artists"
         :key="artist._id"
         class="artist-listing">
       <nuxt-link :to="'/artists/'+artist.slug.current"

@@ -7,7 +7,10 @@
       <div class="content" v-if="exhibition.content != undefined && exhibition.content.length > 0">
         <template v-for="block in exhibition.content">
           <Banner v-if="block._type == 'banner'" :key="block._key" :banner="block" />
-          <ExhGallery v-if="block._type == 'exh_gallery'" :key="block._key" :works="block.works" :install="block.install" />
+          <CTABlock v-if="block._type == 'cta'" :key="block._key" :link="block.url" :text="block.text" :blank="block.blank" />
+          <GalleryBlock v-if="block._type == 'galleryBlock'" :key="block._key" :work="block.work" :install="block.install" />
+          <TextBlock v-if="block._type == 'textBlock'" :key="block._key" :text="block.text" :boxed="block.boxed" />
+          <WorkBlock v-if="block._type == 'workBlock'" :key="block._key" :works="block.works" />
         </template>
       </div>
     </main>
@@ -32,12 +35,19 @@
       <div :class="['exhibition-list', view=='grid'?'grid':'list']">
         <div v-for="exhibition in exhibitions" :key="exhibition._id" class="exhibition-listing">
           <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
-              <div class="thumbnail" v-show="view == 'grid'">
+              <div :class="['thumbnail', exhibition.thumbnail.asset==undefined?'empty':'']" v-show="view == 'grid'">
                 <img
                   :src="$urlFor(exhibition.thumbnail.asset).size(1280, 1024)"
-                  width="1280"
                   loading="lazy"
+                  v-if="exhibition.thumbnail.asset != undefined"
                 />
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 1280 1024"
+                     width="1280"
+                     height="1024"
+                     v-if="exhibition.thumbnail.asset == undefined">
+                  <rect width="1280" height="1024" fill="#eee"></rect>
+                </svg>
               </div>
               <div class="artists">
                 <template v-if="exhibition.artists != undefined && exhibition.artists.length > 0">
@@ -63,7 +73,10 @@ import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
 
 import Banner from '~/components/blocks/Banner.vue'
-import ExhGallery from '~/components/blocks/ExhGallery.vue'
+import CTABlock from '~/components/blocks/CTABlock.vue'
+import GalleryBlock from '~/components/blocks/GalleryBlock.vue'
+import TextBlock from '~/components/blocks/TextBlock.vue'
+import WorkBlock from '~/components/blocks/WorkBlock.vue'
 
 export default Vue.extend({
   async asyncData({ params, app: { $sanity }}) {
@@ -87,7 +100,10 @@ export default Vue.extend({
   },
   components: {
     Banner,
-    ExhGallery
+    CTABlock,
+    GalleryBlock,
+    TextBlock,
+    WorkBlock
   },
   data () {
     return {
@@ -197,6 +213,12 @@ export default Vue.extend({
         grid-column-gap: 2em;
         .thumbnail {
           margin-bottom: 0.5em;
+          &.empty {
+            svg {
+              max-width: 100%;
+              height: auto;
+            }
+          }
         }
       }
       &.list {
