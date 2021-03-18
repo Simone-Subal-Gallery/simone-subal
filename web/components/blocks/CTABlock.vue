@@ -24,7 +24,7 @@ export default {
 
 <style lang="scss">
 section.cta {
-  margin: 2em 0;
+  margin: 6em 0;
   display: flex;
   justify-content: center;
   align-items:center;

@@ -20,18 +20,24 @@
     <template v-if="banner.type == 'text'">
       <SanityContent :blocks="banner.text" />
     </template>
+    <template v-if="banner.type == 'video'">
+      <Video :asset="banner.video.asset._ref" :caption="banner.video_caption" />
+    </template>
   </div>
 </template>
 
 <script>
+import Video from '~/components/blocks/Video.vue'
+
 export default {
   props: {
     banner: {
       type: Object
     },
   },
-  methods: {
-  }
+  components: {
+    Video
+  },
 }
 </script>
 
@@ -51,8 +57,8 @@ export default {
     }
   }
   figcaption {
-    margin: 0.5em 2em;
-    font-size: 0.5em;
+    margin: 0.5rem 1.5rem;
+    font-size: 0.75em;
   }
   &.text {
     padding: 20vh 2em;

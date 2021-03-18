@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss">
 section.text {
-  margin: 2em 0;
+  margin: 6em 0;
   .boxed {
     border: 1px solid #000;
     padding: 2em 1em;

@@ -14,15 +14,6 @@
         </template>
       </div>
     </main>
-    <!-- <section class="more-exhibitions">
-      <div v-for="exhibition in exhibitions"
-          :key="exhibition._id"
-          class="exhibition-listing">
-        <nuxt-link :to="'/exhibitions/'+exhibition.slug.current"
-        v-text="exhibition.title"
-        class="exhibition-item exhibition-title" />
-      </div>
-    </section> -->
     <section class="more-exhibitions">
       <div class="header">
         <h2>More</h2>
@@ -83,6 +74,27 @@ export default Vue.extend({
     const query = groq`{
       "exhibition": *[_type == "exhibition" && slug.current == "${params.slug}"][0] {
         ...,
+        content[]{
+          _type == 'banner' => {
+            ...
+          },
+          _type == 'cta' => {
+            ...
+          },
+          _type == 'galleryBlock' => {
+            ...
+          },
+          _type == 'textBlock' => {
+            ...
+          },
+          _type == 'workBlock' => {
+            ...,
+            works[]{
+              ...,
+              "artist": artist->
+            }
+          }
+        },
         "artists": artists[] -> {title, slug, _id}
       },
       "exhibitions": *[_type == "exhibition" && slug.current != "${params.slug}"] | order(open_date desc) {
