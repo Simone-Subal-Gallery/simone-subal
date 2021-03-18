@@ -2,41 +2,18 @@
   <div class="exhibition-gallery">
     <div class="install" v-if="install.length > 0">
       <!-- <h3>Installation</h3> -->
-      <div class="grid">
-        <figure class="image" :key="image._id" v-for="image in install">
-          <SanityImage
-            :asset-id="image.asset._ref"
-            auto="format"
-            :alt="image.asset.altText"
-            loading="lazy"
-          />
-          <figcaption>
-            <SanityContent :blocks="image.caption" />
-          </figcaption>
-        </figure>
-      </div>
+        <Lightbox class="grid" :id="'installlightbox'+index" :images="install" />
     </div>
     <div class="work" v-if="work.length > 0">
       <!-- <h3>Works</h3> -->
-      <div class="grid">
-        <figure class="image" :key="image._id" v-for="image, i in work">
-          <SanityImage
-            :asset-id="image.asset._ref"
-            auto="format"
-            :alt="image.asset.altText"
-            loading="lazy"
-          />
-          <figcaption>
-            <span>{{ i+1 }}</span>
-            <SanityContent :blocks="image.caption" class="caption"/>
-          </figcaption>
-        </figure>
-      </div>
+      <Lightbox class="grid" :id="'worklightbox'+index" :images="work" />
     </div>
   </div>
 </template>
 
 <script>
+import Lightbox from '~/components/Lightbox.vue'
+
 export default {
   props: {
     work: {
@@ -44,7 +21,13 @@ export default {
     },
     install: {
       type: Array
+    },
+    index: {
+      type: Number
     }
+  },
+  components: {
+    Lightbox
   },
   methods: {
   }

@@ -5,12 +5,12 @@
         <p v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <p v-if="exhibition.opening != undefined" v-text="exhibition.opening" />
       <div class="content" v-if="exhibition.content != undefined && exhibition.content.length > 0">
-        <template v-for="block in exhibition.content">
+        <template v-for="block, i in exhibition.content">
           <Banner v-if="block._type == 'banner'" :key="block._key" :banner="block" />
           <CTABlock v-if="block._type == 'cta'" :key="block._key" :link="block.url" :text="block.text" :blank="block.blank" />
-          <GalleryBlock v-if="block._type == 'galleryBlock'" :key="block._key" :work="block.work" :install="block.install" />
+          <GalleryBlock v-if="block._type == 'galleryBlock'" :key="block._key" :index="i" :work="block.work" :install="block.install" />
           <TextBlock v-if="block._type == 'textBlock'" :key="block._key" :text="block.text" :boxed="block.boxed" />
-          <WorkBlock v-if="block._type == 'workBlock'" :key="block._key" :works="block.works" />
+          <WorkBlock v-if="block._type == 'workBlock'" :key="block._key" :index="i" :works="block.works" />
         </template>
       </div>
     </main>

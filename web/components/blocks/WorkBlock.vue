@@ -1,6 +1,6 @@
 <template>
   <section :class="['works', 'count-'+works.length]">
-    <Lightbox class="work-item" v-for="work, i in works" :key="work._key" :id="'lightbox'+i" :images="work.images" :caption="getCaption(work)" />
+    <Lightbox class="work-item" v-for="work in works" :key="work._key" :id="'worklightbox'+index" :images="work.images" :caption="getCaption(work)" />
   </section>
 </template>
 
@@ -11,6 +11,9 @@ export default {
   props: {
     works: {
       type: Array
+    },
+    index: {
+      type: Number
     }
   },
   mounted() {

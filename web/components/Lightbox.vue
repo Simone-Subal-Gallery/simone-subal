@@ -12,6 +12,7 @@
       </a>
       <figcaption>
         <p v-html="caption" />
+        <SanityContent :blocks="image.caption" class="caption"/>
       </figcaption>
     </figure>
   </div>
