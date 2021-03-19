@@ -6,7 +6,7 @@
     </div>
     <div class="work" v-if="work.length > 0">
       <!-- <h3>Works</h3> -->
-      <Lightbox class="grid" :id="'worklightbox'+index" :images="work" />
+      <Lightbox class="grid" :type="'workGallery'" :id="'worklightbox'+index" :images="work" />
     </div>
   </div>
 </template>

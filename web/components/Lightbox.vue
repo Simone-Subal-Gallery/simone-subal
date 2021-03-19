@@ -1,17 +1,17 @@
 <template>
   <div :id="id">
-    <figure class="image" v-for="image in images" :key="image._id">
+    <figure class="image" v-for="image, i in images" :key="image._id">
       <a :href="$urlFor(image).size(2800)" class="lightbox-image">
         <SanityImage
           :asset-id="image.asset._ref"
           auto="format"
-          :alt="image.asset.altText"
+          :alt="'alttext'"
           loading="lazy"
-          :title="caption"
         />
       </a>
       <figcaption>
-        <p v-html="caption" />
+        <p v-if="type!=undefined && type == 'workGallery'" v-text="i+1"/>
+        <p v-if="type!=undefined && type != 'workSingle'" v-html="caption" />
         <SanityContent :blocks="image.caption" class="caption"/>
       </figcaption>
     </figure>
@@ -20,16 +20,21 @@
 
 <script>
 import SimpleLightbox from "simplelightbox"
+const blocksToHtml = require('@sanity/block-content-to-html')
+const h = blocksToHtml.h
 
 export default {
   props: {
     images: {
       type: Array
     },
-    caption: {
+    id: {
       type: String
     },
-    id: {
+    type: {
+      type: String
+    },
+    caption: {
       type: String
     }
   },
@@ -41,11 +46,16 @@ export default {
         history: false,
         focus: true,
         loop: true,
-      }
+        additionalHtml: '<p>Caption placeholder</p>'
+      },
     }
   },
   mounted() {
-    this.lightboxOptions.captionsData = this.caption
+    // const captionHtml = blocksToHtml({
+    //   blocks: this.image.caption
+    // })
+    // this.lightboxOptions.additionalHtml = captionHtml
+
     let query = '#' + this.id + ' .lightbox-image'
     let lightbox = new SimpleLightbox(query, this.lightboxOptions)
     console.log(lightbox)

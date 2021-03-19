@@ -1,6 +1,6 @@
 <template>
   <section :class="['works', 'count-'+works.length]">
-    <Lightbox class="work-item" v-for="work in works" :key="work._key" :id="'worklightbox'+index" :images="work.images" :caption="getCaption(work)" />
+    <Lightbox class="work-item" v-for="work in works" :type="'workSingle'" :key="work._key" :id="'worklightbox'+index" :images="work.images" :caption="getCaption(work)" />
   </section>
 </template>
 
