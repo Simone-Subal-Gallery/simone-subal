@@ -59,6 +59,11 @@ export default Vue.extend({
     site() {
       return this.$store.state.site
     },
+    bodyBg () {
+      if (this.$store.state.site.bg_color != undefined) {
+        return this.$store.state.site.bg_color }
+      else { return '#eee' }
+    }
   },
   methods: {
     overlayToggleHandler() {
@@ -77,6 +82,7 @@ export default Vue.extend({
     }
   },
   mounted () {
+    document.body.style.backgroundColor = this.bodyBg
   }
 })
 </script>

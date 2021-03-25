@@ -6,11 +6,9 @@
         <p class="exhibition-dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
           <h3 class="exhibition-header">
-            <div :class="[exhibition.artists.length > 2 || exhibition.artists_additional.length > 2 ? 'many':'', 'artists']">
-              <div v-if="exhibition.artists && exhibition.artists.length > 0" :key="artist._i" v-for="artist in exhibition.artists" v-text="artist.title" class="artist-title" />
-              <div v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-for="artist in exhibition.artists_additional" v-text="artist" class="artist-title" />
-            </div>
             <div class="exhibition-title" v-text="exhibition.title" />
+            <div v-if="exhibition.artists && exhibition.artists.length > 0" :key="artist._i" v-for="artist in exhibition.artists" v-text="artist.title" class="artist-title" />
+            <div v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-for="artist in exhibition.artists_additional" v-text="artist" class="artist-title" />
           </h3>
           <div class="thumbnail">
             <img
@@ -26,7 +24,7 @@
       <h2>Future</h2>
       <div class="exhibition-list">
         <div v-for="exhibition in future" :key="exhibition._id" class="exhibition-listing">
-          <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
+          <div class="exhibition-item">
               <div class="title" v-text="exhibition.title" />
               <div class="artists">
                 <template v-if="exhibition.artists && exhibition.artists.length > 0">
@@ -35,7 +33,7 @@
                 <p v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" />
               </div>
               <div class="dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
-          </nuxt-link>
+          </div>
         </div>
       </div>
     </section>
@@ -80,6 +78,8 @@
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
+import "swiper/css/swiper.css"
 
 export default Vue.extend({
   name: 'Exhibitions',
@@ -122,6 +122,13 @@ export default Vue.extend({
       current
     }
   },
+  components: {
+    Swiper,
+    SwiperSlide
+  },
+  directives: {
+    swiper: directive
+  },
   methods: {
     setView(view) {
       this.view = view
@@ -143,32 +150,33 @@ export default Vue.extend({
       }
       return text
     },
-    formatDates (open, close, section) {
+    formatDates (open, close) {
       open = DateTime.fromISO(open)
       close = DateTime.fromISO(close)
-
-      if (this.view == 'grid' && section == 'past' || section == 'future') {
-        const from = open.toLocaleString({ month: 'long', day: 'numeric' })
-        let to = ''
-        if (open.month == close.month) {
-          to = close.toLocaleString({ day: 'numeric' })
-        } else {
-          to = close.toLocaleString({ month: 'long', day: 'numeric' })
-        }
-        const year = close.year
-        return `${from} - ${to}, ${year}`
+      const from = open.toLocaleString({ month: 'short', day: 'numeric' })
+      let to = ''
+      if (open.month == close.month) {
+        to = close.toLocaleString({ day: 'numeric' })
       } else {
-        const from = open.toFormat("MM'.'dd'.'yy")
-        const to = close.toFormat("MM'.'dd'.'yy")
-
-        return `${from}<br>${to}`
+        to = close.toLocaleString({ month: 'short', day: 'numeric' })
       }
+      const year = close.year
+      return `${from} - ${to}, ${year}`
     }
   },
   data () {
     return {
       title: 'Exhibitions',
-      view: 'grid'
+      view: 'grid',
+      swiperOption: {
+        loop: true,
+        autoplay: {
+          delay: 1,
+          disableOnInteraction: false
+        },
+        slidesPerView: 'auto',
+        speed: 1000,
+      },
     }
   },
   mounted() {
@@ -183,7 +191,11 @@ main.exhibitions {
   }
   .exhibition-header {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-left: -0.5em;
+    margin-bottom:0.5em;
+    font-size: 1em;
   }
   .thumbnail {
     border: 1px solid #000;
@@ -200,13 +212,13 @@ main.exhibitions {
         flex-direction:column;
         p {
           font-size: 0.5em;
-          margin-top: 0.5em;
+          margin-top: 0.25em;
         }
       }
       .artists.many {
           margin: 2em 0;
         .artist-title {
-          margin: -0.5em 0.25em;
+          margin: -0.5em 0.125em;
         }
       }
     }
@@ -217,7 +229,7 @@ main.exhibitions {
         justify-content: center;
         align-items: center;
         border: 1px solid #000;
-        a {
+        .exhibition-item {
           padding: 1.5em;
           display: block;
           text-align: center;
@@ -261,32 +273,20 @@ main.exhibitions {
           padding-top:2em;
           .exhibition-item {
             display: flex;
-            justify-content: space-between;
             .title {
               order: -1;
               width:35%;
               span {
-                display: inline-block;
-                background-color: #fff;
-                border:1px solid #000;
-                padding: 1em;
               }
             }
             .artists {
               width:45%;
               p {
-                display: inline-block;
-                background-color: #fff;
-                border:1px solid #000;
-                padding: 1em;
-                border-radius: 3em;
-                margin:0.25em;
-                text-align: center;
               }
             }
             .dates {
-              padding-top:1em;
-              font-size: 0.75em;
+              width: 20%;
+              text-align:left;
             }
           }
         }

@@ -115,7 +115,7 @@ export default Vue.extend({
     CTABlock,
     GalleryBlock,
     TextBlock,
-    WorkBlock
+    WorkBlock,
   },
   data () {
     return {

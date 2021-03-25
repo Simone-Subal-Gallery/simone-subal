@@ -80,7 +80,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      searchFeedValue: ''
+      searchFeedValue: '',
     }
   }
 })
