@@ -210,6 +210,7 @@ main.exhibitions {
         align-items: center;
         align-self: center;
         flex-direction:column;
+        text-align: left;
         p {
           font-size: 0.5em;
           margin-top: 0.25em;

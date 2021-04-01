@@ -5,7 +5,16 @@ const query = groq`{
     ...,
  		featured[]->{
       ...,
-      artists[]->
+      artists[]{
+        _type == 'artist' => {
+          title,
+          slug,
+          sortName
+        },
+        _type == 'artist_additional' => {
+          ...
+        }
+      }
     }
   }
 }

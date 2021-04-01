@@ -71,7 +71,6 @@ export default Vue.extend({
         this.logOpen = false
       } else {
         this.overlayOpen = !this.overlayOpen
-        console.log(this.overlayOpen)
       }
     },
     openLog(bool) {
@@ -80,6 +79,11 @@ export default Vue.extend({
     logOpened() {
       this.logOpen = true
     }
+  },
+  created () {
+    this.$nuxt.$on('toggleOverlay', () => {
+      this.overlayToggleHandler()
+    })
   },
   mounted () {
     document.body.style.backgroundColor = this.bodyBg
