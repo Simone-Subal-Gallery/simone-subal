@@ -10,9 +10,10 @@
         />
       </a>
       <figcaption>
-        <p v-if="type!=undefined && type == 'workGallery'" v-text="i+1"/>
-        <p v-if="type!=undefined && type != 'workSingle'" v-html="caption" />
-        <SanityContent :blocks="image.caption" class="caption"/>
+        <!-- <p v-if="type!=undefined && type == 'workGallery'" v-text="i+1"/>
+        <p v-if="type!=undefined && type != 'workSingle'" v-html="caption" /> -->
+        <p v-if="caption != undefined" v-html="caption"/>
+        <SanityContent v-if="caption==undefined" :blocks="image.caption" class="caption"/>
       </figcaption>
     </figure>
   </div>
@@ -20,8 +21,6 @@
 
 <script>
 import SimpleLightbox from "simplelightbox"
-const blocksToHtml = require('@sanity/block-content-to-html')
-const h = blocksToHtml.h
 
 export default {
   props: {
@@ -46,7 +45,8 @@ export default {
         history: false,
         focus: true,
         loop: true,
-        additionalHtml: '<p>Caption placeholder</p>'
+        captionSelector: ( element ) => element.nextElementSibling,
+        captionType: 'text'
       },
     }
   },

@@ -114,7 +114,8 @@ export default {
         history: false,
         focus: true,
         loop: true,
-        additionalHtml: '<p>Caption placeholder</p>'
+        captionSelector: '.caption',
+        captionType: 'text'
       },
       isPaused: false,
       tickerSpeed: 1,
