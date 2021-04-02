@@ -6,9 +6,16 @@
            :key="item._id"
            :style="'background-image:url('+$urlFor(item.thumbnail.asset).size(2800)+')'"
            @click="clickFeatured(item)">
-        <div :class="[item.artists.length > 2 ? 'many':'', 'artists']">
-          <template v-if="item.artists && item.artists.length > 0">
+        <div class="artists artist-title">
+          <template v-if="item.artists && item.artists.length > 0 && item.artists.length < 3">
             <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="artist-title" />
+          </template>
+          <template v-else>
+            <div v-swiper:mySwiper="swiperOption" ref="swiper">
+              <div class="swiper-wrapper">
+                <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="swiper-slide" />
+              </div>
+            </div>
           </template>
         </div>
         <h2 class="exhibition-title" v-text="item.title" />
@@ -41,11 +48,19 @@
 <script>
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
+import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
+import "swiper/css/swiper.css"
+
 import ReloadIcon from '~/components/ReloadIcon.vue'
 
 export default Vue.extend({
   components: {
+    Swiper,
+    SwiperSlide,
     ReloadIcon
+  },
+  directives: {
+    swiper: directive
   },
   async asyncData({ app: { $sanity }}) {
     function shuffleArray(array) {
@@ -132,6 +147,18 @@ export default Vue.extend({
   data() {
     return {
       searchFeedValue: '',
+      swiperOption: {
+        loop: true,
+        spaceBetween: 0,
+        speed: 2000,
+        centeredSlides: true,
+        grabCursor: true,
+        autoplay: true,
+        loop: true,
+        slidesPerView: 1,
+        allowTouchMove: false,
+        disableOnInteraction: true
+      }
     }
   }
 })
@@ -215,9 +242,14 @@ main.index {
       background-size: cover;
       background-position: center;
       cursor:pointer;
-      .artists.many {
-        .artist-title {
-          margin: -0.5em 1em;
+      .artists.artist-title {
+        overflow: hidden;
+        flex:1;
+        padding:0;
+        .swiper-container {
+          .swiper-slide {
+            padding: 0.5em 1em;
+          }
         }
       }
     }
