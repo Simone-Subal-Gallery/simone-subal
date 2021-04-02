@@ -2,7 +2,7 @@
   <div class="artist-single">
   <main>
     <h1 class="title" v-text="artist.title" />
-    <Gallery :images="artist.gallery" />
+    <ArtistGallery :images="artist.gallery" />
     <div class="content">
       <SanityContent :blocks="artist.description" :serializers="serializers" class="description"/>
       <section class="selected-exhibitions" v-if="artist.exhibitions.length > 0">
@@ -135,7 +135,7 @@ export default Vue.extend({
         marks: {
           link: Link
         }
-      }
+      },
     }
   },
   mounted() {
@@ -179,6 +179,7 @@ export default Vue.extend({
     }
     .description p {
       margin: 1em 0;
+      text-align: justify;
     }
     .exhibition-list {
       font-size: 1em;

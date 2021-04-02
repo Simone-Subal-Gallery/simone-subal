@@ -17,13 +17,15 @@
     "@sanity/client": "^2.2.6",
     "@sanity/image-url": "^0.140.22",
     "core-js": "^3.9.1",
+    "flickity": "^2.2.2",
     "hls.js": "^0.14.17",
     "luxon": "^1.26.0",
     "nuxt": "^2.15.3",
     "nuxt-property-decorator": "^2.9.1",
     "simplelightbox": "^2.7.0",
     "swiper": "^5.4.5",
-    "vue-awesome-swiper": "^4.1.1"
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-flickity": "^1.2.1"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.3",

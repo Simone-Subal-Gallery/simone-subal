@@ -40,7 +40,9 @@
         </div>
       </div>
     </aside>
-
+    <footer>
+      <SanityContent :blocks="site.footer"/>
+    </footer>
   </div>
 </template>
 
@@ -124,6 +126,10 @@ nav {
 
 main {
   margin-top: 4.5rem;
+}
+
+footer {
+  margin-top: 2rem;
 }
 
 .overlay-toggle {

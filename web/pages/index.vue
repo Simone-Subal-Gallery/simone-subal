@@ -150,14 +150,13 @@ export default Vue.extend({
       swiperOption: {
         loop: true,
         spaceBetween: 0,
-        speed: 2000,
-        centeredSlides: true,
+        speed: 5000,
         grabCursor: true,
-        autoplay: true,
-        loop: true,
-        slidesPerView: 1,
-        allowTouchMove: false,
-        disableOnInteraction: true
+        freeMode: true,
+        autoplay: 0.001,
+        autoplay: {
+          delay: 1
+        },
       }
     }
   }
@@ -204,6 +203,7 @@ main.index {
     align-items: center;
     align-self: flex-end;
     justify-content: center;
+    z-index:0;
     .overlay-toggle {
       margin:0.5em;
       border: 1px solid black;
@@ -247,10 +247,16 @@ main.index {
         flex:1;
         padding:0;
         .swiper-container {
+          .swiper-container-free-mode > .swiper-wrapper {
+            transition-timing-function: linear !important;
+          }
           .swiper-slide {
             padding: 0.5em 1em;
           }
         }
+      }
+      .exhibition-title {
+        flex: 1;
       }
     }
     &.announcement{
@@ -271,6 +277,7 @@ main.index {
       align-items:center;
       justify-content: flex-start;
       padding:0 3rem;
+      z-index:1;
       input {
         font-size: 2em;
         height: 100%;
