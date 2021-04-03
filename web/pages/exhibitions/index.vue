@@ -1,20 +1,29 @@
 <template>
   <main class="exhibitions">
-    <section class="current">
+    <section class="current" v-if="current.length>0">
       <h2>Current</h2>
       <div v-for="exhibition in current" :key="exhibition._id" class="exhibition-listing">
         <p class="exhibition-dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
-          <h3 class="exhibition-header">
-            <div class="exhibition-title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
-            <div v-if="exhibition.artists" v-text="formatArtists(exhibition.artists)" class="artist-title" />
-          </h3>
-          <div class="thumbnail">
-            <img
-              :src="$urlFor(exhibition.thumbnail.asset).size(2800)"
-              width="2800"
-              loading="lazy"
-            />
+          <div class="thumbnail" :style="'background-image:url('+$urlFor(exhibition.thumbnail.asset).size(2800)+')'">
+            <h3 class="exhibition-header">
+              <div class="exhibition-title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
+              <div v-if="exhibition.artists" v-text="formatArtists(exhibition.artists)" class="artist-title" />
+            </h3>
+          </div>
+        </nuxt-link>
+      </div>
+    </section>
+    <section class="current" v-if="next!=undefined">
+      <h2>Next</h2>
+      <div class="exhibition-listing">
+        <p class="exhibition-dates" v-text="formatDates(next.open_date, next.close_date, 'future')" />
+        <nuxt-link :to="'/exhibitions/'+next.slug.current" class="exhibition-item">
+          <div class="thumbnail" :style="'background-image:url('+$urlFor(next.thumbnail.asset).size(2800)+')'">
+            <h3 class="exhibition-header">
+              <div class="exhibition-title" v-text="next.title" v-if="next.hide_title != true"/>
+              <div v-if="next.artists" v-text="formatArtists(next.artists)" class="artist-title" />
+            </h3>
           </div>
         </nuxt-link>
       </div>
@@ -33,7 +42,7 @@
         </div>
       </div>
     </section>
-    <section class="past">
+    <section class="past" v-if="past.length > 0">
       <div class="header">
         <h2>Past</h2>
         <div class="view-controls">
@@ -93,27 +102,34 @@ export default Vue.extend({
 
     const today = DateTime.now()
 
-    let future = exhibitions.filter((item) => {
-      return DateTime.fromISO(item.open_date) >= today
+    let future = []
+    future = exhibitions.filter((item) => {
+      return DateTime.fromISO(item.open_date) > today
     })
 
-    let past = exhibitions.filter((item) => {
+    let past = []
+    past = exhibitions.filter((item) => {
       return DateTime.fromISO(item.close_date) < today
     })
 
-    let current = exhibitions.filter((item) => {
+    let current=[]
+    current = exhibitions.filter((item) => {
       return DateTime.fromISO(item.open_date) <= today &&
              DateTime.fromISO(item.close_date) >= today
     })
 
-    console.log(future)
+    let next = {}
+    if (current.length == 0) {
+      next = future.pop()
+    }
     // exhibitions.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
 
     return {
       exhibitions,
       future,
       past,
-      current
+      current,
+      next
     }
   },
   components: {
@@ -184,6 +200,15 @@ main.exhibitions {
   section {
     margin:3em 0;
     &.current {
+      .exhibition-dates {
+        margin-bottom: 0.5em;
+      }
+      .thumbnail {
+        height:70vh;
+        background-position:center;
+        background-size:cover;
+        padding:1em;
+      }
       .exhibition-title {
         display: flex;
         justify-content: center;
@@ -204,6 +229,9 @@ main.exhibitions {
       }
     }
     &.future {
+      h2 {
+        margin-bottom: 0.5em;
+      }
       .exhibition-list {
         background-color: #fff;
         display: flex;
