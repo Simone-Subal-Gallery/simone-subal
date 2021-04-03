@@ -5,34 +5,70 @@
     <ArtistGallery :images="artist.gallery" />
     <div class="content">
       <SanityContent :blocks="artist.description" :serializers="serializers" class="description"/>
-      <section class="selected-exhibitions" v-if="artist.exhibitions.length > 0">
+      <section class="selected-exhibitions" v-if="artist.selected_exhibitions.length > 0">
         <h2>Selected Exhibitions</h2>
         <div class="exhibition-list grid">
-        <div v-for="exhibition in artist.exhibitions" :key="exhibition._key" class="exhibition-listing">
-          <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
-              <div :class="['thumbnail', exhibition.thumbnail==undefined?'empty':'']">
-                <img
-                  :src="$urlFor(exhibition.thumbnail.asset).size(1280, 1024)"
-                  loading="lazy"
-                  v-if="exhibition.thumbnail != undefined"
-                />
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 1280 1024"
-                     width="1280"
-                     height="1024"
-                     v-if="exhibition.thumbnail == undefined">
-                  <rect width="1280" height="1024" fill="#eee"></rect>
-                </svg>
-              </div>
-              <div class="artists">
-                <template v-if="exhibition.artists && exhibition.artists.length > 0">
-                  <p v-for="artist in exhibition.artists" :key="artist._id" v-text="artist.title" />
-                </template>
-                <!-- <p v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" /> -->
-              </div>
-              <div class="title"><span>{{ exhibition.title }}</span></div>
-              <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date)" />
+        <div v-for="exhibition in artist.selected_exhibitions" :key="exhibition._key" class="exhibition-listing">
+          <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item" v-if="exhibition._type == 'exhibition'">
+            <div :class="['thumbnail', exhibition.thumbnail==undefined?'empty':'']">
+              <img
+                :src="$urlFor(exhibition.thumbnail.asset).size(1280, 1024)"
+                loading="lazy"
+                v-if="exhibition.thumbnail != undefined"
+              />
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 1280 1024"
+                   width="1280"
+                   height="1024"
+                   v-if="exhibition.thumbnail == undefined">
+                <rect width="1280" height="1024" fill="#eee"></rect>
+              </svg>
+            </div>
+            <div class="artists">
+              <template v-if="exhibition.artists && exhibition.artists.length > 0">
+                <p v-for="artist in exhibition.artists" :key="artist._id" v-text="artist.title" />
+              </template>
+            </div>
+            <div class="title"><span>{{ exhibition.title }}</span></div>
+            <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date)" />
           </nuxt-link>
+          <nuxt-link :to="'/fairs/'+exhibition.slug.current" class="exhibition-item" v-if="exhibition._type == 'fair'">
+            <div :class="['thumbnail', exhibition.thumbnail==undefined?'empty':'']">
+              <img
+                :src="$urlFor(exhibition.thumbnail.asset).size(1280, 1024)"
+                loading="lazy"
+                v-if="exhibition.thumbnail != undefined"
+              />
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 1280 1024"
+                   width="1280"
+                   height="1024"
+                   v-if="exhibition.thumbnail == undefined">
+                <rect width="1280" height="1024" fill="#eee"></rect>
+              </svg>
+            </div>
+            <div class="title"><span>{{ exhibition.title }}</span></div>
+            <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date)" />
+          </nuxt-link>
+          <a :href="exhibition.link!=undefined?exhibition.link:null" target="_blank" class="exhibition-item" v-if="exhibition._type == 'exhibition_offsite'">
+            <div :class="['thumbnail', exhibition.thumbnail==undefined?'empty':'']">
+              <img
+                :src="$urlFor(exhibition.thumbnail.asset).size(1280, 1024)"
+                loading="lazy"
+                v-if="exhibition.thumbnail != undefined"
+              />
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 1280 1024"
+                   width="1280"
+                   height="1024"
+                   v-if="exhibition.thumbnail == undefined">
+                <rect width="1280" height="1024" fill="#eee"></rect>
+              </svg>
+            </div>
+            <div class="title"><span>{{ exhibition.title }}</span></div>
+            <div class="place"><span>{{ exhibition.place}}</span></div>
+            <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date)" />
+          </a>
         </div>
       </div>
       </section>
@@ -118,7 +154,12 @@ export default Vue.extend({
             asset->
           }
         },
-        "exhibitions": *[ _type == "exhibition" && ^._id in artists[]._ref  ] | order(open_date desc)
+        selected_exhibitions[] {
+          _type == "exhibition_offsite" => {
+            ...
+          },
+          ...@->
+        }
       },
       "artists": *[_type == "artist"][slug.current != "${params.slug}"] | order(title asc)
     }`

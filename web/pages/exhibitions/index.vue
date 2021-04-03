@@ -6,9 +6,8 @@
         <p class="exhibition-dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
           <h3 class="exhibition-header">
-            <div class="exhibition-title" v-text="exhibition.title" />
-            <div v-if="exhibition.artists && exhibition.artists.length > 0" :key="artist._i" v-for="artist in exhibition.artists" v-text="artist.title" class="artist-title" />
-            <div v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-for="artist in exhibition.artists_additional" v-text="artist" class="artist-title" />
+            <div class="exhibition-title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
+            <div v-if="exhibition.artists" v-text="formatArtists(exhibition.artists)" class="artist-title" />
           </h3>
           <div class="thumbnail">
             <img
@@ -25,12 +24,9 @@
       <div class="exhibition-list">
         <div v-for="exhibition in future" :key="exhibition._id" class="exhibition-listing">
           <div class="exhibition-item">
-              <div class="title" v-text="exhibition.title" />
-              <div class="artists">
-                <template v-if="exhibition.artists && exhibition.artists.length > 0">
-                  <p v-for="artist in exhibition.artists" :key="artist._id" v-text="artist.title" />
-                </template>
-                <p v-if="exhibition.artists_additional && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" />
+              <div class="title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
+              <div class="artists" v-if="exhibition.artists && exhibition.artists.length > 0" >
+                <p v-text="formatArtists(exhibition.artists)"/>
               </div>
               <div class="dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
           </div>
@@ -57,15 +53,9 @@
                 />
               </div>
               <div class="artists">
-                <template v-if="exhibition.artists && exhibition.artists.length > 0">
-                  <p v-for="artist in exhibition.artists" :key="artist._id" v-text="artist.title" />
-                </template>
-                <p v-if="view == 'grid' && exhibition.artists_additional && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" />
-                <template v-if="view == 'list' && exhibition.artists_additional && exhibition.artists_additional.length > 0">
-                  <p v-for="artist in exhibition.artists_additional" :key="artist._id" v-text="artist" />
-                </template>
+                <p v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)"/>
               </div>
-              <div class="title"><span>{{ exhibition.title }}</span></div>
+              <div class="title"><span v-if="exhibition.hide_title != true">{{ exhibition.title }}</span></div>
               <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'past')" />
           </nuxt-link>
         </div>
@@ -91,8 +81,12 @@ export default Vue.extend({
      		"caption": thumbnail.caption,
      		"asset": thumbnail.asset->
     	},
-      "artists": artists[] -> {title, slug, _id},
-      "artists_additional": artists_additional[],
+      artists[]{
+        _type == 'artist_additional' => {
+          ...
+        },
+        ...@->
+      }
   	}`
     const exhibitions = await $sanity.fetch(query)
     exhibitions.sort((a, b) => new Date(b.open_date) - new Date(a.open_date))
@@ -134,21 +128,7 @@ export default Vue.extend({
       this.view = view
     },
     formatArtists (artists) {
-      let length = artists.length
-      let text = ''
-
-      if (length == 1) {
-        text = artists[0]
-      } else {
-        for (let i = 0; i < length; i++) {
-          if ( i == (length - 1) ) {
-            text += artists[i]
-          } else {
-            text += artists[i] + ", "
-          }
-        }
-      }
-      return text
+      return artists.map(artist => artist.title).join(", ")
     },
     formatDates (open, close) {
       open = DateTime.fromISO(open)
@@ -282,6 +262,7 @@ main.exhibitions {
             }
             .artists {
               width:45%;
+              margin:0 1em;
               p {
               }
             }

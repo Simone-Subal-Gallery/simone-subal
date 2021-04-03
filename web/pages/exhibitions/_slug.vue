@@ -40,16 +40,8 @@
                   <rect width="1280" height="1024" fill="#eee"></rect>
                 </svg>
               </div>
-              <div class="artists">
-                <template v-if="exhibition.artists != undefined && exhibition.artists.length > 0">
-                  <p v-for="artist in exhibition.artists" :key="artist._id" v-text="artist.title" />
-                </template>
-                <p v-if="view == 'grid' && exhibition.artists_additional != undefined && exhibition.artists_additional.length > 0" v-text="formatArtists(exhibition.artists_additional)" />
-                <template v-if="view == 'list' && exhibition.artists_additional && exhibition.artists_additional.length > 0">
-                  <p v-for="artist in exhibition.artists_additional" :key="artist._id" v-text="artist" />
-                </template>
-              </div>
-              <div class="title"><span>{{ exhibition.title }}</span></div>
+              <div class="artists" v-if="exhibition.artists != undefined" v-text="formatArtists(exhibition.artists)" />
+              <div class="title" v-if="exhibition.hide_title != true"><span>{{ exhibition.title }}</span></div>
               <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'past')" />
           </nuxt-link>
         </div>
@@ -95,7 +87,12 @@ export default Vue.extend({
             }
           }
         },
-        "artists": artists[] -> {title, slug, _id}
+        artists[]{
+          _type == 'artist_additional' => {
+            ...
+          },
+          ...@->
+        }
       },
       "exhibitions": *[_type == "exhibition" && slug.current != "${params.slug}"] | order(open_date desc) {
       	...,
@@ -103,8 +100,12 @@ export default Vue.extend({
        		"caption": thumbnail.caption,
        		"asset": thumbnail.asset->
       	},
-        "artists": artists[] -> {title, slug, _id},
-        "artists_additional": artists_additional[],
+        artists[]{
+          _type == 'artist_additional' => {
+            ...
+          },
+          ...@->
+        }
     	}
     }`
     const response = await $sanity.fetch(query)
@@ -120,7 +121,6 @@ export default Vue.extend({
   data () {
     return {
       view: 'grid',
-      artistsString: ''
     }
   },
   mounted() {
@@ -129,18 +129,15 @@ export default Vue.extend({
     } else {
       document.body.style.backgroundColor = "#fff"
     }
-
-    let artists = this.exhibition.artists
-    let artists_addtl = this.exhibition.artists_additional
-    if (artists_addtl != undefined) { this.artistsString = artists_addtl.join(", ") } else {
-        this.artistsString = artists.map(artist => artist.title).join(", ")
-    }
-
   },
   beforeDestroy() {
     document.body.style.backgroundColor = "#eee"
   },
   computed: {
+    artistsString() {
+      let artists = this.exhibition.artists
+      return artists.map(artist => artist.title).join(", ")
+    }
   },
   methods: {
     formatDates (open, close, section) {
@@ -168,21 +165,7 @@ export default Vue.extend({
       this.view = view
     },
     formatArtists (artists) {
-      let length = artists.length
-      let text = ''
-
-      if (length == 1) {
-        text = artists[0]
-      } else {
-        for (let i = 0; i < length; i++) {
-          if ( i == (length - 1) ) {
-            text += artists[i]
-          } else {
-            text += artists[i] + ", "
-          }
-        }
-      }
-      return text
+      return artists.map(artist => artist.title).join(", ")
     }
   }
 })
