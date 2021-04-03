@@ -204,10 +204,13 @@ main.exhibitions {
         margin-bottom: 0.5em;
       }
       .thumbnail {
-        height:70vh;
+        height:67vh;
         background-position:center;
         background-size:cover;
         padding:1em;
+        .exhibition-header {
+          margin:0;
+        }
       }
       .exhibition-title {
         display: flex;
@@ -216,10 +219,14 @@ main.exhibitions {
         align-self: center;
         flex-direction:column;
         text-align: left;
+        font-size:1.5em;
         p {
           font-size: 0.5em;
           margin-top: 0.25em;
         }
+      }
+      .artist-title {
+        font-size:1.5em;
       }
       .artists.many {
           margin: 2em 0;

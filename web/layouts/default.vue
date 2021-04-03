@@ -94,6 +94,20 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+.container {
+  min-height: calc(100vh - 3rem);
+  display: flex;
+  flex-direction: column;
+}
+
+header, footer {
+  flex-shrink: 0;
+}
+
+main {
+  flex-grow: 1;
+}
+
 header {
   border: 1px solid #000;
   background-color: #fff;

@@ -1,13 +1,15 @@
 <template>
   <main class="artists">
-    <div v-for="(artist, i) in artists"
-        :key="artist._id"
-        class="artist-listing">
-      <nuxt-link :to="'/artists/'+artist.slug.current"
-      v-text="artist.title"
-      @mouseover.native="mouseoverHandler(i, $event)"
-      @mouseleave.native="mouseleaveHandler(i, $event)"
-      class="artist-item artist-title" />
+    <div class="wrapper">
+      <div v-for="(artist, i) in artists"
+          :key="artist._id"
+          class="artist-listing">
+        <nuxt-link :to="'/artists/'+artist.slug.current"
+        v-text="artist.title"
+        @mouseover.native="mouseoverHandler(i, $event)"
+        @mouseleave.native="mouseleaveHandler(i, $event)"
+        class="artist-item artist-title" />
+      </div>
     </div>
   </main>
 </template>
@@ -82,7 +84,7 @@ export default Vue.extend({
   z-index: -1;
 }
 
-main.artists {
+main.artists .wrapper {
   display: flex;
   flex-wrap: wrap;
   padding: 1.5rem 0;
