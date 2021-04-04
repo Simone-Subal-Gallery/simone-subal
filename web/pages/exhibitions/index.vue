@@ -49,10 +49,12 @@
           <a :class="view == 'grid'?'active':''" @click="setView('grid')">Grid</a>
           <a :class="view == 'list'?'active':''" @click="setView('list')">List</a>
         </div>
-        <div class="exhibition-search">SEARCH</div>
+        <div class="exhibition-search">
+          <input type="text" placeholder="Search" v-model="searchFeedValue" />
+        </div>
       </div>
       <div :class="['exhibition-list', view=='grid'?'grid':'list']">
-        <div v-for="exhibition in past" :key="exhibition._id" class="exhibition-listing">
+        <div v-for="exhibition in filteredFeed" :key="exhibition._id" class="exhibition-listing">
           <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
               <div class="thumbnail" v-show="view == 'grid'">
                 <img
@@ -160,6 +162,30 @@ export default Vue.extend({
       return `${from} - ${to}, ${year}`
     }
   },
+  computed: {
+    filteredFeed() {
+      let feed = this.past.filter(obj => {
+        return (
+          obj.title
+            .toLowerCase()
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+          ||
+          obj.slug.current
+            .toLowerCase().replace(/-/g,' ')
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+          ||
+          obj.open_date
+            .toLowerCase().replace(/-/g,' ')
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+          ||
+          obj.artists.map(e => e.title).join(" ")
+            .toLowerCase()
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+        )
+      })
+      return feed
+    }
+  },
   data () {
     return {
       title: 'Exhibitions',
@@ -173,6 +199,7 @@ export default Vue.extend({
         slidesPerView: 'auto',
         speed: 1000,
       },
+      searchFeedValue: ''
     }
   },
   mounted() {
@@ -200,6 +227,7 @@ main.exhibitions {
   section {
     margin:3em 0;
     &.current {
+      margin-top:1em;
       .exhibition-dates {
         margin-bottom: 0.5em;
       }
@@ -259,12 +287,19 @@ main.exhibitions {
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0.5em;
-        h2, .exhibition-search {
-          width: 120px;
-        }
         h2 {
           align-self: flex-end;
           margin:0;
+          width:240px;
+        }
+        .exhibition-search {
+          width: 240px;
+          input {
+            border:1px solid #000;
+            border-radius: 1em;
+            width: 100%;
+            padding: 0.5em 0.5em 0.25em 0.5em;
+          }
         }
       }
       .exhibition-list {
