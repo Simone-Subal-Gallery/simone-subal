@@ -1,21 +1,24 @@
 <template>
   <section class="cta">
-    <a :href="link" :target="blank?'_blank':''" v-text="text" />
+    <a :href="block.url" :target="block.blank?'_blank':''" v-text="block.text" />
   </section>
 </template>
 
 <script>
 export default {
   props: {
-    link: {
-      type: String
-    },
-    text: {
-      type: String
-    },
-    blank: {
-      type: Boolean
+    block: {
+      type: Object
     }
+    // link: {
+    //   type: String
+    // },
+    // text: {
+    //   type: String
+    // },
+    // blank: {
+    //   type: Boolean
+    // }
   },
   methods: {
   }

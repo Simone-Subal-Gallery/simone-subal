@@ -1,18 +1,21 @@
 <template>
   <section class="text">
-    <SanityContent :blocks="text" :class="boxed?'boxed':''" />
+    <SanityContent :blocks="block.text" :class="block.boxed?'boxed':''" />
   </section>
 </template>
 
 <script>
 export default {
   props: {
-    text: {
-      type: Array
-    },
-    boxed: {
-      type: Boolean
+    block: {
+      type: Object
     }
+    // text: {
+    //   type: Array
+    // },
+    // boxed: {
+    //   type: Boolean
+    // }
   },
   methods: {
   }

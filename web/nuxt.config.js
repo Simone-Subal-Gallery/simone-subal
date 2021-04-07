@@ -27,7 +27,8 @@ export default {
   plugins: [
     '~/plugins/siteContent.js',
     '~/plugins/sanity-image-builder.js',
-    { src: '~/plugins/flickity', ssr: false }
+    { src: '~/plugins/flickity.js', ssr: false },
+    { src: '~/plugins/scrollmagic.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

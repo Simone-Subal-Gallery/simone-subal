@@ -1,6 +1,6 @@
 <template>
   <main class="exhibitions">
-    <section class="current" v-if="current.length>0">
+    <section class="current" v-if="current!=undefined && current.length>0">
       <h2>Current</h2>
       <div v-for="exhibition in current" :key="exhibition._id" class="exhibition-listing">
         <p class="exhibition-dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
@@ -14,7 +14,7 @@
         </nuxt-link>
       </div>
     </section>
-    <section class="current" v-if="next!=undefined">
+    <!-- <section class="current" v-if="next!=undefined && next!=null">
       <h2>Next</h2>
       <div class="exhibition-listing">
         <p class="exhibition-dates" v-text="formatDates(next.open_date, next.close_date, 'future')" />
@@ -27,7 +27,7 @@
           </div>
         </nuxt-link>
       </div>
-    </section>
+    </section> -->
     <section class="future" v-if="future.length > 0">
       <h2>Future</h2>
       <div class="exhibition-list">
@@ -58,7 +58,7 @@
           <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
               <div class="thumbnail" v-show="view == 'grid'">
                 <img
-                  :src="$urlFor(exhibition.thumbnail.asset).size(1280)"
+                  :src="$urlFor(exhibition.thumbnail.asset).size(1280,1080)"
                   width="1280"
                   loading="lazy"
                 />
@@ -85,7 +85,7 @@ import "swiper/css/swiper.css"
 export default Vue.extend({
   name: 'Exhibitions',
   async asyncData({ app: { $sanity }}) {
-    const query = groq`*[_type == "exhibition"]
+    const query = groq`*[_type == "exhibition"] | order(open_date desc)
     {
     	...,
       "thumbnail": {
@@ -99,10 +99,8 @@ export default Vue.extend({
         ...@->
       }
   	}`
-    const exhibitions = await $sanity.fetch(query)
-    exhibitions.sort((a, b) => new Date(b.open_date) - new Date(a.open_date))
-
     const today = DateTime.now()
+    const exhibitions = await $sanity.fetch(query)
 
     let future = []
     future = exhibitions.filter((item) => {
@@ -119,19 +117,13 @@ export default Vue.extend({
       return DateTime.fromISO(item.open_date) <= today &&
              DateTime.fromISO(item.close_date) >= today
     })
-
-    let next = {}
-    if (current.length == 0) {
-      next = future.pop()
-    }
     // exhibitions.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
 
     return {
       exhibitions,
       future,
       past,
-      current,
-      next
+      current
     }
   },
   components: {
@@ -282,6 +274,7 @@ main.exhibitions {
       }
     }
     &.past {
+      min-height: calc(100vh - 12em);
       .header {
         display: flex;
         justify-content: space-between;

@@ -186,7 +186,7 @@ main.index {
   .recent {
     display: flex;
     flex-wrap: wrap;
-    min-height:calc(100vh - 220px);
+    min-height: calc(100vh - 14em);
     align-content: flex-start;
   }
   .fair {

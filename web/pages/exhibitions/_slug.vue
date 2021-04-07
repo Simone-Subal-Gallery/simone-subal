@@ -5,15 +5,22 @@
         <p v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <p v-if="exhibition.opening != undefined" v-text="exhibition.opening" />
       <div class="content" v-if="exhibition.content != undefined && exhibition.content.length > 0">
-        <template v-for="block, i in exhibition.content">
-          <Banner v-if="block._type == 'banner'" :key="block._key" :banner="block" />
-          <CTABlock v-if="block._type == 'cta'" :key="block._key" :link="block.url" :text="block.text" :blank="block.blank" />
-          <GalleryBlock v-if="block._type == 'galleryBlock'" :key="block._key" :index="i" :work="block.work" :install="block.install" />
-          <TextBlock v-if="block._type == 'textBlock'" :key="block._key" :text="block.text" :boxed="block.boxed" />
-          <WorkBlock v-if="block._type == 'workBlock'" :key="block._key" :index="i" :works="block.works" />
-        </template>
+        <component
+          :is="block._type == 'banner' ? 'Banner' : block._type == 'codeBlock' ? 'CodeBlock' : block._type == 'cta' ? 'CTABlock' : block._type == 'galleryBlock' ? 'GalleryBlock' : block._type == 'textBlock' ? 'TextBlock' : block._type == 'workBlock' ? 'WorkBlock' : ''"
+          v-for="block, i in exhibition.content"
+          :key="block._key"
+          :index="i"
+          :block="block"
+        />
+          <!-- <Banner v-if="block._type == 'banner'" :banner="block" />
+          <CTABlock v-if="block._type == 'cta'" :link="block.url" :text="block.text" :blank="block.blank" />
+          <GalleryBlock v-if="block._type == 'galleryBlock'" :index="i" :work="block.work" :install="block.install" />
+          <TextBlock v-if="block._type == 'textBlock'" :text="block.text" :boxed="block.boxed" />
+          <WorkBlock v-if="block._type == 'workBlock'" :index="i" :works="block.works" />
+          <CodeBlock v-if="block._type == 'codeBlock'" :content="block.code" /> -->
       </div>
     </main>
+
     <section class="more-exhibitions">
       <div class="header">
         <h2>More</h2>
@@ -21,28 +28,25 @@
           <a :class="view == 'grid'?'active':''" @click="setView('grid')">Grid</a>
           <a :class="view == 'list'?'active':''" @click="setView('list')">List</a>
         </div>
-        <div class="exhibition-search">SEARCH</div>
+        <div class="exhibition-search">
+          <input type="text" placeholder="Search" v-model="searchFeedValue" />
+        </div>
       </div>
       <div :class="['exhibition-list', view=='grid'?'grid':'list']">
-        <div v-for="exhibition in exhibitions" :key="exhibition._id" class="exhibition-listing">
+        <div v-for="exhibition in filteredFeed" :key="exhibition._id" class="exhibition-listing">
           <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
-              <div :class="['thumbnail', exhibition.thumbnail.asset==undefined?'empty':'']" v-show="view == 'grid'">
+              <div class="thumbnail" v-show="view == 'grid'">
                 <img
-                  :src="$urlFor(exhibition.thumbnail.asset).size(1280, 1024)"
+                  :src="$urlFor(exhibition.thumbnail.asset).size(1280,1080)"
+                  width="1280"
                   loading="lazy"
-                  v-if="exhibition.thumbnail.asset != undefined"
                 />
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 1280 1024"
-                     width="1280"
-                     height="1024"
-                     v-if="exhibition.thumbnail.asset == undefined">
-                  <rect width="1280" height="1024" fill="#eee"></rect>
-                </svg>
               </div>
-              <div class="artists" v-if="exhibition.artists != undefined" v-text="formatArtists(exhibition.artists)" />
-              <div class="title" v-if="exhibition.hide_title != true"><span>{{ exhibition.title }}</span></div>
-              <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'past')" />
+              <div class="artists">
+                <p v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)"/>
+              </div>
+              <div class="title"><span v-if="exhibition.hide_title != true">{{ exhibition.title }}</span></div>
+              <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
           </nuxt-link>
         </div>
       </div>
@@ -60,6 +64,7 @@ import CTABlock from '~/components/blocks/CTABlock.vue'
 import GalleryBlock from '~/components/blocks/GalleryBlock.vue'
 import TextBlock from '~/components/blocks/TextBlock.vue'
 import WorkBlock from '~/components/blocks/WorkBlock.vue'
+import CodeBlock from '~/components/blocks/CodeBlock.vue'
 
 export default Vue.extend({
   async asyncData({ params, app: { $sanity }}) {
@@ -117,10 +122,12 @@ export default Vue.extend({
     GalleryBlock,
     TextBlock,
     WorkBlock,
+    CodeBlock
   },
   data () {
     return {
       view: 'grid',
+      searchFeedValue: ''
     }
   },
   mounted() {
@@ -137,6 +144,28 @@ export default Vue.extend({
     artistsString() {
       let artists = this.exhibition.artists
       return artists.map(artist => artist.title).join(", ")
+    },
+    filteredFeed() {
+      let feed = this.exhibitions.filter(obj => {
+        return (
+          obj.title
+            .toLowerCase()
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+          ||
+          obj.slug.current
+            .toLowerCase().replace(/-/g,' ')
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+          ||
+          obj.open_date
+            .toLowerCase().replace(/-/g,' ')
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+          ||
+          obj.artists.map(e => e.title).join(" ")
+            .toLowerCase()
+            .indexOf(this.searchFeedValue.toLowerCase()) != -1
+        )
+      })
+      return feed
     }
   },
   methods: {
@@ -145,12 +174,12 @@ export default Vue.extend({
       close = DateTime.fromISO(close)
 
       if (this.view == 'grid' && section == 'past' || section == 'future') {
-        const from = open.toLocaleString({ month: 'long', day: 'numeric' })
+        const from = open.toLocaleString({ month: 'short', day: 'numeric' })
         let to = ''
         if (open.month == close.month) {
           to = close.toLocaleString({ day: 'numeric' })
         } else {
-          to = close.toLocaleString({ month: 'long', day: 'numeric' })
+          to = close.toLocaleString({ month: 'short', day: 'numeric' })
         }
         const year = close.year
         return `${from} - ${to}, ${year}`
@@ -177,8 +206,9 @@ export default Vue.extend({
     background: #eee;
     margin-left:-1.5rem;
     margin-right: -4rem;
-    margin-bottom:-1.5rem;
+    margin-bottom:-5rem;
     width:100vw;
+    min-height: calc(100vh - 12em);
     padding: 1.5rem;
     .header {
       display: flex;
@@ -191,6 +221,16 @@ export default Vue.extend({
       h2 {
         align-self: flex-end;
         margin:0;
+        width:240px;
+      }
+      .exhibition-search {
+        width: 240px;
+        input {
+          border:1px solid #000;
+          border-radius: 1em;
+          width: 100%;
+          padding: 0.5em 0.5em 0.25em 0.5em;
+        }
       }
     }
     .exhibition-list {
@@ -202,6 +242,7 @@ export default Vue.extend({
           margin: 0.25em 0;
         }
       }
+
       &.grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -227,26 +268,15 @@ export default Vue.extend({
             width:35%;
             span {
               display: inline-block;
-              background-color: #fff;
-              border:1px solid #000;
-              padding: 1em;
             }
           }
           .artists {
             width:45%;
-            p {
-              display: inline-block;
-              background-color: #fff;
-              border:1px solid #000;
-              padding: 1em;
-              border-radius: 3em;
-              margin:0.25em;
-              text-align: center;
-            }
+            margin:0 1em;
           }
           .dates {
-            padding-top:1em;
-            font-size: 0.75em;
+            width: 20%;
+            text-align:left;
           }
         }
       }

@@ -1,6 +1,6 @@
 <template>
-  <section :class="['works', 'count-'+works.length]">
-    <Lightbox class="work-item" v-for="work, i in works" :type="'workSingle'" :key="work._key" :id="'worklightbox'+index+i" :images="work.images" :caption="getCaption(work)" />
+  <section :class="['works', 'count-'+block.works.length]">
+    <Lightbox class="work-item" v-for="work, i in block.works" :type="'workSingle'" :key="work._key" :id="'worklightbox'+index+i" :images="work.images" :caption="getCaption(work)" />
   </section>
 </template>
 
@@ -9,9 +9,12 @@ import Lightbox from '~/components/Lightbox.vue'
 
 export default {
   props: {
-    works: {
-      type: Array
+    block: {
+      type: Object
     },
+    // works: {
+    //   type: Array
+    // },
     index: {
       type: Number
     }
@@ -50,6 +53,10 @@ export default {
         let description = work.description
         string += ` ${description}`
       }
+      if (work.more_info!=undefined) {
+        let more = work.more_info
+        string += `<br class="more-info"><br class="more-info"><span class="more-info">${more}</span>`
+      }
       return string
     }
   }
@@ -83,6 +90,9 @@ section.works {
     figcaption {
       margin:0.5em 0;
       font-size: 0.75em;
+      .more-info {
+        display:none;
+      }
     }
   }
   &.count-2 {

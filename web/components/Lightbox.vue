@@ -12,6 +12,7 @@
       <figcaption>
         <!-- <p v-if="type!=undefined && type == 'workGallery'" v-text="i+1"/>
         <p v-if="type!=undefined && type != 'workSingle'" v-html="caption" /> -->
+        <p v-if="numbered != undefined && numbered == true" v-html="i+1+'.'"/>
         <p v-if="caption != undefined" v-html="caption"/>
         <SanityContent v-if="caption==undefined" :blocks="image.caption" class="caption"/>
       </figcaption>
@@ -33,6 +34,9 @@ export default {
     type: {
       type: String
     },
+    numbered: {
+      type: Boolean
+    },
     caption: {
       type: String
     }
@@ -46,7 +50,8 @@ export default {
         focus: true,
         loop: true,
         captionSelector: ( element ) => element.nextElementSibling,
-        captionType: 'text'
+        captionType: 'text',
+        heightRatio: 0.7
       },
     }
   },
@@ -72,11 +77,11 @@ $sl-font-family: 'Neuzeit Grotesk', 'Helvetica', sans-serif !default;
 $sl-overlay-background: #fff !default;
 $sl-overlay-opacity: 1 !default;
 $sl-navigation-color: #000 !default;
-$sl-caption-color: #fff !default;
-$sl-caption-background: rgba(0, 0, 0, 0.8) !default;
+$sl-caption-color: #000 !default;
+$sl-caption-background: rgba(0, 0, 0, 0) !default;
 
-$sl-counter-fontsize: 1rem !default;
-$sl-caption-fontsize: 1rem !default;
+$sl-counter-fontsize: 0.75rem !default;
+$sl-caption-fontsize: 0.75rem !default;
 $sl-close-fontsize: 3rem !default;
 
 $sl-breakpoint-medium: 35.5em !default; // 568px, when 1em == 16px
@@ -264,7 +269,7 @@ body.hidden-scroll {
             color: $sl-caption-color;
             background: $sl-caption-background;
             font-size: $sl-caption-fontsize;
-            position: absolute;
+            // position: absolute;
             bottom: 0;
             left: 0;
             right: 0;

@@ -1,15 +1,15 @@
 <template>
-  <div :class="['banner', banner.type]">
-    <template v-if="banner.type == 'image'">
+  <div :class="['banner', block.type]">
+    <template v-if="block.type == 'image'">
       <figure class="image">
         <SanityImage
-          :asset-id="banner.image.asset._ref"
+          :asset-id="block.image.asset._ref"
           auto="format"
-          :alt="banner.image.asset.altText"
+          :alt="block.image.asset.altText"
           loading="lazy"
         />
         <figcaption>
-          <SanityContent :blocks="banner.image.caption" />
+          <SanityContent :blocks="block.image.caption" />
         </figcaption>
       </figure>
     <!-- <img
@@ -17,11 +17,11 @@
       loading="lazy"
     /> -->
     </template>
-    <template v-if="banner.type == 'text'">
-      <SanityContent :blocks="banner.text" />
+    <template v-if="block.type == 'text'">
+      <SanityContent :blocks="block.text" />
     </template>
-    <template v-if="banner.type == 'video'">
-      <Video :asset="banner.video.asset._ref" :caption="banner.video_caption" />
+    <template v-if="block.type == 'video'">
+      <Video :asset="block.video.asset._ref" :caption="block.video_caption" />
     </template>
   </div>
 </template>
@@ -31,7 +31,7 @@ import Video from '~/components/blocks/Video.vue'
 
 export default {
   props: {
-    banner: {
+    block: {
       type: Object
     },
   },
