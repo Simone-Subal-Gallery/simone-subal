@@ -35,21 +35,21 @@ export default {
   methods: {
   },
   mounted () {
-    let el = '#exhibitionGallery' + this.index
-    let wrapper = document.getElementById('exhibitionGallery' + this.index)
-    let height = wrapper.offsetHeight
-    let divs = document.querySelectorAll(`${el} .work, ${el} .install`)
-    let i
-
-    var controller = new this.$scrollmagic.Controller()
-    // create a scene
-    new this.$scrollmagic.Scene({
-    	duration: height, // the scene should last for a scroll distance of 100px
-      triggerElement: el,
-      triggerHook: 0
-    })
-    	.setPin(el) // pins the element for the the scene's duration
-    	.addTo(controller) // assign the scene to the controller
+    // let el = '#exhibitionGallery' + this.index
+    // let wrapper = document.getElementById('exhibitionGallery' + this.index)
+    // let height = wrapper.offsetHeight
+    // let divs = document.querySelectorAll(`${el} .work, ${el} .install`)
+    // let i
+    //
+    // var controller = new this.$scrollmagic.Controller()
+    // // create a scene
+    // new this.$scrollmagic.Scene({
+    // 	duration: height, // the scene should last for a scroll distance of 100px
+    //   triggerElement: el,
+    //   triggerHook: 0
+    // })
+    // 	.setPin(el) // pins the element for the the scene's duration
+    // 	.addTo(controller) // assign the scene to the controller
 
 
     // window.onscroll = function() {
