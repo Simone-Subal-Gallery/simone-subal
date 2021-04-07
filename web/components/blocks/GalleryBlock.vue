@@ -4,9 +4,9 @@
       <!-- <h3>Installation</h3> -->
         <Lightbox class="grid" :id="'installlightbox'+index" :images="block.install" />
     </div>
-    <div class="work" v-if="block.work.length > 0">
+    <div class="work">
       <!-- <h3>Works</h3> -->
-      <Lightbox class="grid" :type="'workGallery'" :id="'worklightbox'+index" :numbered="block.numbered" :images="block.work" />
+      <Lightbox class="grid" v-if="block.work.length > 0" :type="'workGallery'" :id="'worklightbox'+index" :numbered="block.numbered" :images="block.work" />
     </div>
   </div>
 </template>
