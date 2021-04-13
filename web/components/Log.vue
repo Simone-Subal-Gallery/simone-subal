@@ -29,11 +29,11 @@ import events from '~/components/log/events.vue'
 import exhibitions from '~/components/log/exhibitions.vue'
 import fairs from '~/components/log/fairs.vue'
 import fundraisers from '~/components/log/fundraisers.vue'
-import galleryshows from '~/components/log/gallery-shows.vue'
-import museumshows from '~/components/log/museum-shows.vue'
+import gallery_shows from '~/components/log/gallery-shows.vue'
+import museum_shows from '~/components/log/museum-shows.vue'
 import press from '~/components/log/press.vue'
 import publications from '~/components/log/publications.vue'
-import residencies from '~/components/log/residencies.vue'
+import residency from '~/components/log/residencies.vue'
 
 export default Vue.extend({
   name: 'Log',
@@ -45,11 +45,11 @@ export default Vue.extend({
     exhibitions,
     fairs,
     fundraisers,
-    galleryshows,
-    museumshows,
+    gallery_shows,
+    museum_shows,
     press,
     publications,
-    residencies
+    residency
   },
   async fetch() {
     const query = groq`*[_type == "event"]`
