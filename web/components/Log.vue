@@ -1,9 +1,16 @@
 <template>
   <div :class="['log', open?'is-open':'']" @click="openLog()">
-    <div v-for="(item, index) in events" class="event" :key="index">
+    <div v-for="(item, index) in events" :class="['log-item', item.category]" :key="index">
       <div class="date" v-text="item.date_time" v-if="open" />
       <div class="time" v-text="item.time" v-if="open" />
-      <div :class="['dot', item.color]" :key="index"/>
+      <component :is="item.category" class="dot"/>
+      <!-- <component
+        :is="block._type == 'banner' ? 'Banner' : block._type == 'codeBlock' ? 'CodeBlock' : block._type == 'cta' ? 'CTABlock' : block._type == 'galleryBlock' ? 'GalleryBlock' : block._type == 'textBlock' ? 'TextBlock' : block._type == 'workBlock' ? 'WorkBlock' : ''"
+        v-for="block, i in exhibition.content"
+        :key="block._key"
+        :index="i"
+        :block="block"
+      /> -->
       <div class="title" v-text="item.title" v-if="open"/>
       <div class="type" v-text="item.type" v-if="open"/>
     </div>
@@ -15,14 +22,40 @@ import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
 
+import acquisitions from '~/components/log/acquisitions.vue'
+import artists from '~/components/log/artists.vue'
+import awards from '~/components/log/awards.vue'
+import events from '~/components/log/events.vue'
+import exhibitions from '~/components/log/exhibitions.vue'
+import fairs from '~/components/log/fairs.vue'
+import fundraisers from '~/components/log/fundraisers.vue'
+import galleryshows from '~/components/log/gallery-shows.vue'
+import museumshows from '~/components/log/museum-shows.vue'
+import press from '~/components/log/press.vue'
+import publications from '~/components/log/publications.vue'
+import residencies from '~/components/log/residencies.vue'
 
 export default Vue.extend({
   name: 'Log',
-  async asyncData({ app: { $sanity }}) {
-    const query = groq`*[_type == "event"]`
-    let events = await $sanity.fetch(query)
-    return { events }
+  components: {
+    acquisitions,
+    artists,
+    awards,
+    events,
+    exhibitions,
+    fairs,
+    fundraisers,
+    galleryshows,
+    museumshows,
+    press,
+    publications,
+    residencies
   },
+  async fetch() {
+    const query = groq`*[_type == "event"]`
+    this.events = await this.$sanity.fetch(query)
+  },
+  data: () => ({ events: [] }),
   props: ['open'],
   // data() {
   //   return {
@@ -215,7 +248,7 @@ export default Vue.extend({
   &.is-open {
     width: calc(100% - 4rem);
   }
-  .event {
+  .log-item {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -234,13 +267,13 @@ export default Vue.extend({
     width: 120px;
   }
   .dot {
-    width:0.75rem;
-    height: 0.75rem;
+    width:1rem;
+    height: 1rem;
     margin:0.5rem;
-    border: 1px solid #000;
-    border-radius: 100%;
     transition: transform 100ms ease-in-out;
     cursor: pointer;
+    svg {
+    }
     &:hover {
       transform:scale(1.1);
     }

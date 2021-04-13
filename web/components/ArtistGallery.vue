@@ -233,7 +233,7 @@ export default {
     display: flex;
     flex-wrap:wrap;
     justify-content: space-evenly;
-    align-items: baseline;
+    align-items: center;
     a {
       display:block;
       width:160px;
@@ -241,6 +241,7 @@ export default {
     }
     .caption {
       font-size:0.5em;
+      display:none;
     }
   }
   @media screen and (max-width: 768px) {

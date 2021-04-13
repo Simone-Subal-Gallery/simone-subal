@@ -1,0 +1,8 @@
+<template>
+  <svg width="96px" height="96px" viewBox="-6 -6 104 104" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <title>acquisitions</title>
+      <g id="Log" fill="none" fill-rule="evenodd">
+          <path vector-effect="non-scaling-stroke" stroke="black" stroke-width="1" d="M64,1.13686838e-13 L64,31.999 L96,32 L96,64 L64,63.999 L64,96 L32,96 L32,63.999 L0,64 L0,32 L32,31.999 L32,1.13686838e-13 L64,1.13686838e-13 Z" id="acquisitions" fill="#FFB600"></path>
+      </g>
+  </svg>
+</template>
