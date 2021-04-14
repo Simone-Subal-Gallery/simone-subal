@@ -218,6 +218,7 @@ main.fairs {
       margin: 1em 0;
       .year {
         opacity:0;
+        color: #fff;
       }
       .fair-item {
         display: flex;
