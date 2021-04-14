@@ -26,7 +26,7 @@
     </section>
     <section class="search">
       <input type="text" placeholder="Search" v-model="searchFeedValue" />
-      <div class="shuffle-btn" @click="shuffleFeed(feed)"><ReloadIcon /></div>
+      <div class="shuffle-btn" @click="shuffleFeed(feed)"><ShuffleIcon /></div>
     </section>
     <div class="recent">
       <div v-for="item in filteredFeed" :key="item._id" :class="item._type">
@@ -52,12 +52,14 @@ import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
 import "swiper/css/swiper.css"
 
 import ReloadIcon from '~/components/ReloadIcon.vue'
+import ShuffleIcon from '~/components/ShuffleIcon.vue'
 
 export default Vue.extend({
   components: {
     Swiper,
     SwiperSlide,
-    ReloadIcon
+    ReloadIcon,
+    ShuffleIcon
   },
   directives: {
     swiper: directive
@@ -177,10 +179,10 @@ main.index {
   .shuffle-btn {
     line-height:0;
     svg {
-      width: 1.5em;
+      width: 2.5em;
       cursor: pointer;
       height: auto;
-      animation: rotation 15s infinite linear;
+      // animation: rotation 15s infinite linear;
     }
   }
   .recent {
