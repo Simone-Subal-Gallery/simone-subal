@@ -1,74 +1,11 @@
-/* @font-face {
-    font-family: 'Neuzeit Grotesk';
-    src: url('NeuzeitGroExt-Bla.eot');
-    src: local('Neuzeit Grotesk Extra-condensed Black'), local('NeuzeitGroExt-Bla'),
-        url('NeuzeitGroExt-Bla.eot?#iefix') format('embedded-opentype'),
-        url('NeuzeitGroExt-Bla.woff2') format('woff2'),
-        url('NeuzeitGroExt-Bla.woff') format('woff'),
-        url('NeuzeitGroExt-Bla.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
-} */
-
 @font-face {
-    font-family: 'Neuzeit Grotesk';
-    src: url('~/assets/fonts/NeuzeitGro-Bla.eot');
-    src: local('Neuzeit Grotesk Black'), local('NeuzeitGro-Bla'),
-        url('~/assets/fonts/NeuzeitGro-Bla.eot?#iefix') format('embedded-opentype'),
-        url('~/assets/fonts/NeuzeitGro-Bla.woff2') format('woff2'),
-        url('~/assets/fonts/NeuzeitGro-Bla.woff') format('woff'),
-        url('~/assets/fonts/NeuzeitGro-Bla.ttf') format('truetype');
-    font-weight: 800;
-    font-style: normal;
+  font-family: 'neuzeit_grotesk';
+  src: url('~/assets/fonts/neuzeit_grotesk.woff2') format('woff2'),
+       url('~/assets/fonts/neuzeit_grotesk.woff') format('woff'),
+       url('~/assets/fonts/neuzeit_grotesk.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
-
-@font-face {
-    font-family: 'Neuzeit Grotesk';
-    src: url('~/assets/fonts/NeuzeitGro-Reg.eot');
-    src: local('Neuzeit Grotesk Regular'), local('NeuzeitGro-Reg'),
-        url('~/assets/fonts/NeuzeitGro-Reg.eot?#iefix') format('embedded-opentype'),
-        url('~/assets/fonts/NeuzeitGro-Reg.woff2') format('woff2'),
-        url('~/assets/fonts/NeuzeitGro-Reg.woff') format('woff'),
-        url('~/assets/fonts/NeuzeitGro-Reg.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Neuzeit Grotesk';
-    src: url('~/assets/fonts/NeuzeitGro-Lig.eot');
-    src: local('Neuzeit Grotesk Light'), local('NeuzeitGro-Lig'),
-        url('~/assets/fonts/NeuzeitGro-Lig.eot?#iefix') format('embedded-opentype'),
-        url('~/assets/fonts/NeuzeitGro-Lig.woff2') format('woff2'),
-        url('~/assets/fonts/NeuzeitGro-Lig.woff') format('woff'),
-        url('~/assets/fonts/NeuzeitGro-Lig.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Neuzeit Grotesk';
-    src: url('~/assets/fonts/NeuzeitGro-Bol.eot');
-    src: local('Neuzeit Grotesk Bold'), local('NeuzeitGro-Bol'),
-        url('~/assets/fonts/NeuzeitGro-Bol.eot?#iefix') format('embedded-opentype'),
-        url('~/assets/fonts/NeuzeitGro-Bol.woff2') format('woff2'),
-        url('~/assets/fonts/NeuzeitGro-Bol.woff') format('woff'),
-        url('~/assets/fonts/NeuzeitGro-Bol.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-}
-
-/* @font-face {
-    font-family: 'Neuzeit Grotesk';
-    src: url('NeuzeitGroCon-Bla.eot');
-    src: local('Neuzeit Grotesk Condensed Black'), local('NeuzeitGroCon-Bla'),
-        url('NeuzeitGroCon-Bla.eot?#iefix') format('embedded-opentype'),
-        url('NeuzeitGroCon-Bla.woff2') format('woff2'),
-        url('NeuzeitGroCon-Bla.woff') format('woff'),
-        url('NeuzeitGroCon-Bla.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-} */
 
 html {
   font-size: 16px;
@@ -94,7 +31,7 @@ body {
   background-repeat: no-repeat;
   padding: 1.5rem;
   padding-right: 4rem;
-  font-family: 'Neuzeit Grotesk', 'Helvetica', sans-serif;
+  font-family: 'neuzeit_grotesk', 'Helvetica', sans-serif;
 }
 
 h1, h2, h3 {
