@@ -145,14 +145,14 @@ export default Vue.extend({
         let img = document.createElement('img')
         let body = document.querySelector('body')
         let bodyHeight = body.scrollHeight.toString() + 'px'
-        let xns = [0, 1, 2, 3, 4]
+        let xns = [0, 1, 2]
 
         img.src = this.$urlFor(asset).size(540)
         img.style.bottom = 0
 
         img.classList.add('feed-floater')
         let startY = window.scrollY
-        let positionX = xns[Math.floor(Math.random()*xns.length)]*20
+        let positionX = xns[Math.floor(Math.random()*xns.length)]*33.333
 
         body.appendChild(img)
 
@@ -214,7 +214,7 @@ export default Vue.extend({
 }
 
 .feed-floater {
-  width:20vw;
+  width:33.333vw;
   height: auto;
   background-color: blue;
   position: absolute;
