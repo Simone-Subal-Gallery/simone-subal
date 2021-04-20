@@ -6,7 +6,7 @@
         <p class="exhibition-dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
           <div class="thumbnail" :style="'background-image:url('+$urlFor(exhibition.thumbnail.asset).size(2800)+')'">
-            <h3 class="exhibition-header">
+            <h3 :class="['exhibition-header', exhibition.artists.length==1?'solo':'']">
               <div class="exhibition-title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
               <div v-if="exhibition.artists" v-text="formatArtists(exhibition.artists)" class="artist-title" />
             </h3>
@@ -33,9 +33,11 @@
       <div class="exhibition-list">
         <div v-for="exhibition in future" :key="exhibition._id" class="exhibition-listing">
           <div class="exhibition-item">
-              <div class="title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
-              <div class="artists" v-if="exhibition.artists && exhibition.artists.length > 0" >
-                <p v-text="formatArtists(exhibition.artists)"/>
+              <div :class="['exhibition-header', exhibition.artists.length==1?'solo':'']">
+                <div class="title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
+                <div class="artists" v-if="exhibition.artists && exhibition.artists.length > 0" >
+                  <p v-text="formatArtists(exhibition.artists)"/>
+                </div>
               </div>
               <div class="dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
           </div>
@@ -63,11 +65,11 @@
                   loading="lazy"
                 />
               </div>
-              <div class="artists">
-                <p v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)"/>
+              <div :class="['exhibition-header', exhibition.artists.length==1?'solo':'']">
+                <p class="title"><span v-if="exhibition.hide_title != true">{{ exhibition.title }}</span></p>
+                <p class="artists" v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)"/>
               </div>
-              <div class="title"><span v-if="exhibition.hide_title != true">{{ exhibition.title }}</span></div>
-              <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'past')" />
+              <p class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'past')" />
           </nuxt-link>
         </div>
       </div>
@@ -230,6 +232,11 @@ main.exhibitions {
         padding:1em;
         .exhibition-header {
           margin:0;
+          &.solo {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            flex-wrap: wrap-reverse;
+          }
         }
       }
       .exhibition-title {
@@ -270,6 +277,18 @@ main.exhibitions {
           display: block;
           text-align: center;
           line-height: 1.5;
+          .exhibition-header {
+            margin:0px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            &.solo {
+              flex-direction: row-reverse;
+              justify-content: flex-end;
+              flex-wrap: wrap-reverse;
+            }
+          }
         }
       }
     }
@@ -301,7 +320,7 @@ main.exhibitions {
           margin-bottom: 2em;
           line-height: 1;
           div {
-            margin: 0.25em 0;
+            margin: 0.5em 0;
           }
         }
         &.grid {
@@ -310,6 +329,23 @@ main.exhibitions {
           grid-column-gap: 2em;
           .thumbnail {
             margin-bottom: 0.5em;
+          }
+          .exhibition-listing {
+            div {
+              margin:0px;
+            }
+            p {
+              margin-top:0.25em;
+            }
+            .exhibition-header {
+              flex-direction: column;
+              flex-wrap: wrap;
+              &.solo {
+                flex-direction: column-reverse;
+                justify-content: flex-end;
+                flex-wrap: wrap-reverse;
+              }
+            }
           }
         }
         &.list {

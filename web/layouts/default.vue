@@ -67,6 +67,11 @@ export default Vue.extend({
       else { return '#eee' }
     }
   },
+  watch: {
+    '$route' () {
+      this.overlayOpen = false
+    }
+  },
   methods: {
     overlayToggleHandler() {
       if (this.logOpen == true) {

@@ -202,6 +202,8 @@ main.fairs {
       justify-content: center;
       align-items: center;
       border: 1px solid #000;
+      border-top-left-radius: 10em;
+      border-top-right-radius: 10em;
       .fair-item {
         padding: 1.5em;
         display: block;

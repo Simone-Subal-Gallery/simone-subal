@@ -32,11 +32,11 @@
     </flickity>
     <div class="image-grid" v-show="view == 'grid'">
       <a class="grid-item" v-for="image in images" :key="image._key" :href="$urlFor(image).size(1920)">
+        <SanityContent :blocks="image.caption" class="caption"/>
         <img
           :src="$urlFor(image).size(480)"
           :alt="image.asset.altText"
         />
-        <SanityContent :blocks="image.caption" class="caption"/>
       </a>
     </div>
     <!-- <div v-swiper:mySwiper="swiperOption" ref="swiper" @click-slide="clickSlide">
@@ -86,8 +86,8 @@ export default {
         pageDots: false,
         draggable: true,
         wrapAround: true,
-        selectedAttraction: 0.015,
-        friction: 0.25,
+        selectedAttraction: 0.01,
+        friction: 0.15,
         cellSelector: 'img',
         imagesLoaded: true,
         lazyLoad: 4,
@@ -115,19 +115,25 @@ export default {
         focus: true,
         loop: true,
         captionSelector: '.caption',
-        captionType: 'text'
+        captionType: 'text',
+        heightRatio: 0.7
       },
       isPaused: false,
       tickerSpeed: 1,
-      view: 'flow'
+      view: 'flow',
+      slideIndex: 0,
+      flickityReady: false
     }
   },
   methods: {
     setView(view) {
       this.view = view
       if (view == 'flow') {
-        this.$refs.flickity.resize()
+        // this.$refs.flickity.resize()
+        this.isPaused = false
         this.update()
+      } else if (view == 'grid') {
+        this.isPaused = true
       }
     },
     update () {
@@ -154,12 +160,11 @@ export default {
       }
     },
     onInit () {
-      console.log(this.$refs.flickity)
+      // console.log(this.$refs.flickity.$flickity)
       this.$refs.flickity.$flickity.x = 0
       this.$refs.flickity.$flickity.on('dragStart', () => {
         this.isPaused = true
       })
-
       this.update()
     }
   },
@@ -171,7 +176,7 @@ export default {
 
 <style lang="scss">
 .gallery.artist-gallery {
-  margin: 0 -1.5em;
+  margin: 0 -2rem;
   .view-controls {
     display: flex;
     width: 120px;
@@ -182,13 +187,13 @@ export default {
     margin: 0.5em;
     a {
       flex: 1;
-      padding:0.5em 0.5em 0.25em 0.5em;
+      padding: 0.5em;
       background-color: transparent;
       border:1px solid #000;
       margin:0;
       text-align: center;
       font-size: 0.85em;
-      line-height:0.9;
+      line-height:1;
       text-transform:uppercase;
       cursor: pointer;
       &.active {
@@ -204,27 +209,39 @@ export default {
     }
   }
   .carousel {
+    height:67vh;
     img {
       display:block;
       height: 67vh;
       margin-right:0.5em;
+      max-width:none;
+      opacity:0;
+      transition: opacity 333ms ease-out;
+      &.flickity-lazyloaded {
+        opacity:1;
+      }
+      &:after {
+        content:'+';
+        display:block;
+        cursor:pointer;
+      }
     }
   }
-  .swiper-container{
-    width: 100%;
-  }
-  .swiper-wrapper {
-    transition-timing-function:linear !important;
-  }
-  .swiper-slide {
-    text-align: left;
-    width: auto;
-    margin:0;
-    img {
-      width: auto;
-      height:67vh;
-    }
-  }
+  // .swiper-container{
+  //   width: 100%;
+  // }
+  // .swiper-wrapper {
+  //   transition-timing-function:linear !important;
+  // }
+  // .swiper-slide {
+  //   text-align: left;
+  //   width: auto;
+  //   margin:0;
+  //   img {
+  //     width: auto;
+  //     height:67vh;
+  //   }
+  // }
   figcaption {
     font-size:0.85rem;
     padding: 0.5rem 0;
@@ -238,10 +255,24 @@ export default {
       display:block;
       width:160px;
       margin:0.5em;
+      line-height:0;
+      &:hover {
+        outline: 1px solid #000;
+        img {
+          opacity:0;
+        }
+        .caption {
+          display:block;
+        }
+      }
     }
     .caption {
       font-size:0.5em;
+      line-height:1;
       display:none;
+      position: absolute;
+      padding: 1em;
+      max-width:160px;
     }
   }
   @media screen and (max-width: 768px) {

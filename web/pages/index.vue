@@ -146,6 +146,7 @@ export default Vue.extend({
         let body = document.querySelector('body')
         let bodyHeight = body.scrollHeight.toString() + 'px'
         let xns = [0, 1, 2]
+        let durations = [3000, 5000, 7500, 10000, 12500, 15000, 20000]
 
         img.src = this.$urlFor(asset).size(540)
         img.style.bottom = 0
@@ -160,8 +161,11 @@ export default Vue.extend({
           { transform: `translate3D(${positionX}vw, ${startY}px, 0)`},
           { transform: `translate3D(${positionX}vw, -${bodyHeight}, 0)`}
         ]
+
+        let duration = durations[Math.floor(Math.random()*durations.length)]
+
         let timing = {
-          duration: 15000,
+          duration: duration,
           iterations: 1
         }
 
@@ -216,7 +220,6 @@ export default Vue.extend({
 .feed-floater {
   width:33.333vw;
   height: auto;
-  background-color: blue;
   position: absolute;
   z-index:-1;
   left:0;
