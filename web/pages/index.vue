@@ -36,6 +36,9 @@
             <div class="circle"></div>
           </div>
         </template>
+        <template v-else-if="item._type == 'artist' || item._type == 'exhibition'">
+          <nuxt-link @mouseenter.native="hoverFeedItem(item.thumbnail.asset)" :to="'/'+item._type+'s/'+item.slug.current" :class="item._type + '-title'" v-text="item.title" />
+        </template>
         <template v-else>
           <nuxt-link :to="'/'+item._type+'s/'+item.slug.current" :class="item._type + '-title'" v-text="item.title" />
           <span v-if="item._type == 'fair'" v-text="item.open_date.slice(0,4)" />
@@ -137,6 +140,41 @@ export default Vue.extend({
     clickFeatured(item) {
       this.$router.push('/'+item._type+'s/'+item.slug.current)
     },
+    hoverFeedItem(asset) {
+      if ( asset != undefined ) {
+        let img = document.createElement('img')
+        let body = document.querySelector('body')
+        let bodyHeight = body.scrollHeight.toString() + 'px'
+        let xns = [0, 1, 2, 3, 4]
+
+        img.src = this.$urlFor(asset).size(540)
+        img.style.bottom = 0
+
+        img.classList.add('feed-floater')
+        let startY = window.scrollY
+        let positionX = xns[Math.floor(Math.random()*xns.length)]*20
+
+        body.appendChild(img)
+
+        let floating = [
+          { transform: `translate3D(${positionX}vw, ${startY}px, 0)`},
+          { transform: `translate3D(${positionX}vw, -${bodyHeight}, 0)`}
+        ]
+        let timing = {
+          duration: 15000,
+          iterations: 1
+        }
+
+        img.animate(
+          floating,
+          timing
+        )
+
+        Promise.all(
+          img.getAnimations().map(animation => animation.finished)
+        ).then(() => img.remove())
+      }
+    },
     shuffleFeed(array) {
       for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1))
@@ -173,6 +211,15 @@ export default Vue.extend({
   to {
     transform: rotate(0deg);
   }
+}
+
+.feed-floater {
+  width:20vw;
+  height: auto;
+  background-color: blue;
+  position: absolute;
+  z-index:-1;
+  left:0;
 }
 
 main.index {
