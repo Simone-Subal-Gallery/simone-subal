@@ -5,7 +5,7 @@
     <ArtistGallery :images="artist.gallery" />
     <div class="content">
       <SanityContent :blocks="artist.description" :serializers="serializers" class="description"/>
-      <section class="selected-exhibitions" v-if="artist.selected_exhibitions.length > 0">
+      <section class="selected-exhibitions" v-if="artist.selected_exhibitions!=undefined && artist.selected_exhibitions.length > 0">
         <h2>Selected Exhibitions</h2>
         <div class="exhibition-list grid">
         <div v-for="exhibition in artist.selected_exhibitions" :key="exhibition._key" class="exhibition-listing">
@@ -91,14 +91,14 @@
           </template>
           </div>
         </section>
-        <section class="bibliography" v-if="artist.bibliography && artist.bibliography.length > 0">
+        <!-- <section class="bibliography" v-if="artist.bibliography && artist.bibliography.length > 0">
           <h2>Bibliography</h2>
           <SanityContent :blocks="artist.bibliography" :serializers="serializers" />
         </section>
         <section class="awards" v-if="artist.awards && artist.awards.length > 0">
           <h2>Awards</h2>
           <SanityContent :blocks="artist.awards" :serializers="serializers" />
-        </section>
+        </section> -->
       </div>
     </div>
   </main>
