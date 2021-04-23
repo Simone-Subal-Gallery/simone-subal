@@ -215,6 +215,8 @@ export default Vue.extend({
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.5em;
+      width:100%;
+      padding-top:1.5em;
       h2, .exhibition-search {
         width: 120px;
       }
@@ -247,6 +249,7 @@ export default Vue.extend({
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 2em;
+        width:100%;
         .thumbnail {
           margin-bottom: 0.5em;
           &.empty {

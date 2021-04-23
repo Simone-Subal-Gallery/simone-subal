@@ -1,12 +1,12 @@
 <template>
   <div class="exhibition-gallery" :id="'exhibitionGallery'+index">
-    <div class="install" v-if="block.install.length > 0">
+    <div class="install" v-if="block.install!=undefined && block.install.length > 0">
       <!-- <h3>Installation</h3> -->
         <Lightbox class="grid" :id="'installlightbox'+index" :images="block.install" />
     </div>
     <div class="work">
       <!-- <h3>Works</h3> -->
-      <Lightbox class="grid" v-if="block.work.length > 0" :type="'workGallery'" :id="'worklightbox'+index" :numbered="block.numbered" :images="block.work" />
+      <Lightbox class="grid" v-if="block.work!=undefined && block.work.length > 0" :type="'workGallery'" :id="'worklightbox'+index" :numbered="block.numbered" :images="block.work" />
     </div>
   </div>
 </template>
