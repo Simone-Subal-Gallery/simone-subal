@@ -1,26 +1,31 @@
 <template>
   <main class="index">
-    <section class="featured">
-      <div :class="['featured-block', item._type]"
+    <div class="featured">
+      <section :class="['featured-block', item._type]"
            v-for="item in site.featured"
            :key="item._id"
-           :style="'background-image:url('+$urlFor(item.thumbnail.asset).size(2800)+')'"
+           :style="'background-image:url('+featuredBG(item)+')'"
            @click="clickFeatured(item)">
-        <div class="artists artist-title">
+        <template v-if="item._type!='artist'">
+          <div class="artists">
           <template v-if="item.artists && item.artists.length > 0 && item.artists.length < 3">
-            <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="artist-title" />
+            <div class="artist-title" v-for="artist in item.artists" :key="artist._id" v-text="artist.title" />
           </template>
           <template v-else>
-            <div v-swiper:mySwiper="swiperOption" ref="swiper">
-              <div class="swiper-wrapper">
-                <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="swiper-slide" />
+            <div class="artists artist-title" >
+              <div v-swiper:mySwiper="swiperOption" ref="swiper">
+                <div class="swiper-wrapper">
+                  <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="swiper-slide" />
+                </div>
               </div>
             </div>
           </template>
-        </div>
-        <h2 class="exhibition-title" v-text="item.title" />
-      </div>
-    </section>
+          </div>
+        </template>
+        <h2 class="exhibition-title" v-if="item._type!='artist'" v-text="item.title" />
+        <h2 class="artist-title" v-if="item._type=='artist'" v-text="item.title" />
+      </section>
+    </div>
     <section class="announcement">
       <SanityContent :blocks="site.announcement" />
     </section>
@@ -139,6 +144,15 @@ export default Vue.extend({
     },
     clickFeatured(item) {
       this.$router.push('/'+item._type+'s/'+item.slug.current)
+    },
+    featuredBG(item) {
+      if (item.cover!=undefined) {
+        return this.$urlFor(item.cover.asset).size(2800)
+      } else if (item.thumbnail!=undefined) {
+        return this.$urlFor(item.thumbnail.asset).size(2800)
+      } else {
+        return 'transparent'
+      }
     },
     hoverFeedItem(asset) {
       if ( asset != undefined ) {
@@ -285,32 +299,6 @@ main.index {
     margin: 1.5rem 0;
     background: #fff;
     border: 1px solid #000;
-    &.featured .featured-block {
-      height: 60vh;
-      min-height:480px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-size: cover;
-      background-position: center;
-      cursor:pointer;
-      .artists.artist-title {
-        overflow: hidden;
-        flex:1;
-        padding:0;
-        .swiper-container {
-          .swiper-container-free-mode > .swiper-wrapper {
-            transition-timing-function: linear !important;
-          }
-          .swiper-slide {
-            padding: 0.5em 1em;
-          }
-        }
-      }
-      .exhibition-title {
-        flex: 1;
-      }
-    }
     &.announcement{
       height: 160px;
       border-radius: 6rem;
@@ -335,6 +323,39 @@ main.index {
         height: 100%;
         width: 100%;
         border: 0px;
+      }
+    }
+  }
+  .featured {
+    section.featured-block {
+      height: 60vh;
+      min-height:480px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-size: cover;
+      background-position: center;
+      cursor:pointer;
+      &:first-of-type {
+        margin-top:0px;
+      }
+      .artists.artist-title {
+        overflow: hidden;
+        flex:1;
+      }
+      .swiper-wrapper {
+        padding:0;
+        .swiper-container {
+          .swiper-container-free-mode > .swiper-wrapper {
+            transition-timing-function: linear !important;
+          }
+          .swiper-slide {
+            padding: 0.5em 1em;
+          }
+        }
+      }
+      .exhibition-title {
+        flex: 1;
       }
     }
   }

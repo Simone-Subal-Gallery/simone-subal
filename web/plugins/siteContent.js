@@ -5,14 +5,14 @@ const query = groq`{
     ...,
  		featured[]->{
       ...,
-      artists[]{
-        _type == 'artist' => {
-          title,
-          slug,
-          sortName
-        },
+      'artists': artists[]{
         _type == 'artist_additional' => {
           ...
+        },
+        _type == 'reference' => {
+          'title': ^->title,
+          'slug': ^->slug,
+          '_id': ^->_id
         }
       }
     }
@@ -28,4 +28,5 @@ export default ({ store, $sanity }) => {
   return $sanity.fetch(query).then(({ site }) => {
     store.commit("site", site)
   })
+  console.log('site', site)
 }
