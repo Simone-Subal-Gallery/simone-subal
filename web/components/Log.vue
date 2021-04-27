@@ -52,7 +52,7 @@ export default Vue.extend({
     residency
   },
   async fetch() {
-    const query = groq`*[_type == "event"]`
+    const query = groq`*[_type in ["event", "logItem"]]`
     this.events = await this.$sanity.fetch(query)
   },
   data: () => ({ events: [] }),

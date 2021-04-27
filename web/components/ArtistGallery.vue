@@ -61,7 +61,7 @@
 <script>
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
 import "swiper/css/swiper.css"
-import SimpleLightbox from "simplelightbox"
+// import SimpleLightbox from "simplelightbox"
 
 export default {
   components: {
@@ -161,15 +161,18 @@ export default {
     },
     onInit () {
       // console.log(this.$refs.flickity.$flickity)
-      this.$refs.flickity.$flickity.x = 0
-      this.$refs.flickity.$flickity.on('dragStart', () => {
-        this.isPaused = true
-      })
-      this.update()
+      if (this.$refs.flickity.$flickity != undefined) {
+        this.$refs.flickity.$flickity.x = 0
+        this.$refs.flickity.$flickity.on('dragStart', () => {
+          this.isPaused = true
+        })
+        this.update()
+      }
     }
   },
   mounted () {
     let lightbox = new SimpleLightbox('.image-grid a', this.lightboxOptions)
+    this.onInit()
   }
 }
 </script>

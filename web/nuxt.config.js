@@ -28,6 +28,7 @@ export default {
     '~/plugins/siteContent.js',
     '~/plugins/sanity-image-builder.js',
     { src: '~/plugins/flickity.js', ssr: false },
+    { src: '~/plugins/simplelightbox.js', ssr: false },
     { src: '~/plugins/scrollmagic.js', ssr: false },
     { src: '~/plugins/polyfills.js', ssr: false }
   ],
