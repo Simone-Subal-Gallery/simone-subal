@@ -7,12 +7,12 @@
            :style="'background-image:url('+featuredBG(item)+')'"
            @click="clickFeatured(item)">
         <template v-if="item._type!='artist'">
-          <div class="artists">
+          <div :class="['artists', item.artists.length>=3?'many':'']">
           <template v-if="item.artists && item.artists.length > 0 && item.artists.length < 3">
             <div class="artist-title" v-for="artist in item.artists" :key="artist._id" v-text="artist.title" />
           </template>
           <template v-else>
-            <div class="artists artist-title" >
+            <div class="artist-title" >
               <div v-swiper:mySwiper="swiperOption" ref="swiper">
                 <div class="swiper-wrapper">
                   <div v-for="artist in item.artists" :key="artist._id" v-text="artist.title" class="swiper-slide" />
@@ -339,9 +339,14 @@ main.index {
       &:first-of-type {
         margin-top:0px;
       }
-      .artists.artist-title {
-        overflow: hidden;
-        flex:1;
+      .artists.many {
+        flex: 1;
+        overflow:hidden;
+        .artist-title {
+          overflow:hidden;
+          padding-left:0px;
+          padding-right:0px;
+        }
       }
       .swiper-wrapper {
         padding:0;

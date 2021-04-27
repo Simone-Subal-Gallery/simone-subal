@@ -12,6 +12,7 @@ const query = groq`{
         _type == 'reference' => {
           'title': ^->title,
           'slug': ^->slug,
+          'sortName': ^->sortName,
           '_id': ^->_id
         }
       }
