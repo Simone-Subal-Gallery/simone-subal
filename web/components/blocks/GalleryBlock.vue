@@ -2,11 +2,11 @@
   <div class="exhibition-gallery" :id="'exhibitionGallery'+index">
     <div class="install" v-if="block.install!=undefined && block.install.length > 0">
       <!-- <h3>Installation</h3> -->
-        <Lightbox class="grid" :id="'installlightbox'+index" :images="block.install" />
+        <Lightbox :id="'installlightbox'+index" :images="block.install" />
     </div>
     <div class="work">
       <!-- <h3>Works</h3> -->
-      <Lightbox class="grid" v-if="block.work!=undefined && block.work.length > 0" :type="'workGallery'" :id="'worklightbox'+index" :numbered="block.numbered" :images="block.work" />
+      <Lightbox v-if="block.work!=undefined && block.work.length > 0" :type="'workGallery'" :id="'worklightbox'+index" :numbered="block.numbered" :images="block.work" />
     </div>
   </div>
 </template>
@@ -114,11 +114,14 @@ export default {
 <style lang="scss">
 .exhibition-gallery {
   display: block;
-  grid-template-columns: 2fr 1fr;
-  gap: 2em;
+  padding: 3em 0;
+  height:100vh;
+  overflow:hidden;
   .install, .work {
+    overflow:scroll;
+    height:100%;
   }
-  .install .grid {
+  .install {
     width:66%;
     float:left;
     figcaption {
@@ -126,7 +129,7 @@ export default {
       max-width:720px;
     }
   }
-  .work .grid {
+  .work {
     width:32%;
     float: right;
     figure {
@@ -138,13 +141,6 @@ export default {
         align-self:end;
       }
     }
-  }
-  .grid {
-    margin-top:1em;
-    display: grid;
-    gap: 1em;
-    align-items: center;
-    justify-content: center;
   }
 }
 </style>

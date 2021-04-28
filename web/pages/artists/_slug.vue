@@ -193,7 +193,7 @@ export default Vue.extend({
     const logRow = document.querySelector('#logRow')
     const log = document.querySelector('#log')
 
-    logRow.style.height = log.getBoundingClientRect().height + "px"
+    logRow.style.height = log.getBoundingClientRect().height + 32 + "px"
   },
   created() {
   },

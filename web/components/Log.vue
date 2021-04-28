@@ -1,10 +1,10 @@
 <template>
   <div :class="['log', open?'is-open':'', partial_open?'is-partial-open':'']" @click="openLog()" id="log">
-    <div v-for="item in filteredLog" :class="['log-item', item.category]" :key="item._key">
+    <div v-for="item in filteredLog" :class="['log-item', item.category]" :key="item._key" @click="itemClick(item)">
       <div class="date" v-text="formatDate(item.date)" v-if="open || partial_open" />
       <component :is="item.category" class="dot"/>
-      <div class="title" v-text="item.title" v-if="open"/>
-      <div class="type" v-text="item.category" v-if="open"/>
+      <div class="title" v-text="formatTitle(item)" v-if="open"/>
+      <div class="type" v-text="formatCategory(item.category)" v-if="open"/>
     </div>
   </div>
 </template>
@@ -120,18 +120,82 @@ export default Vue.extend({
       let el2 = document.querySelector('#logRow')
       let log = document.querySelector('#log')
 
-      if (el2.getBoundingClientRect().top <= 82) {
+      if (el2.getBoundingClientRect().top <= 64) {
         this.open = true
         this.partial_open = false
-        log.style.top = (desc.getBoundingClientRect().height + desc.offsetTop + 128) + "px"
-      } else if (el.getBoundingClientRect().bottom <= 82) {
+        log.style.top = (desc.getBoundingClientRect().height + desc.offsetTop + 132) + "px"
+      } else if (el.getBoundingClientRect().bottom <= 64) {
         this.partial_open = true
         this.open = false
-        log.style.top = "6rem"
+        log.style.top = "4rem"
       } else {
         this.partial_open = false
         this.open = false
       }
+    },
+    itemClick(item) {
+      if (this.open == true) {
+        if (item.external_link != undefined) {
+          window.open(item.external_link, '_blank')
+        } else if (item.fair != undefined) {
+          this.$router.push({ name: 'fairs-slug', params: { slug: item.fair.slug.current }})
+        } else if (item.exhibition != undefined) {
+          this.$router.push({ name: 'exhibitions-slug', params: { slug: item.exhibition.slug.current }})
+        } else if (item.artist != undefined) {
+          this.$router.push({ name: 'artists-slug', params: { slug: item.artist.slug.current }})
+        }
+      }
+    },
+    formatTitle(item) {
+      if (item.category == 'press') {
+        return item.publication + ': ' + item.title
+      } else {
+        return item.title
+      }
+    },
+    formatCategory(category) {
+      let text = ''
+      switch (category) {
+        case 'acquisitions':
+          text = 'Acquisition'
+          break
+        case 'artists':
+            text = 'Artist'
+            break
+        case 'awards':
+            text = 'Award'
+            break
+        case 'events':
+            text = 'Event'
+            break
+        case 'exhibitions':
+            text = 'Exhibition'
+            break
+        case 'fairs':
+            text = 'Fair'
+            break
+        case 'fundraisers':
+            text = 'Fundraiser'
+            break
+        case 'gallery_shows':
+          text = 'Gallery Show'
+          break
+        case 'museum_shows':
+          text = 'Museum Show'
+          break
+        case 'press':
+          text = 'Press'
+          break
+        case 'publications':
+          text = 'Publication'
+          break
+        case 'residency':
+          text = 'Residency'
+          break
+        default:
+          text = 'Event'
+      }
+      return text
     },
     formatDate(date) {
       let d = DateTime.fromISO(date)
@@ -145,8 +209,9 @@ export default Vue.extend({
 .log {
   display: block;
   position: fixed;
-  top: 6rem;
+  top: 4rem;
   left:3rem;
+  padding-top:2rem;
   transition: transform 333ms ease-in-out;
   transform:translateX(100%);
   width: calc(100% - 6.5rem);
@@ -174,6 +239,7 @@ export default Vue.extend({
   .title {
     flex: 1;
     margin-left:1.5rem;
+    cursor:pointer;
   }
   .type {
     width: 120px;
