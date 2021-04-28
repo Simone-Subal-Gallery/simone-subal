@@ -137,6 +137,10 @@ export default Vue.extend({
       if (this.open == true) {
         if (item.external_link != undefined) {
           window.open(item.external_link, '_blank')
+        } else if (item.url != undefined) {
+          window.open(item.url, '_blank')
+        } else if (item.pdf != undefined) {
+          window.open(item.pdf, '_blank')
         } else if (item.fair != undefined) {
           this.$router.push({ name: 'fairs-slug', params: { slug: item.fair.slug.current }})
         } else if (item.exhibition != undefined) {

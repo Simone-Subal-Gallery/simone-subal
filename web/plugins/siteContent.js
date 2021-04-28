@@ -29,7 +29,8 @@ const query = groq`{
  	  _id,
     slug,
  		press[]{
-      ...
+      ...,
+      'pdf': pdf.asset->url
     },
     log[]{
       ...
