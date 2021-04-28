@@ -69,3 +69,10 @@ export default {
   }
 }
 </script>
+<style>
+.sl-wrapper .sl-image .sl-caption {
+  display: block;
+  max-height: 15vh;
+  overflow: scroll;
+}
+</style>

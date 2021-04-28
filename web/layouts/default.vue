@@ -2,9 +2,9 @@
   <div :class="['container', logOpen?'log-open':'']">
     <header>
       <div class="main-nav-wrapper">
-        <a href="/">
+        <nuxt-link to="/">
           <h1 v-text="site.title" />
-        </a>
+        </nuxt-link>
         <Nav />
       </div>
     </header>
@@ -70,6 +70,7 @@ export default Vue.extend({
   watch: {
     '$route' () {
       this.overlayOpen = false
+      this.logOpen = false
     }
   },
   methods: {

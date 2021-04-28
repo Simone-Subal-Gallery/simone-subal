@@ -2,9 +2,9 @@
   <div class="artist-single">
   <main>
     <h1 class="title" v-text="artist.title" />
-    <ArtistGallery :images="artist.gallery" />
+    <ArtistGallery :images="artist.gallery" id="gallery" />
     <div class="content">
-      <SanityContent :blocks="artist.description" :serializers="serializers" class="description"/>
+      <SanityContent :blocks="artist.description" :serializers="serializers" id="description" class="description"/>
       <section class="selected-exhibitions" v-if="artist.selected_exhibitions!=undefined && artist.selected_exhibitions.length > 0">
         <h2>Selected Exhibitions</h2>
         <div class="exhibition-list grid">
@@ -72,8 +72,15 @@
         </div>
       </div>
       </section>
-      <div class="more row">
-        <section class="press" v-if="artist.press && artist.press.length > 0">
+      <div id="logRow" class="log-row">
+        <!-- <section class="log-block" style="width:100%">
+          <h2>Log</h2>
+          <p v-for="item in log" :key="item._key">
+            {{ item.title }}
+          </p>
+        </section> -->
+
+        <!-- <section class="press" v-if="artist.press!=undefined && artist.press.length > 0">
           <h2>Press</h2>
           <div v-for="item in artist.press" :key="item._key" class="press-item">
           <template v-if="Boolean(item.pdf)">
@@ -90,7 +97,7 @@
             {{ item.title }}
           </template>
           </div>
-        </section>
+        </section> -->
         <!-- <section class="bibliography" v-if="artist.bibliography && artist.bibliography.length > 0">
           <h2>Bibliography</h2>
           <SanityContent :blocks="artist.bibliography" :serializers="serializers" />
@@ -118,6 +125,7 @@
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
+import { mapMutations } from 'vuex'
 
 import PDFBlock from '~/components/blocks/PDFBlock.vue'
 import URLBlock from '~/components/blocks/URLBlock.vue'
@@ -176,10 +184,18 @@ export default Vue.extend({
         marks: {
           link: Link
         }
-      },
+      }
     }
   },
   mounted() {
+    console.log(this.$store.state.log)
+    console.log(this.$store.state.logFilter)
+    const logRow = document.querySelector('#logRow')
+    const log = document.querySelector('#log')
+
+    logRow.style.height = log.getBoundingClientRect().height + "px"
+  },
+  created() {
   },
   methods: {
     formatDates (open, close) {
@@ -279,15 +295,9 @@ export default Vue.extend({
         }
       }
     }
-    .more.row {
-      display: flex;
-      flex-wrap: wrap;
-      .press, .bibliography {
-        width:50%;
-      }
-      .awards {
-        width:50%;
-      }
+    .log-row {
+      display: block;
+      position: relative;
     }
   }
   .more-artists {

@@ -202,6 +202,12 @@ export default Vue.extend({
 
 <style lang="scss">
 .exhibition-single {
+  main {
+    min-height: 67vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
   .more-exhibitions {
     background: #eee;
     margin-left:-1.5rem;
