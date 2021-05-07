@@ -4,13 +4,13 @@
       <h2>Current</h2>
       <div class="fair-list">
         <div v-for="fair in current" :key="fair._id" class="fair-listing">
-          <div class="fair-item">
+          <nuxt-link :to="'/fairs/'+fair.slug.current" class="fair-item">
               <div class="title" v-text="fair.title"/>
               <div class="artists" v-if="fair.artists && fair.artists.length > 0" >
                 <p v-text="formatArtists(fair.artists)"/>
               </div>
               <div class="dates" v-text="formatDates(fair.open_date, fair.close_date, 'future')" />
-          </div>
+          </nuxt-link>
         </div>
       </div>
     </section>

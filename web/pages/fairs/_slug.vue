@@ -6,7 +6,7 @@
     <p class="opening" v-if="fair.opening != undefined" v-text="fair.opening" />
     <div class="content" v-if="fair.content != undefined && fair.content.length > 0">
       <component
-        :is="block._type == 'banner' ? 'Banner' : block._type == 'cta' ? 'CTABlock' : block._type == 'galleryBlock' ? 'GalleryBlock' : block._type == 'textBlock' ? 'TextBlock' : block._type == 'workBlock' ? 'WorkBlock' : block._type == 'codeBlock' ? 'CodeBlock' : ''"
+        :is="block._type == 'banner' ? 'Banner' : block._type == 'cta' ? 'CTABlock' : block._type == 'galleryBlock' ? 'FairGalleryBlock' : block._type == 'textBlock' ? 'TextBlock' : block._type == 'workBlock' ? 'WorkBlock' : block._type == 'codeBlock' ? 'CodeBlock' : ''"
         v-for="block, i in fair.content"
         :key="block._key"
         :index="i"
@@ -23,7 +23,7 @@ import { DateTime } from 'luxon'
 
 import Banner from '~/components/blocks/Banner.vue'
 import CTABlock from '~/components/blocks/CTABlock.vue'
-import GalleryBlock from '~/components/blocks/GalleryBlock.vue'
+import FairGalleryBlock from '~/components/blocks/FairGalleryBlock.vue'
 import TextBlock from '~/components/blocks/TextBlock.vue'
 import WorkBlock from '~/components/blocks/WorkBlock.vue'
 import CodeBlock from '~/components/blocks/CodeBlock.vue'
@@ -73,7 +73,7 @@ export default Vue.extend({
   components: {
     Banner,
     CTABlock,
-    GalleryBlock,
+    FairGalleryBlock,
     TextBlock,
     WorkBlock,
   },
@@ -113,6 +113,7 @@ main.fair-single {
   border-top-left-radius: 10em;
   border-top-right-radius: 10em;
   padding: 2rem;
+  overflow: hidden;
   h1 {
     margin: 0 0.5em;
   }
