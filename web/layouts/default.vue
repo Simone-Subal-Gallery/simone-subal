@@ -40,7 +40,7 @@
         </div>
       </div>
     </aside>
-    <footer>
+    <footer v-show="!logOpen">
       <SanityContent :blocks="site.footer"/>
     </footer>
   </div>

@@ -39,35 +39,11 @@
         />
       </a>
     </div>
-    <!-- <div v-swiper:mySwiper="swiperOption" ref="swiper" @click-slide="clickSlide">
-      <div class="swiper-wrapper">
-        <figure v-for="image in images" :key="image._key" class="image swiper-slide">
-          <SanityImage
-            :asset-id="image.asset._id"
-            auto="format"
-            class="mainImage"
-            height="480"
-            :alt="image.asset.altText"
-          />
-          <figcaption>
-            <SanityContent :blocks="image.caption" />
-          </figcaption>
-        </figure>
-      </div>
-    </div> -->
   </section>
 </template>
 
 <script>
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
-import "swiper/css/swiper.css"
-// import SimpleLightbox from "simplelightbox"
-
 export default {
-  components: {
-    Swiper,
-    SwiperSlide
-  },
   props: {
     images: {
       type: Array
@@ -76,9 +52,6 @@ export default {
       type: String
     }
   },
-  // directives: {
-  //   swiper: directive
-  // },
   data() {
     return {
       flickityOptions: {
@@ -91,22 +64,8 @@ export default {
         cellSelector: 'img',
         imagesLoaded: true,
         lazyLoad: 4,
-        freeMode: true
-      },
-      swiperOption: {
-        spaceBetween: 8,
-        speed: 3000,
-        loop: true,
-        autoplay: {
-          delay: 0,
-          disableOnInteraction: false
-        },
         freeMode: true,
-        autoplay: true,
-        slidesPerView: 8,
-        keyboard: {
-          enabled: true,
-        },
+        cellAlign: 'left'
       },
       lightboxOptions: {
         fadeSpeed: 0,
@@ -230,21 +189,6 @@ export default {
       }
     }
   }
-  // .swiper-container{
-  //   width: 100%;
-  // }
-  // .swiper-wrapper {
-  //   transition-timing-function:linear !important;
-  // }
-  // .swiper-slide {
-  //   text-align: left;
-  //   width: auto;
-  //   margin:0;
-  //   img {
-  //     width: auto;
-  //     height:67vh;
-  //   }
-  // }
   figcaption {
     font-size:0.85rem;
     padding: 0.5rem 0;
@@ -277,19 +221,6 @@ export default {
       padding: 1em;
       max-width:160px;
     }
-  }
-  @media screen and (max-width: 768px) {
-    .swiper-wrapper {
-      figure.swiper-slide {
-      }
-    }
-  }
-}
-
-.swiper-pagination {
-  .swiper-pagination-bullet {
-  }
-  .swiper-pagination-bullet-active {
   }
 }
 </style>
