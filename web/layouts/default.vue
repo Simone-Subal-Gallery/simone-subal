@@ -17,28 +17,52 @@
 
     <Nuxt />
 
-    <aside :class="['overlay', (overlayOpen==true)?'open':'']">
+    <aside :class="['overlay', (overlayOpen==true)?'open':'']"
+    :style="'background-color:'+contact.bg_color"
+    >
       <div class="grid">
         <div class="left-col">
-          <div class="address">
-            <p>131 Bowery, 2nd floor<br>New York, NY 10002</p>
-            <p>917 409 0612</p>
-            <p>info@simonesubal.com</p>
-          </div>
-          <div class="map">
-          </div>
+          <SanityContent :blocks="contact.content" />
           <div class="signup">
-            <input placeholder="Email address" />
+            <mailchimp-subscribe
+              url="https://simonesubal.us1.list-manage.com/subscribe/post-json"
+              user-id="829a90f7ddaa926bcc5a953a1"
+              list-id="8cc410c812"
+              @error="onError"
+              @success="onSuccess"
+            >
+              <template v-slot="{ subscribe, setEmail, error, success, loading }">
+                <form @submit.prevent="subscribe">
+                  <div class="mailing-list">
+                    <input type="email" placeholder="Email" @input="setEmail($event.target.value)" />
+                    <button type="submit" v-html="error?error:success?'Thanks!':loading?'Loading...':'Sign Up'" />
+                  </div>
+                  <!-- <div v-if="error">{{ error }}</div>
+                  <div v-if="success">Thanks for signing up!</div>
+                  <div>Loading…</div> -->
+                </form>
+              </template>
+            </mailchimp-subscribe>
           </div>
         </div>
         <div class="right-col">
           <div class="team">
-            <p>Simone Subal, Founder/Owner<br>
-            Kelly McGee, Director<br>
-            Moira Sims, Gallery Manager</p>
+            <a v-for="member in contact.staff"
+            :key="member._key"
+            :href="'mailto:'+member.email">
+              {{ member.title }}<br>
+              {{ member.position }}
+            </a>
           </div>
         </div>
       </div>
+      <nav class="secondary">
+        <NuxtLink v-for="item in contact.secondary_nav"
+        :key="item._key"
+        :to="'/pages/'+item.slug.current"
+        v-text="item.title"
+        />
+      </nav>
     </aside>
     <footer v-show="!logOpen">
       <SanityContent :blocks="site.footer"/>
@@ -47,20 +71,24 @@
 </template>
 
 <script>
+import MailchimpSubscribe from 'vue-mailchimp-subscribe'
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
+import { mapState } from 'vuex'
 
 export default Vue.extend({
   data() {
     return {
       overlayOpen: false,
-      logOpen: false
+      logOpen: false,
+      success: false
     }
   },
+  components: {
+    MailchimpSubscribe,
+  },
   computed: {
-    site() {
-      return this.$store.state.site
-    },
+    ...mapState(['site', 'contact']),
     bodyBg () {
       if (this.$store.state.site.bg_color != undefined) {
         return this.$store.state.site.bg_color }
@@ -86,6 +114,13 @@ export default Vue.extend({
     },
     logOpened() {
       this.logOpen = true
+    },
+    onError() {
+      // handle error
+    },
+    onSuccess() {
+      // handle success
+      this.success=true
     }
   },
   created () {
@@ -200,22 +235,36 @@ footer {
   transition: transform 250ms ease-in-out;
   pointer-events:none;
   display:flex;
+  font-size:1.5em;
+  .signup {
+    width: 100%;
+    form {
+      margin: 1em auto;
+    }
+  }
   .grid {
-    display: flex;
-    width:50vw;
+    display: grid;
+    width:100%;
+    grid-gap: 2em;
+    padding: 1.5em;
+    grid-template-columns: 2fr 1fr;
     height: 60vh;
     .left-col {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      margin: 2em;
+      white-space: pre-wrap;
     }
     .right-col {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      margin:2em;
-      align-items: center;
+      .team {
+        a {
+          display:inline-block;
+          margin-bottom: 1em;
+        }
+      }
     }
   }
 }

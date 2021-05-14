@@ -146,10 +146,10 @@ export default Vue.extend({
     }
   },
   beforeMount () {
-    window.addEventListener('scroll', this.handleScroll, { passive: true })
+    // window.addEventListener('scroll', this.handleScroll, { passive: true })
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll)
+    // window.removeEventListener('scroll', this.handleScroll)
     document.body.style.backgroundColor = "#eee"
   },
   computed: {
@@ -181,15 +181,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    handleScroll() {
-      let gallery = document.querySelector('#exhibitionGallery2')
-      let contentDiv = document.querySelector('main .content')
-
-      if (gallery.getBoundingClientRect().top <= 0) {
-        gallery.classList.add('sticky')
-        contentDiv.style.marginBottom = "calc( 100vh + 6rem )"
-      }
-    },
     formatDates (open, close, section) {
       open = DateTime.fromISO(open)
       close = DateTime.fromISO(close)

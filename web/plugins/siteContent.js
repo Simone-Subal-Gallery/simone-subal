@@ -18,6 +18,10 @@ const query = groq`{
       }
     },
   },
+  "contact": *[_id == "singleton-contact"][0] {
+    ...,
+    secondary_nav[]->
+  },
   "events": *[_type == "event"]{
     ...,
     exhibition->,
@@ -44,7 +48,7 @@ const query = groq`{
  * ( layouts does not have an asyncData() method )
  */
 export default ({ store, $sanity }) => {
-  return $sanity.fetch(query).then(({ site, events, artistLog }) => {
+  return $sanity.fetch(query).then(({ site, contact, events, artistLog }) => {
 
     artistLog.forEach((item, index, array) => {
       if (item.press!=undefined) {
@@ -82,6 +86,7 @@ export default ({ store, $sanity }) => {
     })
 
     store.commit("site", site)
+    store.commit("contact", contact)
     store.commit("log", log)
   })
 }

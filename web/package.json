@@ -27,6 +27,7 @@
     "swiper": "^5.4.5",
     "vue-awesome-swiper": "^4.1.1",
     "vue-flickity": "^1.2.1",
+    "vue-mailchimp-subscribe": "^1.1.0",
     "web-animations-js": "^2.3.2"
   },
   "devDependencies": {
