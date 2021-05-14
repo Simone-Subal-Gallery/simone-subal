@@ -284,7 +284,6 @@ main.exhibitions {
             flex-wrap: wrap;
             justify-content: center;
             &.solo {
-              flex-direction: row-reverse;
               justify-content: flex-end;
               flex-wrap: wrap-reverse;
             }
@@ -310,7 +309,7 @@ main.exhibitions {
             border:1px solid #000;
             border-radius: 1em;
             width: 100%;
-            padding: 0.5em 0.5em 0.25em 0.5em;
+            padding: 0.5em 0.5em 0.5em 0.75em;
           }
         }
       }
@@ -380,7 +379,7 @@ main.exhibitions {
     margin:0.5em;
     a {
       flex: 1;
-      padding:0.5em 0.5em 0.25em 0.5em;
+      padding:0.5em 0.5em 0.5em 0.5em;
       background-color: transparent;
       border:1px solid #000;
       margin:0;

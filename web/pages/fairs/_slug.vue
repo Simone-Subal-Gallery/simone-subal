@@ -55,7 +55,7 @@ export default Vue.extend({
             ...,
             works[]{
               ...,
-              "artist": artist->
+              artist[]->
             }
           }
         },

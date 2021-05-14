@@ -26,14 +26,11 @@ export default {
   },
   methods: {
     getCaption(work) {
+      console.log(work)
       let string = ''
       if (work.artist!=undefined) {
         let artist = work.artist[0].title
         string = `${artist}.`
-      }
-      if (work.artist_additional!=undefined) {
-        let artist_additional = work.artist_additional
-        string = `${artist_additional}.`
       }
       let title = work.title || 'Untitled'
       string += ` <em>${title}</em>`
