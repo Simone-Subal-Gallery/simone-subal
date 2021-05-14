@@ -178,7 +178,6 @@ export default Vue.extend({
       let contentDiv = document.querySelector('main .content')
 
       if (gallery.getBoundingClientRect().top <= 0) {
-        gallery.style.top = gallery.offsetTop()
         gallery.classList.add('sticky')
         contentDiv.style.marginBottom = "calc( 100vh + 6rem )"
       }

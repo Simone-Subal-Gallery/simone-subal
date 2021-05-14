@@ -5,7 +5,7 @@
     <ArtistGallery :images="artist.gallery" id="gallery" />
     <div class="content">
       <SanityContent :blocks="artist.description" :serializers="serializers" id="description" class="description"/>
-      <section class="selected-exhibitions" v-if="artist.selected_exhibitions!=undefined && artist.selected_exhibitions.length > 0">
+      <section class="selected-exhibitions" v-if="artist.selected_exhibitions!=undefined && artist.selected_exhibitions.length > 0" id="selected_exhibitions">
         <h2>Selected Exhibitions</h2>
         <div class="exhibition-list grid">
         <div v-for="exhibition in artist.selected_exhibitions" :key="exhibition._key" class="exhibition-listing">

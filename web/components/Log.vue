@@ -117,13 +117,14 @@ export default Vue.extend({
     handleScroll() {
       let el = document.querySelector('#gallery')
       let desc = document.querySelector('#description')
+      let exhibitions = document.querySelector('#selected_exhibitions')
       let el2 = document.querySelector('#logRow')
       let log = document.querySelector('#log')
 
-      if (el2.getBoundingClientRect().top <= 64) {
+      if (el2.getBoundingClientRect().top <= 128) {
         this.open = true
         this.partial_open = false
-        log.style.top = (desc.getBoundingClientRect().height + desc.offsetTop + 132) + "px"
+        log.style.top = (desc.getBoundingClientRect().height + exhibitions.getBoundingClientRect().height + desc.offsetTop + 132) + "px"
       } else if (el.getBoundingClientRect().bottom <= 64) {
         this.partial_open = true
         this.open = false

@@ -1,5 +1,5 @@
 <template>
-  <div class="exhibition-gallery" :id="'exhibitionGallery'+index">
+  <div :class="['exhibition-gallery', block.display]" :id="'exhibitionGallery'+index">
     <div class="install" v-if="block.install!=undefined && block.install.length > 0">
       <!-- <h3>Installation</h3> -->
         <Lightbox :id="'installlightbox'+index" :images="block.install" />
@@ -35,6 +35,7 @@ export default {
   methods: {
   },
   mounted () {
+    console.log(this.block)
     // let el = '#exhibitionGallery' + this.index
     // let wrapper = document.getElementById('exhibitionGallery' + this.index)
     // let height = wrapper.offsetHeight
@@ -113,25 +114,25 @@ export default {
 
 <style lang="scss">
 .exhibition-gallery {
-  display: block;
   padding: 3em 0;
-  height:100vh;
-  overflow:hidden;
-  .install, .work {
-    overflow:scroll;
-    height:100%;
+  &.sticky_col {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 1rem;
+    .install, .work {
+      position: sticky;
+      top:0px;
+      align-self:start;
+    }
   }
   .install {
-    width:66%;
-    float:left;
     figcaption {
       font-size: 0.5em;
       max-width:720px;
+      margin-bottom: 1rem;
     }
   }
   .work {
-    width:32%;
-    float: right;
     figure {
       display: grid;
       grid-template-columns: 4fr 2fr;
@@ -139,6 +140,7 @@ export default {
       figcaption {
         font-size:0.5em;
         align-self:end;
+        margin-bottom: 0.5rem;
       }
     }
   }
