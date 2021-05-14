@@ -1,11 +1,61 @@
 <template>
   <section class="text">
-    <SanityContent :blocks="block.text" :class="block.boxed?'boxed':''" />
+    <SanityContent :blocks="block.text" :class="block.boxed?'boxed':''" :serializers="serializers"/>
   </section>
 </template>
 
 <script>
+import PDFBlock from '~/components/blocks/PDFBlock.vue'
+import URLBlock from '~/components/blocks/URLBlock.vue'
+
+const Link = {
+  props: {
+    href: {
+      type: String
+    }
+  },
+  render(createElement) {
+    const props = {
+      attrs: {
+        href: this.href,
+        target: '_blank'
+      }
+    }
+    return createElement('a', props, this.$slots.default)
+  }
+}
+
+const Image = {
+  props: {
+    asset: {
+      type: Object
+    }
+  },
+  render(createElement) {
+    const props = {
+      attrs: {
+        src: this.asset.url
+      }
+    }
+    return createElement('img', props, this.$slots.default)
+  }
+}
+
 export default {
+  data () {
+    return {
+      serializers: {
+        types: {
+          pdf: PDFBlock,
+          link: URLBlock,
+          image: Image
+        },
+        marks: {
+          link: Link
+        }
+      }
+    }
+  },
   props: {
     block: {
       type: Object

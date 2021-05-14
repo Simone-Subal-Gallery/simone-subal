@@ -82,7 +82,13 @@ export default Vue.extend({
             ...
           },
           _type == 'textBlock' => {
-            ...
+            ...,
+            text[]{
+              ...,
+              _type == 'image' => {
+                asset->
+              }
+            }
           },
           _type == 'workBlock' => {
             ...,
@@ -131,6 +137,8 @@ export default Vue.extend({
     }
   },
   mounted() {
+    console.log(this.exhibition.content)
+
     if (this.exhibition.bg_color != undefined) {
       document.body.style.backgroundColor = this.exhibition.bg_color
     } else {
