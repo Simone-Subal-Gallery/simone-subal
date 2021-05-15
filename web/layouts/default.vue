@@ -1,5 +1,5 @@
 <template>
-  <div :class="['container', logOpen?'log-open':'']">
+  <div :class="['container', logOpen?'log-open':'', overlayOpen?'overlay-open':'']">
     <header>
       <div class="main-nav-wrapper">
         <nuxt-link to="/">
@@ -22,8 +22,9 @@
     >
       <div class="grid">
         <div class="left-col">
-          <SanityContent :blocks="contact.content" />
+          <SanityContent :blocks="contact.content" :serializers="serializers"/>
           <div class="signup">
+            <h3>Mailing list:</h3>
             <mailchimp-subscribe
               url="https://simonesubal.us1.list-manage.com/subscribe/post-json"
               user-id="829a90f7ddaa926bcc5a953a1"
@@ -49,10 +50,19 @@
           <div class="team">
             <a v-for="member in contact.staff"
             :key="member._key"
+            target="_blank"
             :href="'mailto:'+member.email">
-              {{ member.title }}<br>
+              <span class="name">{{ member.title }}</span><br>
               {{ member.position }}
             </a>
+          </div>
+          <div class="socials">
+            <a v-for="channel in contact.socials"
+            :key="channel._key"
+            class="social-channel"
+            target="_blank"
+            :href="channel.url"
+            v-text="channel.title" />
           </div>
         </div>
       </div>
@@ -76,12 +86,34 @@ import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { mapState } from 'vuex'
 
+const Link = {
+  props: {
+    href: {
+      type: String
+    }
+  },
+  render(createElement) {
+    const props = {
+      attrs: {
+        href: this.href,
+        target: '_blank'
+      }
+    }
+    return createElement('a', props, this.$slots.default)
+  }
+}
+
 export default Vue.extend({
   data() {
     return {
       overlayOpen: false,
       logOpen: false,
-      success: false
+      success: false,
+      serializers: {
+        marks: {
+          link: Link
+        }
+      }
     }
   },
   components: {
@@ -139,6 +171,16 @@ export default Vue.extend({
   min-height: calc(100vh - 3rem);
   display: flex;
   flex-direction: column;
+  overflow:hidden;
+  &.overlay-open {
+    main {
+      position:absolute;
+      overflow:hidden;
+    }
+    #log {
+      z-index:1;
+    }
+  }
 }
 
 header, footer {
@@ -238,31 +280,92 @@ footer {
   font-size:1.5em;
   .signup {
     width: 100%;
+    h3 {
+      font-size: 1em;
+      margin:0;
+    }
     form {
-      margin: 1em auto;
+      margin: 0 auto;
+      .mailing-list {
+        display:flex;
+        grid-gap:0.5em;
+      }
+      input {
+        flex:1;
+        background: transparent;
+        border: 1px solid #000;
+        padding:0.25em;
+        &::placeholder {
+         color: #000;
+        }
+      }
+      button {
+        background: transparent;
+        padding: 0.25em 0.5em;
+        cursor: pointer;
+        border: 1px solid #000;
+        &:hover, &:focus {
+          color: #fff;
+          border: 1px solid #fff;
+          mix-blend-mode: difference;
+        }
+      }
     }
   }
   .grid {
     display: grid;
     width:100%;
-    grid-gap: 2em;
+    grid-gap: 20vw;
     padding: 1.5em;
     grid-template-columns: 2fr 1fr;
     height: 60vh;
+    @media screen and (max-width:768px) {
+      grid-template-columns: 1fr;
+      height:100%;
+      margin-top:4rem;
+      grid-gap:1em;
+    }
     .left-col {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       white-space: pre-wrap;
+      a {
+        color: #fff;
+        mix-blend-mode:difference;
+      }
     }
     .right-col {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      font-size: 0.75em;
       .team {
+        display:flex;
+        flex-direction:column;
         a {
           display:inline-block;
           margin-bottom: 1em;
+          &:hover {
+            .name {
+              color:#fff;
+              mix-blend-mode: difference;
+            }
+          }
+        }
+      }
+      .socials {
+        display:flex;
+        flex-direction:column;
+        .social-channel {
+          margin-bottom:0.5em;
+          &:last-of-type {
+            margin-bottom:0px;
+          }
+          &:hover, &:focus {
+            color: #fff;
+            mix-blend-mode: difference;
+          }
         }
       }
     }
@@ -271,6 +374,16 @@ footer {
 .overlay.open {
   transform:translateY(0);
   pointer-events:auto;
+}
+
+nav.secondary {
+  position:absolute;
+  bottom:1em;
+  left:1.5rem;
+  font-size:0.75em;
+  a {
+    margin: 0 1em;
+  }
 }
 
 
