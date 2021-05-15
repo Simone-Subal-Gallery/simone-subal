@@ -254,19 +254,22 @@ main.index {
     flex-wrap: wrap;
     min-height: calc(100vh - 14em);
     align-content: flex-start;
-  }
-  .fair {
-    align-items: center;
-    align-self: flex-end;
-    justify-content: center;
-    padding: 1.5em;
-    span {
-      color: #fff;
-      cursor: pointer;
-    }
     @media screen and (max-width:768px) {
-      padding:0.5em;
-      font-size:0.75em;
+      margin: 0 -0.25em;
+    }
+    .fair {
+      align-items: center;
+      align-self: flex-end;
+      justify-content: center;
+      padding: 1.5em;
+      span {
+        color: #fff;
+        cursor: pointer;
+      }
+      @media screen and (max-width:768px) {
+        padding:0.5em;
+        font-size:0.75em;
+      }
     }
   }
   .contact {
@@ -296,6 +299,13 @@ main.index {
         line-height: 0.85;
         display: inline-block;
         padding-right: 1rem;
+      }
+    }
+    @media screen and (max-width:768px) {
+      .overlay-toggle {
+        font-size: 1em;
+        padding:0.5em;
+        border-radius: 0.5rem;
       }
     }
   }

@@ -112,12 +112,18 @@ main.artists .wrapper {
 }
 @media screen and (max-width: 768px) {
   main.artists {
-    font-size: 0.75rem;
+    font-size: 1rem;
+    .wrapper {
+      justify-content: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-top:0px;
+    }
   }
 }
 @media screen and (max-width: 640px) {
   main.artists {
-    font-size: 0.5rem;
+    font-size: 1rem;
   }
 }
 </style>
