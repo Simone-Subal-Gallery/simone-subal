@@ -264,6 +264,10 @@ main.index {
       color: #fff;
       cursor: pointer;
     }
+    @media screen and (max-width:768px) {
+      padding:0.5em;
+      font-size:0.75em;
+    }
   }
   .contact {
     align-items: center;
@@ -305,6 +309,11 @@ main.index {
       display: flex;
       justify-content: center;
       align-items: center;
+      @media screen and (max-width: 768px) {
+        height:auto;
+        padding: 1.5em;
+        border-radius:3em;
+      }
     }
     &.search {
       height: 80px;
@@ -323,6 +332,18 @@ main.index {
         height: 100%;
         width: 100%;
         border: 0px;
+      }
+      @media screen and (max-width:768px) {
+        height:unset;
+        width:100%;
+        padding:0.5em;
+        font-size:1em;
+        input {
+          font-size: 1em;
+        }
+        .shuffle-btn svg {
+          width:1.5em;
+        }
       }
     }
   }
@@ -361,6 +382,17 @@ main.index {
       }
       .exhibition-title {
         flex: 1;
+      }
+      @media screen and (max-width:768px) {
+        min-height:unset;
+        height:calc(100vh - 7.5rem);
+        padding:0.5em;
+        flex-direction:column;
+        align-items:flex-start;
+        justify-content: flex-start;
+        .exhibition-title, .artist-title {
+          flex:0;
+        }
       }
     }
   }

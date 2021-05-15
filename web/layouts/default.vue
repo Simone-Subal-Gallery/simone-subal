@@ -20,6 +20,8 @@
     <aside :class="['overlay', (overlayOpen==true)?'open':'']"
     :style="'background-color:'+contact.bg_color"
     >
+      <Nav class="mobile"/>
+
       <div class="grid">
         <div class="left-col">
           <SanityContent :blocks="contact.content" :serializers="serializers"/>
@@ -131,6 +133,24 @@ export default Vue.extend({
     '$route' () {
       this.overlayOpen = false
       this.logOpen = false
+    },
+    overlayOpen () {
+      let container = document.querySelector('.container')
+      let main = document.querySelector('main')
+
+      if (this.overlayOpen == true) {
+        let top = window.scrollY - (1.5*16)
+        main.style.position = 'fixed'
+        main.style.top = `-${top}px`
+        main.style.pointerEvents = 'none'
+      } else {
+        let scrollY = main.style.top
+        main.style.position = ''
+        main.style.top = ''
+        main.style.pointerEvents = 'auto'
+        let scrollPos = parseInt(scrollY || '0') - 24
+        window.scrollTo(0, scrollPos * -1)
+      }
     }
   },
   methods: {
@@ -173,13 +193,7 @@ export default Vue.extend({
   flex-direction: column;
   overflow:hidden;
   &.overlay-open {
-    main {
-      position:absolute;
-      overflow:hidden;
-    }
-    #log {
-      z-index:1;
-    }
+    overflow:hidden;
   }
 }
 
@@ -194,7 +208,7 @@ main {
 header {
   border: 1px solid #000;
   background-color: #fff;
-  z-index:2;
+  z-index:3;
   position:fixed;
   top:1.5rem;
   left:1.5rem;
@@ -208,6 +222,13 @@ header {
   z-index:2;
   align-items: center;
   height: 3rem;
+  nav {
+    display: inline-block;
+    margin-right: 2rem;
+    @media screen and (max-width:768px) {
+        display:none;
+    }
+  }
 }
 
 header h1 {
@@ -216,17 +237,17 @@ header h1 {
   line-height:1;
 }
 
-nav {
-  display: inline-block;
-  margin-right: 2rem;
-}
-
 main {
   margin-top: 4.5rem;
+  left:1.5rem;
+  right:4rem;
 }
 
 footer {
   margin-top: 2rem;
+  @media screen and (max-width:768px) {
+    font-size:0.75em;
+  }
 }
 
 .overlay-toggle {
@@ -237,7 +258,7 @@ footer {
   position: fixed;
   top:1.5rem;
   right:1rem;
-  z-index:1;
+  z-index:2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,6 +277,17 @@ footer {
   background-color: #000;
 }
 
+.overlay-toggle:hover .circle {
+  @media screen and (max-width:768px) {
+    background-color:transparent;
+  }
+}
+.overlay-toggle.is-open .circle {
+  @media screen and (max-width:768px) {
+    background-color:#000;
+  }
+}
+
 .overlay-toggle .close-log {
   font-size:1.5rem;
 }
@@ -272,17 +304,36 @@ footer {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  z-index:0;
+  z-index:1;
   transform:translateY(-100%);
   transition: transform 250ms ease-in-out;
   pointer-events:none;
   display:flex;
+  overflow-y:scroll;
   font-size:1.5em;
+  @media screen and (max-width:768px) {
+    font-size: 1rem;
+  }
+  nav.mobile {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid #000;
+    background: #fff;
+    height: 3rem;
+    position: absolute;
+    width: 100%;
+    left: 1.5rem;
+    max-width: calc(100% - 5.5rem);
+    top: 5rem;
+  }
   .signup {
     width: 100%;
+    white-space: normal;
+    margin-top:1em;
     h3 {
       font-size: 1em;
-      margin:0;
+      margin-bottom:0.5em;
     }
     form {
       margin: 0 auto;
@@ -321,9 +372,9 @@ footer {
     height: 60vh;
     @media screen and (max-width:768px) {
       grid-template-columns: 1fr;
-      height:100%;
       margin-top:4rem;
-      grid-gap:1em;
+      grid-gap:2em;
+      height:auto;
     }
     .left-col {
       display: flex;
@@ -383,6 +434,9 @@ nav.secondary {
   font-size:0.75em;
   a {
     margin: 0 1em;
+    &:first-of-type {
+      margin-left:0px;
+    }
   }
 }
 

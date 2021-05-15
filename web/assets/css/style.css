@@ -76,6 +76,14 @@ img {
   line-height: 1;
   text-align: center;
 }
+@media screen and (max-width:768px) {
+  .artist-title, .exhibition-title {
+    font-size:1em;
+  }
+  .exhibition-title {
+    padding:0.5em;
+  }
+}
 
 /** TRANSITIONS **/
 
