@@ -82,6 +82,11 @@ export default Vue.extend({
       view: 'grid',
     }
   },
+  head: {
+    bodyAttrs: {
+      class: 'fair-single'
+    }
+  },
   mounted() {
     console.log(this.fair)
   },
@@ -141,6 +146,21 @@ main.fair-single {
     flex-wrap: wrap;
     padding: 1.5rem 0;
     font-size: 1rem;
+  }
+  @media screen and (max-width: 768px) {
+    width: calc(100vw - 3rem);
+    border-top-left-radius: 7em;
+    border-top-right-radius: 7em;
+    h1 {
+      font-size:1.5em;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  body.fair-single {
+    .container {
+      overflow:visible;
+    }
   }
 }
 </style>

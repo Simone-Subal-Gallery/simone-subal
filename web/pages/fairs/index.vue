@@ -21,20 +21,23 @@
         <template v-if="fair.more_content">
           <nuxt-link :to="'/fairs/'+fair.slug.current" class="fair-item" :data-duplicate="fair.duplicate_id">
             <div class="title" v-text="fair.title" />
-            <div class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
+            <div class="dates" v-text="formatDates(fair.open_date, fair.close_date, false)" />
+            <div class="dates mobile" v-text="formatDates(fair.open_date, fair.close_date, true)" />
           </nuxt-link>
         </template>
         <template v-else>
           <template v-if="fair.link">
             <a :href="fair.link" class="fair-item" :data-duplicate="fair.duplicate_id">
               <div class="title" v-text="fair.title" />
-              <div class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
+              <div class="dates" v-text="formatDates(fair.open_date, fair.close_date, false)" />
+              <div class="dates mobile" v-text="formatDates(fair.open_date, fair.close_date, true)" />
             </a>
           </template>
           <template v-else>
             <div class="fair-item" :data-duplicate="fair.duplicate_id">
               <div class="title" v-text="fair.title" />
-              <div class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
+              <div class="dates" v-text="formatDates(fair.open_date, fair.close_date, false)" />
+              <div class="dates mobile" v-text="formatDates(fair.open_date, fair.close_date, true)" />
             </div>
           </template>
         </template>
@@ -142,6 +145,11 @@ export default Vue.extend({
       title: 'Fairs'
     }
   },
+  head: {
+    bodyAttrs: {
+      class: 'fairs-index'
+    }
+  },
   created() {
   },
   mounted() {
@@ -172,18 +180,30 @@ export default Vue.extend({
     formatArtists (artists) {
       return artists.map(artist => artist.title).join(", ")
     },
-    formatDates (open, close) {
+    formatDates (open, close, mobile) {
       open = DateTime.fromISO(open)
       close = DateTime.fromISO(close)
-      const from = open.toLocaleString({ month: 'long', day: 'numeric' })
-      let to = ''
-      if (open.month == close.month) {
-        to = close.toLocaleString({ day: 'numeric' })
+      if (mobile == false) {
+        const from = open.toLocaleString({ month: 'long', day: 'numeric' })
+        let to = ''
+        if (open.month == close.month) {
+          to = close.toLocaleString({ day: 'numeric' })
+        } else {
+          to = close.toLocaleString({ month: 'long', day: 'numeric' })
+        }
+        const year = close.year
+        return `${from} - ${to}, ${year}`
       } else {
-        to = close.toLocaleString({ month: 'long', day: 'numeric' })
+        const from = open.toLocaleString({ month: 'short', day: 'numeric' })
+        let to = ''
+        if (open.month == close.month) {
+          to = close.toLocaleString({ day: 'numeric' })
+        } else {
+          to = close.toLocaleString({ month: 'short', day: 'numeric' })
+        }
+        const year = close.year
+        return `${from}-${to}`
       }
-      const year = close.year
-      return `${from} - ${to}, ${year}`
     }
   }
 })
@@ -226,12 +246,39 @@ main.fairs {
         & > div {
           flex: 1;
         }
+        .dates.mobile {
+          display:none;
+        }
       }
     }
   }
   .year-list > .fair-listing:first-child {
     .year {
       opacity:1;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    width: calc(100vw - 3em);
+    overflow-x:visible;
+    .year-list {
+      margin:0.5em 0;
+      .fair-listing {
+        grid-template-columns:1fr 6fr;
+        .fair-item .dates {
+          display:none;
+          &.mobile {
+            display:block;
+            flex:0.33;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width:768px) {
+  body.fairs-index {
+    .container {
+      overflow:visible;
     }
   }
 }
