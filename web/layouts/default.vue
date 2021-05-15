@@ -311,11 +311,8 @@ footer {
   display:flex;
   overflow-y:scroll;
   font-size:1.5em;
-  @media screen and (max-width:768px) {
-    font-size: 1rem;
-  }
   nav.mobile {
-    display: flex;
+    display: none;
     justify-content: space-evenly;
     align-items: center;
     border: 1px solid #000;
@@ -326,6 +323,12 @@ footer {
     left: 1.5rem;
     max-width: calc(100% - 5.5rem);
     top: 5rem;
+  }
+  @media screen and (max-width:768px) {
+    font-size: 1rem;
+    nav.mobile {
+      display: flex;
+    }
   }
   .signup {
     width: 100%;
@@ -372,7 +375,7 @@ footer {
     height: 60vh;
     @media screen and (max-width:768px) {
       grid-template-columns: 1fr;
-      margin-top:4rem;
+      margin-top:6rem;
       grid-gap:2em;
       height:auto;
     }

@@ -306,6 +306,10 @@ main.index {
         font-size: 1em;
         padding:0.5em;
         border-radius: 0.5rem;
+        .circle {
+          width:0.5rem;
+          height:0.5rem;
+        }
       }
     }
   }

@@ -174,6 +174,11 @@ export default Vue.extend({
     const response = await $sanity.fetch(query)
     return { artist: response.artist, artists: response.artists }
   },
+  head: {
+    bodyAttrs: {
+      class: 'artist-single'
+    }
+  },
   data () {
     return {
       serializers: {
@@ -298,6 +303,9 @@ export default Vue.extend({
     .log-row {
       display: block;
       position: relative;
+    }
+    @media screen and (max-width: 768px) {
+      width: calc(100vw - 3rem);
     }
   }
   .more-artists {
