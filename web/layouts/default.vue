@@ -13,7 +13,7 @@
       <div class="close-log" v-if="logOpen">←</div>
     </div>
 
-    <Log @opened="logOpened" :open="logOpen"/>
+    <Log @opened="logOpened" :open="logOpen" :primary="true" id="log"/>
 
     <Nuxt />
 

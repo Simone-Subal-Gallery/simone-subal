@@ -139,6 +139,9 @@ export default {
 <style lang="scss">
 .gallery.artist-gallery {
   margin: 0 -2rem;
+  @media screen and (max-width: 768px) {
+    margin: 0 -1rem;
+  }
   .view-controls {
     display: flex;
     width: 120px;
@@ -169,6 +172,18 @@ export default {
         border-radius: 0em 2em 2em 0em;
       }
     }
+    @media screen and (max-width: 768px) {
+      width: 96px;
+      margin: 0.25em;
+      top: 0.5em;
+      right: unset;
+      left: 50%;
+      transform: translateX(-50%);
+      a {
+        padding: 0.5em;
+        font-size: 0.65em;
+      }
+    }
   }
   .carousel {
     height:67vh;
@@ -186,6 +201,12 @@ export default {
         content:'+';
         display:block;
         cursor:pointer;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      height: 50vh;
+      img {
+        height: 50vh;
       }
     }
   }
@@ -220,6 +241,13 @@ export default {
       position: absolute;
       padding: 1em;
       max-width:160px;
+    }
+    @media screen and (max-width: 768px) {
+      padding: 0 0.25em;
+      a {
+        width:96px;
+        margin:0.25em;
+      }
     }
   }
 }

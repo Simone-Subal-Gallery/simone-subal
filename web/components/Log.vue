@@ -1,5 +1,5 @@
 <template>
-  <div :class="['log', open?'is-open':'', partial_open?'is-partial-open':'']" @click="openLog()" id="log">
+  <div :class="['log', open?'is-open':'', partial_open?'is-partial-open':'']" @click="openLog()">
     <div v-for="item in filteredLog" :class="['log-item', item.category]" :key="item._key" @click="itemClick(item)">
       <div class="date" v-text="formatDate(item.date)" v-if="open || partial_open" />
       <component :is="item.category" class="dot"/>
@@ -77,7 +77,7 @@ export default Vue.extend({
       }
     }
   },
-  props: ['open'],
+  props: ['open', 'primary'],
   created() {
     this.log = this.$store.state.log
     if (this.$route.name == 'artists-slug') {
@@ -121,17 +121,19 @@ export default Vue.extend({
       let el2 = document.querySelector('#logRow')
       let log = document.querySelector('#log')
 
-      if (el2.getBoundingClientRect().top <= 128) {
-        this.open = true
-        this.partial_open = false
-        log.style.top = (desc.getBoundingClientRect().height + exhibitions.getBoundingClientRect().height + desc.offsetTop + 132) + "px"
-      } else if (el.getBoundingClientRect().bottom <= 64) {
-        this.partial_open = true
-        this.open = false
-        log.style.top = "4rem"
-      } else {
-        this.partial_open = false
-        this.open = false
+      if (this.primary==true) {
+        if (el2.getBoundingClientRect().top <= 128) {
+          this.open = true
+          this.partial_open = false
+          log.style.top = (desc.getBoundingClientRect().height + exhibitions.getBoundingClientRect().height + desc.offsetTop + 132) + "px"
+        } else if (el.getBoundingClientRect().bottom <= 64) {
+          this.partial_open = true
+          this.open = false
+          log.style.top = "4rem"
+        } else {
+          this.partial_open = false
+          this.open = false
+        }
       }
     },
     itemClick(item) {
@@ -212,15 +214,20 @@ export default Vue.extend({
 
 <style lang="scss">
 .log {
+  &.mobile {
+    display:none;
+  }
+  &:not(.mobile) {
+    position: fixed;
+    top: 4rem;
+    left:3rem;
+    padding-top:2rem;
+    transition: transform 333ms ease-in-out;
+    transform:translateX(100%);
+    width: calc(100% - 6.5rem);
+    z-index:1;
+  }
   display: block;
-  position: fixed;
-  top: 4rem;
-  left:3rem;
-  padding-top:2rem;
-  transition: transform 333ms ease-in-out;
-  transform:translateX(100%);
-  width: calc(100% - 6.5rem);
-  z-index:1;
   &.is-partial-open {
     transform: translateX(calc(100% - 9.5rem));
     position: fixed;
@@ -228,6 +235,9 @@ export default Vue.extend({
   &.is-open {
     transform:translateX(0);
     position:absolute;
+  }
+  &.mobile {
+    position: static;
   }
   .log-item {
     display: flex;
@@ -277,6 +287,41 @@ export default Vue.extend({
     }
     &.green {
       background-color: lightgreen;
+    }
+  }
+  @media screen and (max-width:768px) {
+    &.mobile {
+      display:block;
+    }
+    .log-item {
+      display:grid;
+      grid-template-columns: 1rem 1fr 1fr;
+      grid-template-rows:1fr;
+      grid-column-gap:0.5em;
+      margin-bottom:0.5em;
+    }
+    .dot {
+      order:1;
+      margin:0px;
+    }
+    .date {
+      order:2;
+      text-align:left;
+      margin-left:0;
+      width:auto;
+      font-size:0.75em;
+    }
+    .type {
+      order:3;
+      text-align:right;
+      width:unset;
+      font-size:0.75em;
+    }
+    .title {
+      order:4;
+      margin:0;
+      margin-left:1.5rem;
+      grid-column:span 3;
     }
   }
 }

@@ -72,6 +72,7 @@
         </div>
       </div>
       </section>
+      <Log class="mobile" :primary="false" :open="true"/>
       <div id="logRow" class="log-row">
         <!-- <section class="log-block" style="width:100%">
           <h2>Log</h2>
@@ -197,7 +198,6 @@ export default Vue.extend({
     console.log(this.$store.state.logFilter)
     const logRow = document.querySelector('#logRow')
     const log = document.querySelector('#log')
-
     logRow.style.height = log.getBoundingClientRect().height + 32 + "px"
   },
   created() {
@@ -227,8 +227,16 @@ export default Vue.extend({
     border: 1px solid #000;
     border-radius: 2em;
     padding: 2rem;
+    @media screen and (max-width: 768px) {
+      padding: 1rem;
+      overflow:hidden;
+    }
     h1 {
       margin-top:0;
+      @media screen and (max-width: 768px) {
+        font-size:1.5em;
+        margin-top:1.25em;
+      }
     }
     .content {
       width: 75%;
@@ -237,6 +245,15 @@ export default Vue.extend({
       }
       .description {
         margin-top: 2em;
+      }
+      @media screen and (max-width: 768px) {
+        width:100%;
+        .description p {
+          text-align:left;
+        }
+        a.button {
+          padding:1em;
+        }
       }
     }
     .description p {
@@ -263,6 +280,12 @@ export default Vue.extend({
               max-width: 100%;
               height: auto;
             }
+          }
+        }
+        @media screen and (max-width: 768px) {
+          grid-template-columns:1fr;
+          .exhibition-listing {
+            margin-bottom:0.5em;
           }
         }
       }
@@ -333,6 +356,16 @@ export default Vue.extend({
 @media screen and (max-width: 640px) {
   .more-artists {
     font-size: 0.5rem;
+  }
+}
+@media screen and (max-width: 768px) {
+  body.artist-single {
+    .container {
+      overflow:visible;
+      #log, #logRow {
+        display:none;
+      }
+    }
   }
 }
 </style>
