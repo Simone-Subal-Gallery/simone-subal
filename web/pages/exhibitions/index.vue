@@ -180,6 +180,11 @@ export default Vue.extend({
       return feed
     }
   },
+  head: {
+    bodyAttrs: {
+      class: 'exhibitions-index'
+    }
+  },
   data () {
     return {
       title: 'Exhibitions',
@@ -372,6 +377,78 @@ main.exhibitions {
         }
       }
     }
+    @media screen and (max-width: 768px) {
+      margin:1.5em 0;
+      &.current .artist-title, &.current .exhibition-title {
+        font-size:1em;
+      }
+      &.current .thumbnail {
+        padding:0.5em;
+      }
+      &.past {
+        .header {
+          flex-wrap:wrap;
+          h2 {
+            width:100%;
+            margin-bottom:0.5em;
+          }
+          .view-controls {
+            margin:0px;
+            width:96px;
+            height:1.5rem;
+            align-items:center;
+            a {
+              font-size: 0.65em;
+            }
+          }
+          .exhibition-search {
+            flex:1;
+            margin-left:0.5em;
+            input {
+              padding:0.25em 0.25em 0.25em 0.5em;
+              font-size:0.75em;
+              height:1.5rem;
+            }
+          }
+        }
+        .exhibition-list.grid {
+          grid-column-gap:0.5rem;
+          .exhibition-listing {
+            font-size:0.75rem;
+            margin-bottom: 0.5rem;
+            .thumbnail {
+              margin-bottom:0.25rem;
+            }
+          }
+        }
+        .exhibition-list.list {
+          font-size:0.75rem;
+          padding-top:0rem;
+          .exhibition-listing {
+            margin-bottom:0.5rem;
+            .exhibition-item {
+              display:grid;
+              grid-template-columns:1fr 120px;
+              width:100%;
+              grid-column-gap:0.5rem;
+              .exhibition-header {
+                margin:0;
+                .title {
+                  width:100%;
+                }
+                .artists {
+                  margin:0;
+                  width:unset;
+                }
+              }
+              .dates {
+                width:unset;
+              }
+            }
+          }
+        }
+      }
+    }
   }
   .view-controls {
     display: flex;
@@ -399,6 +476,16 @@ main.exhibitions {
         border-radius: 0em 2em 2em 0em;
       }
     }
+  }
+}
+@media screen and (max-width:768px) {
+  body.exhibitions-index {
+    .container {
+      overflow:visible;
+    }
+  }
+  main.exhibitions {
+    width: calc(100vw - 3rem);
   }
 }
 </style>
