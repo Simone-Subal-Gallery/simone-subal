@@ -43,7 +43,7 @@ export default {
 
 <style lang="scss">
 .banner {
-  margin: 1em -4rem 3em -1.5rem;
+  margin: 1em -4rem 1em -1.5rem;
   &.image {
     height: calc(100vh - 3rem);
     figure {
@@ -66,6 +66,15 @@ export default {
     font-size: 2em;
     align-items: center;
     justify-content: center;
+  }
+  @media screen and (max-width:768px) {
+    margin: 1em -1.5rem;
+    &.image {
+      height:auto;
+      figure img {
+        height: calc(60vh - 3rem);
+      }
+    }
   }
 }
 </style>

@@ -74,7 +74,7 @@ export default {
 
 <style lang="scss">
 section.text {
-  margin: 6em 0;
+  margin: 3em 0;
   .boxed {
     border: 1px solid #000;
     padding: 2em 1em;
@@ -87,6 +87,9 @@ section.text {
   p {
     max-width: 800px;
     margin: 1em 0;
+  }
+  @media screen and (max-width:768px) {
+    margin:1.5em 0;
   }
 }
 </style>

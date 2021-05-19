@@ -67,6 +67,11 @@ import WorkBlock from '~/components/blocks/WorkBlock.vue'
 import CodeBlock from '~/components/blocks/CodeBlock.vue'
 
 export default Vue.extend({
+  head: {
+    bodyAttrs: {
+      class: 'exhibition-single'
+    }
+  },
   async asyncData({ params, app: { $sanity }}) {
     const query = groq`{
       "exhibition": *[_type == "exhibition" && slug.current == "${params.slug}"][0] {
@@ -218,6 +223,12 @@ export default Vue.extend({
     min-height: 67vh;
     flex: 1;
   }
+  @media screen and (max-width:768px) {
+    width: calc(100vw - 3rem);
+    h1.title {
+      font-size:1.5em;
+    }
+  }
   .more-exhibitions {
     background: #eee;
     margin-left:-1.5rem;
@@ -300,6 +311,69 @@ export default Vue.extend({
         }
       }
     }
+    @media screen and (max-width: 768px) {
+      .header {
+        flex-wrap:wrap;
+        h2 {
+          width:100%;
+          margin-bottom:0.5em;
+        }
+        .view-controls {
+          margin:0px;
+          width:96px;
+          height:1.5rem;
+          align-items:center;
+          a {
+            font-size: 0.65em;
+          }
+        }
+        .exhibition-search {
+          flex:1;
+          margin-left:0.5em;
+          input {
+            padding:0.25em 0.25em 0.25em 0.5em;
+            font-size:0.75em;
+            height:1.5rem;
+          }
+        }
+      }
+      .exhibition-list.grid {
+        grid-column-gap:0.5rem;
+        .exhibition-listing {
+          font-size:0.75rem;
+          margin-bottom: 0.5rem;
+          .thumbnail {
+            margin-bottom:0.25rem;
+          }
+        }
+      }
+      .exhibition-list.list {
+        font-size:0.75rem;
+        padding-top:0rem;
+        .exhibition-listing {
+          margin-bottom:0.5rem;
+          .exhibition-item {
+            display:grid;
+            grid-template-columns:1fr 120px;
+            width:100%;
+            grid-column-gap:0.5rem;
+            .exhibition-header {
+              margin:0;
+              .title {
+                width:100%;
+              }
+              .artists {
+                margin:0;
+                width:unset;
+              }
+            }
+            .dates {
+              width:unset;
+            }
+          }
+        }
+      }
+    }
   }
   .view-controls {
     display: flex;
@@ -326,6 +400,14 @@ export default Vue.extend({
       &:last-child {
         border-radius: 0em 2em 2em 0em;
       }
+    }
+  }
+}
+
+@media screen and (max-width:768px) {
+  body.exhibition-single {
+    .container {
+      overflow:visible;
     }
   }
 }

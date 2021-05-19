@@ -144,5 +144,13 @@ export default {
       }
     }
   }
+  @media screen and (max-width:768px) {
+    &.sticky_col {
+      grid-template-columns: 1fr;
+      .install, .work {
+        position: static;
+      }
+    }
+  }
 }
 </style>
