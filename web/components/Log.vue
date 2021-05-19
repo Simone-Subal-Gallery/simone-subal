@@ -226,6 +226,9 @@ export default Vue.extend({
     transform:translateX(100%);
     width: calc(100% - 6.5rem);
     z-index:1;
+    @media screen and (max-width:768px) {
+      left:3.5rem;
+    }
   }
   display: block;
   &.is-partial-open {

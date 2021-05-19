@@ -241,6 +241,9 @@ main {
   margin-top: 4.5rem;
   left:1.5rem;
   right:4rem;
+  @media screen and (max-width: 768px) {
+    margin-top: 3.5rem;
+  }
 }
 
 footer {

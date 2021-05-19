@@ -317,6 +317,9 @@ main.index {
     margin: 1.5rem 0;
     background: #fff;
     border: 1px solid #000;
+    @media screen and (max-width: 768px) {
+      margin:0.5rem 0;
+    }
     &.announcement{
       height: 160px;
       border-radius: 6rem;
@@ -399,7 +402,7 @@ main.index {
       }
       @media screen and (max-width:768px) {
         min-height:unset;
-        height:calc(100vh - 7.5rem);
+        height:calc(60vh - 7.5rem);
         padding:0.5em;
         flex-direction:column;
         align-items:flex-start;
