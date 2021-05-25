@@ -1,7 +1,7 @@
 <template>
   <main class="fair-single">
     <h1 class="title" v-html="fair.title" />
-    <p class="artists" v-if="fair.artists != undefined && fair.artists.length > 0" v-text="formatArtists(fair.artists)" />
+    <p class="artists" v-if="fair.artists != undefined && fair.artists.length > 0" v-html="formatArtists(fair.artists)" />
     <p class="dates" v-text="formatDates(fair.open_date, fair.close_date, 'future')" />
     <p class="opening" v-if="fair.opening != undefined" v-text="fair.opening" />
     <div class="content" v-if="fair.content != undefined && fair.content.length > 0">
@@ -20,6 +20,7 @@
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
+import mixinLinkClickRouting from '~/plugins/mixinLinkClickRouting'
 
 import Banner from '~/components/blocks/Banner.vue'
 import CTABlock from '~/components/blocks/CTABlock.vue'
@@ -29,6 +30,7 @@ import WorkBlock from '~/components/blocks/WorkBlock.vue'
 import CodeBlock from '~/components/blocks/CodeBlock.vue'
 
 export default Vue.extend({
+  mixins: [mixinLinkClickRouting],
   async asyncData({ params, app: { $sanity }}) {
     const query = groq`*[_type == "fair" && slug.current == "${params.slug}"][0]`
     const fair = await $sanity.fetch(query)
@@ -92,7 +94,13 @@ export default Vue.extend({
   },
   methods: {
     formatArtists (artists) {
-      return artists.map(artist => artist.title).join(", ")
+      return artists.map(artist => {
+        if (artist._type == 'artist') {
+          return `<a href='/artists/${artist.slug.current}'>${artist.title}</a>`
+        } else {
+          return artist.title
+        }
+      }).join(", ")
     },
     formatDates (open, close) {
       open = DateTime.fromISO(open)
