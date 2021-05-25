@@ -57,7 +57,12 @@ export default Vue.extend({
             ...,
             works[]{
               ...,
-              artist[]->
+              artist[]{
+                _type == 'artist_additional' => {
+                  ...
+                },
+                ...@->
+              }
             }
           }
         },
