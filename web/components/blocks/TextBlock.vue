@@ -90,6 +90,9 @@ section.text {
   }
   @media screen and (max-width:768px) {
     margin:1.5em 0;
+    .boxed {
+      padding: 2em;
+    }
   }
 }
 </style>

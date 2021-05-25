@@ -2,7 +2,7 @@
   <main class="page-single">
     <h1 class="title" v-html="page.title" />
     <div class="content" v-if="page.content != undefined && page.content.length > 0">
-      <SanityContent :blocks="page.content" />
+      <SanityContent :blocks="page.content" :serializers="serializers" />
     </div>
   </main>
 </template>
@@ -19,36 +19,54 @@ import TextBlock from '~/components/blocks/TextBlock.vue'
 import WorkBlock from '~/components/blocks/WorkBlock.vue'
 import CodeBlock from '~/components/blocks/CodeBlock.vue'
 
-export default Vue.extend({
-  async asyncData({ params, app: { $sanity }}) {
-    const query = groq`*[_type == "page" && slug.current == "${params.slug}"][0]`
-    const page = await $sanity.fetch(query)
-    return { page }
+import PDFBlock from '~/components/blocks/PDFBlock.vue'
+import URLBlock from '~/components/blocks/URLBlock.vue'
+
+const Link = {
+  props: {
+    href: {
+      type: String
+    }
   },
+  render(createElement) {
+    const props = {
+      attrs: {
+        href: this.href,
+        target: '_blank'
+      }
+    }
+    return createElement('a', props, this.$slots.default)
+  }
+}
+
+const Image = {
+  props: {
+    asset: {
+      type: Object
+    }
+  },
+  render(createElement) {
+    const props = {
+      attrs: {
+        src: this.asset.url
+      }
+    }
+    return createElement('img', props, this.$slots.default)
+  }
+}
+
+export default Vue.extend({
+  // async asyncData({ params, app: { $sanity }}) {
+  //   const query = groq`*[_type == "page" && slug.current == "${params.slug}"][0]`
+  //   const page = await $sanity.fetch(query)
+  //   return { page }
+  // },
   async asyncData({ params, app: { $sanity }}) {
     const query = groq`{
       "page": *[_type == "page" && slug.current == "${params.slug}"][0] {
         ...,
         content[]{
-          _type == 'banner' => {
-            ...
-          },
-          _type == 'cta' => {
-            ...
-          },
-          _type == 'galleryBlock' => {
-            ...
-          },
-          _type == 'textBlock' => {
-            ...
-          },
-          _type == 'workBlock' => {
-            ...,
-            works[]{
-              ...,
-              artist[]->
-            }
-          }
+        ...
         }
       },
     }`
@@ -65,6 +83,16 @@ export default Vue.extend({
   data () {
     return {
       view: 'grid',
+      serializers: {
+        types: {
+          pdf: PDFBlock,
+          link: URLBlock,
+          image: Image
+        },
+        marks: {
+          link: Link
+        }
+      }
     }
   },
   mounted() {
@@ -75,23 +103,29 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-main.fair-single {
+main.page-single {
   background-color: #fff;
   border: 1px solid #000;
-  border-top-left-radius: 10em;
-  border-top-right-radius: 10em;
   padding: 2rem;
   overflow: hidden;
+  max-width:720px;
+  line-height:1.2;
   h1 {
-    margin: 0 0.5em;
+    margin: 0.5rem 0.5em;
   }
   h1, .artists, .dates, .opening {
     text-align: center;
+  }
+  h2 {
+    margin:0.5rem 0;
   }
   .content {
     width: 100%;
     section {
       margin: 2em 0;
+    }
+    p {
+      margin:1rem 0;
     }
     .description {
       margin-top: 2em;

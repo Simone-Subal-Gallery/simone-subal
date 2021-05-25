@@ -121,13 +121,13 @@ export default {
     grid-gap: 1rem;
     .install, .work {
       position: sticky;
-      top:0px;
+      top:6rem;
       align-self:start;
     }
   }
   .install {
     figcaption {
-      font-size: 0.5em;
+      font-size: 0.75rem;
       max-width:720px;
       margin-bottom: 1rem;
     }
@@ -136,11 +136,11 @@ export default {
     figure {
       display: grid;
       grid-template-columns: 4fr 2fr;
-      grid-gap: 0.5em;
+      grid-gap: 0.75em;
       figcaption {
-        font-size:0.5em;
+        font-size:0.75rem;
         align-self:end;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
       }
     }
   }

@@ -154,7 +154,7 @@ export default Vue.extend({
       }
     },
     formatTitle(item) {
-      if (item.category == 'press') {
+      if (item.category == 'press' && item.publication!=undefined) {
         return item.publication + ': ' + item.title
       } else {
         return item.title

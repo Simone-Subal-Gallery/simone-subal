@@ -312,6 +312,7 @@ export default Vue.extend({
       }
     }
     @media screen and (max-width: 768px) {
+      padding-bottom: 6rem;
       .header {
         flex-wrap:wrap;
         h2 {
@@ -402,6 +403,10 @@ export default Vue.extend({
       }
     }
   }
+}
+
+body.exhibition-single .container {
+  overflow:visible;
 }
 
 @media screen and (max-width:768px) {
