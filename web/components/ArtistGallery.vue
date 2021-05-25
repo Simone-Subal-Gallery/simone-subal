@@ -247,6 +247,14 @@ export default {
       a {
         width:96px;
         margin:0.25em;
+        &:hover {
+          img {
+            opacity:1;
+          }
+          .caption {
+            display:none;
+          }
+        }
       }
     }
   }

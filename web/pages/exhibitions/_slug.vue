@@ -58,6 +58,7 @@
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
+import mixinLinkClickRouting from '~/plugins/mixinLinkClickRouting'
 
 import Banner from '~/components/blocks/Banner.vue'
 import CTABlock from '~/components/blocks/CTABlock.vue'
@@ -67,6 +68,7 @@ import WorkBlock from '~/components/blocks/WorkBlock.vue'
 import CodeBlock from '~/components/blocks/CodeBlock.vue'
 
 export default Vue.extend({
+  mixins: [mixinLinkClickRouting],
   head: {
     bodyAttrs: {
       class: 'exhibition-single'
@@ -158,9 +160,15 @@ export default Vue.extend({
     document.body.style.backgroundColor = "#eee"
   },
   computed: {
-    artistsString() {
+    artistsString () {
       let artists = this.exhibition.artists
-      return artists.map(artist => artist.title).join(", ")
+      return artists.map(artist => {
+        if (artist._type == 'artist') {
+          return `<a href='/artists/${artist.slug.current}'>${artist.title}</a>`
+        } else {
+          return artist.title
+        }
+      }).join(", ")
     },
     filteredFeed() {
       let feed = this.exhibitions.filter(obj => {
