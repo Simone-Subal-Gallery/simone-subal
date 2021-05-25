@@ -63,22 +63,22 @@ export default Vue.extend({
     '$route' () {
       this.open = false
       if (this.$route.name == 'artists-slug') {
-        this.filteredLog = this.log.filter(o => ('artist' in o) && (o.artist.slug==this.$route.params.slug))
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
         window.addEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'artists') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist'))
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist') || o.category == 'artists')
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'exhibitions-slug') {
-        this.filteredLog = this.log.filter(o => ('exhibition' in o) && (o.exhibition.slug.current==this.$route.params.slug))
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'exhibitions') {
-        this.filteredLog = this.log.filter(o => ('exhibition' in o))
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'exhibition') || o.category == 'exhibitions' || o.category == 'gallery_shows' || o.category == 'museum_shows')
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'fairs-slug') {
-        this.filteredLog = this.log.filter(o => ('fair' in o) && (o.fair.slug.current==this.$route.params.slug))
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'fairs') {
-        this.filteredLog = this.log.filter(o => ('fair' in o))
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'fair') || o.category == 'fairs')
         window.removeEventListener('scroll', this.handleScroll)
       } else {
         this.filteredLog = this.log
@@ -90,7 +90,7 @@ export default Vue.extend({
   created() {
     this.log = this.$store.state.log
     if (this.$route.name == 'artists-slug') {
-      this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist') && o.references.some(ref => ref.slug.current == this.$route.params.slug))  
+      this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist') && o.references.some(ref => ref.slug.current == this.$route.params.slug))
     } else if (this.$route.name == 'artists') {
       this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist'))
     } else if (this.$route.name == 'exhibitions-slug') {
