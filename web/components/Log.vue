@@ -1,9 +1,18 @@
 <template>
   <div :class="['log', open?'is-open':'', partial_open?'is-partial-open':'']" @click="openLog()">
-    <div v-for="item in filteredLog" :class="['log-item', item.category]" :key="item._key" @click="itemClick(item)">
+    <div v-for="item in filteredLog" :class="['log-item', item.category]" :key="item._key">
       <div class="date" v-text="formatDate(item.date)" v-if="open || partial_open" />
       <component :is="item.category" class="dot"/>
-      <div class="title" v-text="formatTitle(item)" v-if="open"/>
+      <div class="main-info" v-if="open">
+        <div class="title" v-text="formatTitle(item)" @click="itemClick(item)"/>
+        <div class="references">
+          <NuxtLink v-for="(ref, index) in item.references"
+          :key="ref._key"
+          :to="'/'+ref._type+'s/'+ref.slug.current">
+          {{ ref.title}}<span v-if="index != item.references.length - 1">, </span>
+          </NuxtLink>
+        </div>
+      </div>
       <div class="type" v-text="formatCategory(item.category)" v-if="open"/>
     </div>
   </div>
@@ -97,7 +106,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log(this.$route)
+    // console.log(this.$route)
   },
   beforeMount () {
     if (this.$route.name == 'artists-slug') {
@@ -154,11 +163,18 @@ export default Vue.extend({
       }
     },
     formatTitle(item) {
+      let string = ''
+      // if (item.references!=undefined && item.references.length>0) {
+      //   let refs = item.references.map(r => r.title)
+      //   let refString = refs.join(", ")
+      //   string += refString + ' - '
+      // }
       if (item.category == 'press' && item.publication!=undefined) {
-        return item.publication + ': ' + item.title
+        string += item.publication + ': ' + item.title
       } else {
-        return item.title
+        string += item.title
       }
+      return string
     },
     formatCategory(category) {
       let text = ''
@@ -219,8 +235,8 @@ export default Vue.extend({
   }
   &:not(.mobile) {
     position: fixed;
-    top: 4rem;
-    left:3rem;
+    top: 3rem;
+    left:3.5rem;
     padding-top:2rem;
     transition: transform 333ms ease-in-out;
     transform:translateX(100%);
@@ -244,20 +260,26 @@ export default Vue.extend({
   }
   .log-item {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    margin:1em 0;
+    grid-column-gap:1.5rem;
   }
   .date {
     flex:0;
-    margin-right:1.5rem;
-    width: 4rem;
+    width: auto;
   }
   .time {
     width: 58px;
   }
-  .title {
+  .main-info {
     flex: 1;
-    margin-left:1.5rem;
     cursor:pointer;
+    .title {
+
+    }
+    .references {
+      font-size:0.75em;
+    }
   }
   .type {
     width: 120px;
@@ -265,7 +287,7 @@ export default Vue.extend({
   .dot {
     width:1rem;
     height: 1rem;
-    margin:0.5rem;
+    margin:0;
     transition: transform 100ms ease-in-out;
     cursor: pointer;
     svg {
@@ -301,7 +323,7 @@ export default Vue.extend({
       grid-template-columns: 1rem 1fr 1fr;
       grid-template-rows:1fr;
       grid-column-gap:0.5em;
-      margin-bottom:0.5em;
+      margin:1em 0;
     }
     .dot {
       order:1;

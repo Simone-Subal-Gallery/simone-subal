@@ -1,6 +1,5 @@
 <template>
 <svg width="100px" height="100px" viewBox="-5 -5 110 110" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>gallery-shows</title>
     <g id="Log" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon id="gallery-shows" vector-effect="non-scaling-stroke" stroke="black" stroke-width="1" fill="#FD4B00" points="0 0 100 100 1.38777878e-15 100"></polygon>
     </g>

@@ -191,7 +191,7 @@ export default Vue.extend({
   min-height: calc(100vh - 3rem);
   display: flex;
   flex-direction: column;
-  overflow:hidden;
+  // overflow:hidden;
   &.overlay-open {
     overflow:hidden;
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="exhibition-single">
     <main>
-      <h1 class="title" v-html="exhibition.title + '<br>' + artistsString" />
+      <h1 class="title" v-html="!hide_title?exhibition.title:'' + '<br>' + artistsString" />
         <p v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <p v-if="exhibition.opening != undefined" v-text="exhibition.opening" />
       <div class="content" v-if="exhibition.content != undefined && exhibition.content.length > 0">

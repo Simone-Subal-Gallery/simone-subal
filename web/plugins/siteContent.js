@@ -24,14 +24,18 @@ const query = groq`{
   },
   "events": *[_type == "event"]{
     ...,
-    exhibition->,
-    artist->,
-    fair->,
-    work->
+    references[]->{
+      _id,
+      _type,
+      slug,
+      title
+    }
   },
   "artistLog": *[_type=="artist"]{
  	  _id,
     slug,
+    _type,
+    title,
  		press[]{
       ...,
       'pdf': pdf.asset->url
@@ -53,19 +57,25 @@ export default ({ store, $sanity }) => {
     artistLog.forEach((item, index, array) => {
       if (item.press!=undefined) {
         item.press.forEach((o) => {
-          o.artist = {}
-          o.artist._ref = item._id
-          o.artist.slug = item.slug.current
-          o.artist._type = 'reference'
+          let ref = {}
+          ref._id = item._id
+          ref.slug = item.slug
+          ref._type = item._type
+          ref.title = item.title
+          o.references=[]
+          o.references.push(ref)
           o.category = 'press'
         })
       }
       if (item.log!=undefined) {
         item.log.forEach((o) => {
-          o.artist = {}
-          o.artist._ref = item._id
-          o.artist.slug = item.slug.current
-          o.artist._type = 'reference'
+          let ref = {}
+          ref._id = item._id
+          ref.slug = item.slug
+          ref._type = item._type
+          ref.title = item.title
+          o.references=[]
+          o.references.push(ref)
         })
       }
       if (item.press!=undefined && item.log!=undefined) {
