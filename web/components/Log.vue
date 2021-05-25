@@ -66,7 +66,7 @@ export default Vue.extend({
         this.filteredLog = this.log.filter(o => ('artist' in o) && (o.artist.slug==this.$route.params.slug))
         window.addEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'artists') {
-        this.filteredLog = this.log.filter(o => ('artist' in o))
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist'))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'exhibitions-slug') {
         this.filteredLog = this.log.filter(o => ('exhibition' in o) && (o.exhibition.slug.current==this.$route.params.slug))
@@ -90,9 +90,9 @@ export default Vue.extend({
   created() {
     this.log = this.$store.state.log
     if (this.$route.name == 'artists-slug') {
-      this.filteredLog = this.log.filter(o => ('artist' in o) && (o.artist.slug==this.$route.params.slug))
+      this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist') && o.references.some(ref => ref.slug.current == this.$route.params.slug))  
     } else if (this.$route.name == 'artists') {
-      this.filteredLog = this.log.filter(o => ('artist' in o))
+      this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist'))
     } else if (this.$route.name == 'exhibitions-slug') {
       this.filteredLog = this.log.filter(o => ('exhibition' in o) && (o.exhibition.slug.current==this.$route.params.slug))
     } else if (this.$route.name == 'exhibitions') {
@@ -106,7 +106,8 @@ export default Vue.extend({
     }
   },
   mounted() {
-    // console.log(this.$route)
+    console.log('route',this.$route)
+    console.log('log',this.log)
   },
   beforeMount () {
     if (this.$route.name == 'artists-slug') {
@@ -342,7 +343,7 @@ export default Vue.extend({
       width:unset;
       font-size:0.75em;
     }
-    .title {
+    .main-info {
       order:4;
       margin:0;
       margin-left:1.5rem;
