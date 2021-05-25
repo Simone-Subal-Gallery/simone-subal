@@ -65,6 +65,7 @@ section.works {
   display: flex;
   flex-direction:row;
   flex-wrap: wrap;
+  align-items:flex-start;
   .work-item {
     flex: auto;
     margin: 1em;
@@ -92,9 +93,14 @@ section.works {
       }
     }
   }
-  &.count-2 {
+  &.count-2, &.count-3, &.count-4 {
     .work-item {
       width:calc(50% - 4em);
+    }
+  }
+  &.count-5, &.count-6, &.count-7, &.count-8, &.count-9, &.count-10, &.count-11, &.count-12 {
+    .work-item {
+      width:calc(33% - 4em);
     }
   }
 }
