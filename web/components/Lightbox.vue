@@ -2,11 +2,13 @@
   <div :id="id">
     <figure class="image" v-for="image, i in images" :key="image._id">
       <a :href="$urlFor(image).size(2800)" class="lightbox-image">
-        <SanityImage
-          :asset-id="image.asset._ref"
-          auto="format"
-          :alt="'alttext'"
-          loading="lazy"
+        <lazy-img
+          :background-color="image.asset.metadata.palette.vibrant.background"
+          :lazy-src="$urlFor(image).size(1400)"
+          :width="image.asset.metadata.dimensions.width"
+          :height="image.asset.metadata.dimensions.height"
+          :lazy-srcset="$urlFor(image).size(700) + ' 0.5x, ' + $urlFor(image).size(2800) + ' 2x'"
+          :alt="caption"
         />
       </a>
       <figcaption>

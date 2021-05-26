@@ -35,18 +35,23 @@
       <div :class="['exhibition-list', view=='grid'?'grid':'list']">
         <div v-for="exhibition in filteredFeed" :key="exhibition._id" class="exhibition-listing">
           <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
-              <div class="thumbnail" v-show="view == 'grid'">
-                <img
-                  :src="$urlFor(exhibition.thumbnail.asset).size(1280,1080)"
-                  width="1280"
-                  loading="lazy"
-                />
-              </div>
-              <div class="artists">
-                <p v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)"/>
-              </div>
-              <div class="title"><span v-if="exhibition.hide_title != true">{{ exhibition.title }}</span></div>
-              <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
+
+            <div :class="['thumbnail', exhibition.thumbnail==undefined?'empty':'']" v-show="view == 'grid'">
+              <lazy-img
+                :width="1280"
+                :height="1080"
+                :background-color="exhibition.thumbnail.asset.metadata.palette.vibrant.background"
+                :lazy-src="$urlFor(exhibition.thumbnail.asset).size(640, 540)"
+                :lazy-srcset="$urlFor(exhibition.thumbnail.asset).size(320, 270) + ' 0.5x, ' + $urlFor(exhibition.thumbnail.asset).size(1280, 1080) + ' 2x'"
+                v-if="exhibition.thumbnail != undefined"
+              />
+
+            </div>
+            <div class="artists">
+              <p v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)"/>
+            </div>
+            <div class="title"><span v-if="exhibition.hide_title != true">{{ exhibition.title }}</span></div>
+            <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
           </nuxt-link>
         </div>
       </div>
@@ -59,6 +64,7 @@ import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
 import mixinLinkClickRouting from '~/plugins/mixinLinkClickRouting'
+import LazyImg from '~/components/LazyImg.vue'
 
 import Banner from '~/components/blocks/Banner.vue'
 import CTABlock from '~/components/blocks/CTABlock.vue'
@@ -86,7 +92,15 @@ export default Vue.extend({
             ...
           },
           _type == 'galleryBlock' => {
-            ...
+            ...,
+            install[]{
+              ...,
+              'asset': asset->
+            },
+            work[]{
+              ...,
+              asset->
+            },
           },
           _type == 'textBlock' => {
             ...,
@@ -135,7 +149,8 @@ export default Vue.extend({
     GalleryBlock,
     TextBlock,
     WorkBlock,
-    CodeBlock
+    CodeBlock,
+    LazyImg
   },
   data () {
     return {
@@ -262,6 +277,7 @@ export default Vue.extend({
         align-self: flex-end;
         margin:0;
         width:240px;
+        font-size:1em;
       }
       .exhibition-search {
         width: 240px;
@@ -366,17 +382,20 @@ export default Vue.extend({
           margin-bottom:0.5rem;
           .exhibition-item {
             display:grid;
-            grid-template-columns:1fr 120px;
+            grid-template-columns: 1fr 1fr 120px;;
             width:100%;
             grid-column-gap:0.5rem;
+            .title {
+              width: unset;
+            }
+            .artists {
+              margin:0;
+              width:unset;
+            }
             .exhibition-header {
               margin:0;
               .title {
                 width:100%;
-              }
-              .artists {
-                margin:0;
-                width:unset;
               }
             }
             .dates {

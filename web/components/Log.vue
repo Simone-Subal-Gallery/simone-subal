@@ -245,6 +245,7 @@ export default Vue.extend({
     z-index:1;
     @media screen and (max-width:768px) {
       left:3.5rem;
+      padding-top:1rem;
     }
   }
   display: block;

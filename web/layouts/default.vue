@@ -326,6 +326,9 @@ footer {
     left: 1.5rem;
     max-width: calc(100% - 5.5rem);
     top: 5rem;
+    a.nuxt-link-active {
+      text-decoration: underline;
+    }
   }
   @media screen and (max-width:768px) {
     font-size: 1rem;

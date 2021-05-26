@@ -32,7 +32,7 @@
       <h2>Future</h2>
       <div class="exhibition-list">
         <div v-for="exhibition in future" :key="exhibition._id" class="exhibition-listing">
-          <div class="exhibition-item">
+          <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
               <div :class="['exhibition-header', exhibition.artists.length==1?'solo':'']">
                 <div class="title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
                 <div class="artists" v-if="exhibition.artists && exhibition.artists.length > 0" >
@@ -40,7 +40,7 @@
                 </div>
               </div>
               <div class="dates" v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
-          </div>
+          </nuxt-link>
         </div>
       </div>
     </section>
@@ -58,13 +58,26 @@
       <div :class="['exhibition-list', view=='grid'?'grid':'list']">
         <div v-for="exhibition in filteredFeed" :key="exhibition._id" class="exhibition-listing">
           <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
-              <div class="thumbnail" v-show="view == 'grid'">
-                <img
-                  :src="$urlFor(exhibition.thumbnail.asset).size(1280,1080)"
-                  width="1280"
-                  loading="lazy"
+
+              <div :class="['thumbnail', exhibition.thumbnail==undefined?'empty':'']" v-show="view == 'grid'">
+                <lazy-img
+                  :width="1280"
+                  :height="1080"
+                  :background-color="exhibition.thumbnail.asset.metadata.palette.vibrant.background"
+                  :lazy-src="$urlFor(exhibition.thumbnail.asset).size(640, 540)"
+                  :lazy-srcset="$urlFor(exhibition.thumbnail.asset).size(320, 270) + ' 0.5x, ' + $urlFor(exhibition.thumbnail.asset).size(1280, 1080) + ' 2x'"
+                  v-if="exhibition.thumbnail != undefined"
                 />
+
+                <!-- <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 1280 1080"
+                     width="1280"
+                     height="auto"
+                    >
+                  <rect width="1280" height="1080" :fill="exhibition.thumbnail.asset.metadata.palette.vibrant.background"></rect>
+                </svg> -->
               </div>
+
               <div :class="['exhibition-header', exhibition.artists.length==1?'solo':'']">
                 <p class="title"><span v-if="exhibition.hide_title != true">{{ exhibition.title }}</span></p>
                 <p class="artists" v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)"/>
@@ -83,6 +96,8 @@ import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
 import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
 import "swiper/css/swiper.css"
+
+import LazyImg from '~/components/LazyImg.vue'
 
 export default Vue.extend({
   name: 'Exhibitions',
@@ -225,6 +240,9 @@ main.exhibitions {
   }
   section {
     margin:3em 0;
+    &:first-child {
+      margin-top:0px;
+    }
     &.current {
       margin-top:1em;
       .exhibition-dates {
@@ -303,6 +321,10 @@ main.exhibitions {
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0.5em;
+        position: sticky;
+        top: 4.5rem;
+        padding: 0.5rem 0;
+        background-color: #eee;
         h2 {
           align-self: flex-end;
           margin:0;
@@ -321,10 +343,11 @@ main.exhibitions {
       .exhibition-list {
         font-size: 1.25rem;
         .exhibition-listing {
-          margin-bottom: 2em;
+          margin-bottom: 0.5em;
           line-height: 1;
           div {
             margin: 0.5em 0;
+            flex:1;
           }
         }
         &.grid {
@@ -357,20 +380,22 @@ main.exhibitions {
           padding-top:2em;
           .exhibition-item {
             display: flex;
+            align-items: flex-start;
             .title {
               order: -1;
-              width:35%;
+              width:50%;
               span {
               }
             }
             .artists {
-              width:45%;
+              width:40%;
               margin:0 1em;
               p {
               }
             }
             .dates {
-              width: 20%;
+              margin: 0.5em 0;
+              width: 200px;
               text-align:left;
             }
           }
@@ -423,7 +448,7 @@ main.exhibitions {
         }
         .exhibition-list.list {
           font-size:0.75rem;
-          padding-top:0rem;
+          padding-top:0.5rem;
           .exhibition-listing {
             margin-bottom:0.5rem;
             .exhibition-item {
@@ -433,6 +458,7 @@ main.exhibitions {
               grid-column-gap:0.5rem;
               .exhibition-header {
                 margin:0;
+                line-height: 1.33;
                 .title {
                   width:100%;
                 }
@@ -482,6 +508,9 @@ main.exhibitions {
   body.exhibitions-index {
     .container {
       overflow:visible;
+    }
+    #log {
+      display:none;
     }
   }
   main.exhibitions {
