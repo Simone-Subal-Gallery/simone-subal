@@ -2,11 +2,13 @@
   <div :class="['banner', block.type]">
     <template v-if="block.type == 'image'">
       <figure class="image">
-        <SanityImage
-          :asset-id="block.image.asset._ref"
-          auto="format"
-          :alt="block.image.asset.altText"
-          loading="lazy"
+        <lazy-img
+          :background-color="block.asset.metadata.palette.vibrant.background"
+          :lazy-src="$urlFor(block.asset).size(1400)"
+          :width="block.asset.metadata.dimensions.width"
+          :height="block.asset.metadata.dimensions.height"
+          :lazy-srcset="$urlFor(block.asset).size(700) + ' 0.5x, ' + $urlFor(block.asset).size(2800) + ' 2x, ' + $urlFor(block.asset).size(4200) + ' 3x'"
+          :alt="block.asset.altText"
         />
         <figcaption>
           <SanityContent :blocks="block.image.caption" />

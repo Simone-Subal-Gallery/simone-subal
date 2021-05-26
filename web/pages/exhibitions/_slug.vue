@@ -86,7 +86,8 @@ export default Vue.extend({
         ...,
         content[]{
           _type == 'banner' => {
-            ...
+            ...,
+            'asset': image.asset->
           },
           _type == 'cta' => {
             ...

@@ -130,6 +130,7 @@ export default {
       font-size: 0.75rem;
       max-width:720px;
       margin-bottom: 1rem;
+      margin-top: 0.75rem;
     }
   }
   .work {

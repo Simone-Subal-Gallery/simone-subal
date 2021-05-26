@@ -225,6 +225,9 @@ header {
   nav {
     display: inline-block;
     margin-right: 2rem;
+    a.nuxt-link-active {
+      text-decoration: underline;
+    }
     @media screen and (max-width:768px) {
         display:none;
     }
