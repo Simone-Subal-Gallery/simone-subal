@@ -13,6 +13,7 @@
 
 <script>
 import Lightbox from '~/components/Lightbox.vue'
+import LazyImg from '~/components/LazyImg.vue'
 
 export default {
   props: {

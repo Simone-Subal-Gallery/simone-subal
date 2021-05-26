@@ -1,9 +1,8 @@
 <template>
   <section :class="['works', 'count-'+block.works.length]">
-    <Lightbox class="work-item" v-for="work, i in block.works" :type="'workSingle'" :key="work._key" :id="'worklightbox'+index+i" :images="work.images" :caption="getCaption(work)" />
+    <Lightbox class="work-item" v-for="(work, i) in block.works" :type="'workSingle'" :key="work._key" :id="'worklightbox'+index+i" :images="work.images" :caption="getCaption(work)" />
   </section>
 </template>
-
 <script>
 import Lightbox from '~/components/Lightbox.vue'
 
@@ -28,9 +27,8 @@ export default {
     getCaption(work) {
       console.log(work)
       let string = ''
-      if (work.artist!=undefined) {
-        let artist = work.artist[0].title
-        string = `${artist}.`
+      if (work.artist!=undefined && work.artist.length > 0) {
+        string = `${work.artist[0].title}.`
       }
       let title = work.title || 'Untitled'
       string += ` <em>${title}</em>`

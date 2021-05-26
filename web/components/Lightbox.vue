@@ -12,8 +12,6 @@
         />
       </a>
       <figcaption>
-        <!-- <p v-if="type!=undefined && type == 'workGallery'" v-text="i+1"/>
-        <p v-if="type!=undefined && type != 'workSingle'" v-html="caption" /> -->
         <p v-if="numbered != undefined && numbered == true" v-html="i+1+'.'"/>
         <p v-if="caption != undefined" v-html="caption"/>
         <SanityContent v-if="caption==undefined" :blocks="image.caption" class="caption"/>

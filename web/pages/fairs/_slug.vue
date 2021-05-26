@@ -6,8 +6,8 @@
     <p class="opening" v-if="fair.opening != undefined" v-text="fair.opening" />
     <div class="content" v-if="fair.content != undefined && fair.content.length > 0">
       <component
-        :is="block._type == 'banner' ? 'Banner' : block._type == 'cta' ? 'CTABlock' : block._type == 'galleryBlock' ? 'FairGalleryBlock' : block._type == 'textBlock' ? 'TextBlock' : block._type == 'workBlock' ? 'WorkBlock' : block._type == 'codeBlock' ? 'CodeBlock' : ''"
-        v-for="block, i in fair.content"
+        :is="block._type == 'banner' ? 'Banner' : block._type == 'cta' ? 'CTABlock' : block._type == 'galleryBlock' ? 'FairGalleryBlock' : block._type == 'textBlock' ? 'TextBlock' : block._type == 'workBlock' ? 'WorkBlock' : ''"
+        v-for="(block, i) in fair.content"
         :key="block._key"
         :index="i"
         :block="block"
@@ -21,9 +21,11 @@ import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
 import mixinLinkClickRouting from '~/plugins/mixinLinkClickRouting'
+import LazyImg from '~/components/LazyImg.vue'
 
 import Banner from '~/components/blocks/Banner.vue'
 import CTABlock from '~/components/blocks/CTABlock.vue'
+import GalleryBlock from '~/components/blocks/GalleryBlock.vue'
 import FairGalleryBlock from '~/components/blocks/FairGalleryBlock.vue'
 import TextBlock from '~/components/blocks/TextBlock.vue'
 import WorkBlock from '~/components/blocks/WorkBlock.vue'
@@ -31,11 +33,6 @@ import CodeBlock from '~/components/blocks/CodeBlock.vue'
 
 export default Vue.extend({
   mixins: [mixinLinkClickRouting],
-  async asyncData({ params, app: { $sanity }}) {
-    const query = groq`*[_type == "fair" && slug.current == "${params.slug}"][0]`
-    const fair = await $sanity.fetch(query)
-    return { fair }
-  },
   async asyncData({ params, app: { $sanity }}) {
     const query = groq`{
       "fair": *[_type == "fair" && slug.current == "${params.slug}"][0] {
@@ -49,7 +46,15 @@ export default Vue.extend({
             ...
           },
           _type == 'galleryBlock' => {
-            ...
+            ...,
+            install[]{
+              ...,
+              'asset': asset->
+            },
+            work[]{
+              ...,
+              'asset': asset->
+            }
           },
           _type == 'textBlock' => {
             ...
@@ -58,12 +63,11 @@ export default Vue.extend({
             ...,
             works[]{
               ...,
-              artist[]{
-                _type == 'artist_additional' => {
-                  ...
-                },
-                ...@->
-              }
+              images[]{
+                ...,
+                'asset': asset->
+              },
+              artist[]->
             }
           }
         },
@@ -84,6 +88,7 @@ export default Vue.extend({
     FairGalleryBlock,
     TextBlock,
     WorkBlock,
+    LazyImg
   },
   data () {
     return {
