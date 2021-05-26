@@ -25,9 +25,7 @@
               </svg>
             </div>
             <div class="artists">
-              <template v-if="exhibition.artists && exhibition.artists.length > 0">
-                <p v-for="artist in exhibition.artists" :key="artist._id" v-text="artist.title" />
-              </template>
+              <p v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)" />
             </div>
             <div class="title"><span>{{ exhibition.title }}</span></div>
             <div class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date)" />
@@ -167,7 +165,13 @@ export default Vue.extend({
           _type == "exhibition_offsite" => {
             ...
           },
-          ...@->
+          ...@-> {
+            ...,
+            artists[] {
+              ...,
+              ...@->
+            }
+          }
         }
       },
       "artists": *[_type == "artist"][slug.current != "${params.slug}"] | order(title asc)
@@ -203,6 +207,10 @@ export default Vue.extend({
   created() {
   },
   methods: {
+    formatArtists (artists) {
+      console.log('artists', artists)
+      return artists.map(artist => artist.title).join(', ')
+    },
     formatDates (open, close) {
       open = DateTime.fromISO(open)
       close = DateTime.fromISO(close)

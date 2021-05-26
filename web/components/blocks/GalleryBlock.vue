@@ -1,5 +1,5 @@
 <template>
-  <div :class="['exhibition-gallery', block.display]" :id="'exhibitionGallery'+index">
+  <div :class="['exhibition-gallery', !block.display?'sticky_col':block.display]" :id="'exhibitionGallery'+index">
     <div class="install" v-if="block.install!=undefined && block.install.length > 0">
       <!-- <h3>Installation</h3> -->
         <Lightbox :id="'installlightbox'+index" :images="block.install" />
@@ -137,10 +137,11 @@ export default {
       display: grid;
       grid-template-columns: 4fr 2fr;
       grid-gap: 0.75em;
+      margin-bottom:1rem;
       figcaption {
         font-size:0.75rem;
         align-self:end;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
       }
     }
   }

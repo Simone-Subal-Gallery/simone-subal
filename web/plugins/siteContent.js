@@ -38,7 +38,13 @@ const query = groq`{
     title,
  		press[]{
       ...,
-      'pdf': pdf.asset->url
+      'pdf': pdf.asset->url,
+      references[]->{
+        _id,
+        _type,
+        slug,
+        title
+      }
     },
     log[]{
       ...
@@ -62,7 +68,9 @@ export default ({ store, $sanity }) => {
           ref.slug = item.slug
           ref._type = item._type
           ref.title = item.title
-          o.references=[]
+          if (o.references==undefined) {
+            o.references=[]
+          }
           o.references.push(ref)
           o.category = 'press'
         })

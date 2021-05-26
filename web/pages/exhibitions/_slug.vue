@@ -1,7 +1,7 @@
 <template>
   <div class="exhibition-single">
     <main>
-      <h1 class="title" v-html="!hide_title?exhibition.title:'' + '<br>' + artistsString" />
+      <h1 class="title" v-html="hide_title==true?'':exhibition.title + '<br>' + artistsString" />
         <p v-text="formatDates(exhibition.open_date, exhibition.close_date, 'future')" />
         <p v-if="exhibition.opening != undefined" v-text="exhibition.opening" />
       <div class="content" v-if="exhibition.content != undefined && exhibition.content.length > 0">
@@ -162,13 +162,16 @@ export default Vue.extend({
   computed: {
     artistsString () {
       let artists = this.exhibition.artists
-      return artists.map(artist => {
+      let array = []
+
+      artists.forEach(artist => {
         if (artist._type == 'artist') {
-          return `<a href='/artists/${artist.slug.current}'>${artist.title}</a>`
+          array.push(`<a href='/artists/${artist.slug.current}'>${artist.title}</a>`)
         } else {
-          return artist.title
+          array.push(artist.title)
         }
-      }).join(", ")
+      })
+      return array.join(", ")
     },
     filteredFeed() {
       let feed = this.exhibitions.filter(obj => {

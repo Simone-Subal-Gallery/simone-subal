@@ -398,7 +398,7 @@ main.index {
         }
       }
       .exhibition-title {
-        flex: 1;
+        max-width:67%;
       }
       @media screen and (max-width:768px) {
         min-height:unset;
@@ -408,7 +408,7 @@ main.index {
         align-items:flex-start;
         justify-content: flex-start;
         .exhibition-title, .artist-title {
-          flex:0;
+          max-width:unset;
         }
       }
     }
