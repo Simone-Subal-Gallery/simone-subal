@@ -137,6 +137,7 @@ main.fair-single {
   border-top-left-radius: 10em;
   border-top-right-radius: 10em;
   padding: 2rem;
+  margin-top:4.5rem;
   overflow: hidden;
   h1 {
     margin: 0 0.5em;
@@ -179,6 +180,9 @@ main.fair-single {
   body.fair-single {
     .container {
       overflow:visible;
+    }
+    #log {
+      display:none;
     }
   }
 }

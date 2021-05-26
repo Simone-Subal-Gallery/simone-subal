@@ -280,6 +280,9 @@ main.fairs {
     .container {
       overflow:visible;
     }
+    #log {
+      display:none;
+    }
   }
 }
 </style>

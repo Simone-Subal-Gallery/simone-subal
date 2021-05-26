@@ -45,7 +45,7 @@ export default {
 .banner {
   margin: 1em -4rem 1em -1.5rem;
   &.image {
-    height: calc(100vh - 3rem);
+    max-height: calc(100vh - 3rem);
     figure {
       height:100%;
       img {

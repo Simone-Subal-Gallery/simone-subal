@@ -354,6 +354,7 @@ export default Vue.extend({
           align-items:center;
           a {
             font-size: 0.65em;
+            padding: 0.5em 0.5em 0.4em 0.5em;
           }
         }
         .exhibition-search {
@@ -409,11 +410,11 @@ export default Vue.extend({
   }
   .view-controls {
     display: flex;
-    width: 120px;
+    width: 8em;
     margin:0.5em;
     a {
       flex: 1;
-      padding:0.5em 0.5em 0.25em 0.5em;
+      padding:0.5em 0.5em 0.4em 0.5em;
       background-color: transparent;
       border:1px solid #000;
       margin:0;

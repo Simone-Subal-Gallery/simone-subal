@@ -324,7 +324,6 @@ main.exhibitions {
         position: sticky;
         top: 4.5rem;
         padding: 0.5rem 0;
-        background-color: #eee;
         h2 {
           align-self: flex-end;
           margin:0;
@@ -354,6 +353,7 @@ main.exhibitions {
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-column-gap: 2em;
+          grid-row-gap: 1em;
           .thumbnail {
             margin-bottom: 0.5em;
           }
@@ -424,6 +424,7 @@ main.exhibitions {
             align-items:center;
             a {
               font-size: 0.65em;
+              padding: 0.5em 0.5em 0.4em 0.5em;
             }
           }
           .exhibition-search {
@@ -478,11 +479,11 @@ main.exhibitions {
   }
   .view-controls {
     display: flex;
-    width: 120px;
+    width: 8em;
     margin:0.5em;
     a {
       flex: 1;
-      padding:0.5em 0.5em 0.5em 0.5em;
+      padding:0.5em 0.5em 0.4em 0.5em;
       background-color: transparent;
       border:1px solid #000;
       margin:0;

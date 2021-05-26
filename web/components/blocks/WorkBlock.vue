@@ -78,7 +78,6 @@ section.works {
       }
     }
     img {
-      max-height: 70vh;
       object-fit: contain;
       width:100%;
       object-position: center;
@@ -99,6 +98,13 @@ section.works {
   &.count-5, &.count-6, &.count-7, &.count-8, &.count-9, &.count-10, &.count-11, &.count-12 {
     .work-item {
       width:calc(33% - 4em);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    &.count-2, &.count-3, &.count-4, &.count-5, &.count-6, &.count-7, &.count-8, &.count-9, &.count-10, &.count-11, &.count-12 {
+      .work-item {
+        width:100%;
+      }
     }
   }
 }

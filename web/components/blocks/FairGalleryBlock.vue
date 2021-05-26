@@ -133,7 +133,6 @@ export default {
       grid-template-columns: 1fr;
       grid-gap: 0.25em;
       img {
-        max-height:calc(100vh - 6rem);
       }
       figcaption {
         font-size:0.5em;

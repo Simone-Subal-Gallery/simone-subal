@@ -202,7 +202,7 @@ export default Vue.extend({
     console.log(this.$store.state.logFilter)
     const logRow = document.querySelector('#logRow')
     const log = document.querySelector('#log')
-    logRow.style.height = log.getBoundingClientRect().height + 32 + "px"
+    logRow.style.height = log.getBoundingClientRect().height + "px"
   },
   created() {
   },
@@ -229,7 +229,7 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-.artist-single {
+body.artist-single div.artist-single {
   main {
     background-color: #fff;
     border: 1px solid #000;
@@ -344,6 +344,12 @@ export default Vue.extend({
     flex-wrap: wrap;
     padding: 1.5rem 0;
     font-size: 1rem;
+    position: static;
+  }
+}
+body.artist-single .container.log-open {
+  .more-artists {
+    display:none;
   }
 }
 @media screen and (min-width: 1024px) {

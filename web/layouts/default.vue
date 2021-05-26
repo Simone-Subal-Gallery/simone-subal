@@ -241,11 +241,12 @@ header h1 {
 }
 
 main {
-  margin-top: 4.5rem;
+  padding-top: 4.5rem;
   left:1.5rem;
   right:4rem;
+  position: static;
   @media screen and (max-width: 768px) {
-    margin-top: 3.5rem;
+    padding-top: 3.5rem;
   }
 }
 
@@ -270,6 +271,7 @@ footer {
   justify-content: center;
   cursor: pointer;
   box-sizing: content-box;
+  background-color: #eee;
 }
 
 .overlay-toggle .circle {
@@ -464,6 +466,14 @@ nav.secondary {
 .container.log-open {
   header, .overlay-toggle, main {
     transform: translateX(calc(-100vw + 6rem));
+  }
+  .overlay-toggle {
+    background-color: #fff;
+  }
+  main {
+    position: fixed;
+    overflow: hidden;
+    height:100vh;
   }
 }
 /*** ARTISTSS ***/

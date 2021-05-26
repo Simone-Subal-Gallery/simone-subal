@@ -180,7 +180,7 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       a {
-        padding: 0.5em;
+        padding: 0.5em 0.5em 0.4em 0.5em;
         font-size: 0.65em;
       }
     }

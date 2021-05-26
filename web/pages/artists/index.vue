@@ -20,6 +20,11 @@ import { groq } from '@nuxtjs/sanity'
 
 export default Vue.extend({
   name: 'Artists',
+  head: {
+    bodyAttrs: {
+      class: 'artists-index'
+    }
+  },
   async asyncData({ app: { $sanity }}) {
     const query = groq`*[_type == "artist"] | order(sortName asc)`
     const artists = await $sanity.fetch(query)
@@ -84,6 +89,12 @@ export default Vue.extend({
   z-index: -1;
 }
 
+body.artist-single {
+  .artist-single {
+    padding-top: 4rem;
+  }
+}
+
 main.artists .wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -111,6 +122,11 @@ main.artists .wrapper {
   }
 }
 @media screen and (max-width: 768px) {
+  body.artist-single {
+    .artist-single {
+      padding-top:4rem;
+    }
+  }
   main.artists {
     font-size: 1rem;
     .wrapper {
@@ -122,6 +138,11 @@ main.artists .wrapper {
   }
 }
 @media screen and (max-width: 640px) {
+  body.artists-index {
+    #log {
+      display:none;
+    }
+  }
   main.artists {
     font-size: 1rem;
   }

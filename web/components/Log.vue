@@ -1,9 +1,9 @@
 <template>
-  <div :class="['log', open?'is-open':'', partial_open?'is-partial-open':'']" @click="openLog()">
+  <div :class="['log', open?'is-open':'', expanded?'is-expanded':'', partial_open?'is-partial-open':'']" @click="openLog()">
     <div v-for="item in filteredLog" :class="['log-item', item.category]" :key="item._key">
-      <div class="date" v-text="formatDate(item.date)" v-if="open || partial_open" />
+      <div class="date" v-text="formatDate(item.date)" v-if="open || partial_open || expanded" />
       <component :is="item.category" class="dot"/>
-      <div class="main-info" v-if="open">
+      <div class="main-info" v-if="open || expanded">
         <div class="title" v-text="formatTitle(item)" @click="itemClick(item)"/>
         <div class="references">
           <NuxtLink v-for="(ref, index) in item.references"
@@ -13,7 +13,7 @@
           </NuxtLink>
         </div>
       </div>
-      <div class="type" v-text="formatCategory(item.category)" v-if="open"/>
+      <div class="type" v-text="formatCategory(item.category)" v-if="open || expanded"/>
     </div>
   </div>
 </template>
@@ -56,7 +56,8 @@ export default Vue.extend({
     return {
       log: [],
       filteredLog: [],
-      partial_open: false
+      partial_open: false,
+      expanded: false
     }
   },
   watch: {
@@ -72,7 +73,7 @@ export default Vue.extend({
         this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'exhibitions') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'exhibition') || o.category == 'exhibitions' || o.category == 'gallery_shows' || o.category == 'museum_shows')
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'exhibition') || o.category == 'exhibitions')
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'fairs-slug') {
         this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
@@ -106,8 +107,6 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log('route',this.$route)
-    console.log('log',this.log)
   },
   beforeMount () {
     if (this.$route.name == 'artists-slug') {
@@ -119,9 +118,13 @@ export default Vue.extend({
   },
   methods: {
     openLog() {
-      if (this.open == false && this.partial_open == false) {
+      if (this.open == false && this.expanded==false && this.partial_open==false) {
         this.open = true
         this.$emit('opened')
+      } else if ( this.partial_open == true ) {
+        // scroll down to expanded breakpoint
+      } else if ( this.expanded == true ) {
+
       }
     },
     handleScroll() {
@@ -131,18 +134,19 @@ export default Vue.extend({
       let el2 = document.querySelector('#logRow')
       let log = document.querySelector('#log')
 
-      if (this.primary==true) {
+      if (this.primary==true && this.open==false) {
         if (el2.getBoundingClientRect().top <= 128) {
-          this.open = true
+          this.expanded = true
           this.partial_open = false
-          log.style.top = (desc.getBoundingClientRect().height + exhibitions.getBoundingClientRect().height + desc.offsetTop + 132) + "px"
+          log.style.top = (desc.getBoundingClientRect().height + exhibitions.getBoundingClientRect().height + desc.offsetTop + 72) + "px"
+          el2.style.height = (log.getBoundingClientRect().height - 5*16) + "px"
         } else if (el.getBoundingClientRect().bottom <= 64) {
           this.partial_open = true
-          this.open = false
-          log.style.top = "4rem"
+          this.expanded = false
+          // log.style.top = "4rem"
         } else {
           this.partial_open = false
-          this.open = false
+          this.expanded = false
         }
       }
     },
@@ -230,22 +234,27 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+.container .log-open {
+
+}
+
 .log {
   &.mobile {
     display:none;
   }
   &:not(.mobile) {
+    overflow: hidden;
     position: fixed;
-    top: 3rem;
+    top: 0rem;
     left:3.5rem;
-    padding-top:2rem;
+    padding-top:5rem;
     transition: transform 333ms ease-in-out;
     transform:translateX(100%);
     width: calc(100% - 6.5rem);
     z-index:1;
     @media screen and (max-width:768px) {
       left:3.5rem;
-      padding-top:1rem;
+      padding-top:5rem;
     }
   }
   display: block;
@@ -255,7 +264,14 @@ export default Vue.extend({
   }
   &.is-open {
     transform:translateX(0);
-    position:absolute;
+    &:not(.mobile) {
+      overflow: scroll;
+      height: 100vh;
+    }
+  }
+  &.is-expanded {
+    transform:translateX(0);
+    position: absolute;
   }
   &.mobile {
     position: static;
