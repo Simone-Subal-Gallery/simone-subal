@@ -1,11 +1,11 @@
-@font-face {
+/* @font-face {
   font-family: 'neuzeit_grotesk';
   src: url('~/assets/fonts/neuzeit_grotesk.woff2') format('woff2'),
        url('~/assets/fonts/neuzeit_grotesk.woff') format('woff'),
        url('~/assets/fonts/neuzeit_grotesk.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-}
+} */
 
 html {
   font-size: 16px;
@@ -31,7 +31,7 @@ body {
   background-repeat: no-repeat;
   padding: 1.5rem;
   padding-right: 4rem;
-  font-family: 'neuzeit_grotesk', 'Helvetica', sans-serif;
+  font-family: neuzeit-grotesk, sans-serif;
 }
 
 h1, h2, h3 {
