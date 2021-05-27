@@ -89,12 +89,6 @@ export default Vue.extend({
   z-index: -1;
 }
 
-body.artist-single {
-  .artist-single {
-    padding-top: 4rem;
-  }
-}
-
 main.artists .wrapper {
   display: flex;
   flex-wrap: wrap;

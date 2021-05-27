@@ -245,6 +245,12 @@ main {
   left:1.5rem;
   right:4rem;
   position: static;
+  padding-bottom:1.5rem;
+  .content section {
+    &:last-of-type {
+      margin-bottom:0px !important;
+    }
+  }
   @media screen and (max-width: 768px) {
     padding-top: 3.5rem;
   }

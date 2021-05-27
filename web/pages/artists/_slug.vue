@@ -230,6 +230,7 @@ export default Vue.extend({
 
 <style lang="scss">
 body.artist-single div.artist-single {
+  padding-top: 4rem;
   main {
     background-color: #fff;
     border: 1px solid #000;

@@ -87,11 +87,17 @@ section.text {
   p {
     max-width: 800px;
     margin: 1em 0;
+    &:first-of-type {
+      margin-top:0px;
+    }
+    &:last-of-type {
+      margin-bottom:0px;
+    }
   }
   @media screen and (max-width:768px) {
     margin:1.5em 0;
     .boxed {
-      padding: 2em;
+      padding: 1.5em;
     }
   }
 }

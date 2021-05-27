@@ -140,7 +140,8 @@ export default Vue.extend({
   },
   methods: {
     toggleOverlay() {
-      this.$nuxt.$emit('toggleOverlay')
+      let lightbox = document.querySelector('.simple-lightbox')
+      if (lightbox == undefined) {this.$nuxt.$emit('toggleOverlay')}
     },
     clickFeatured(item) {
       this.$router.push('/'+item._type+'s/'+item.slug.current)

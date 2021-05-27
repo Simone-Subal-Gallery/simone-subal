@@ -138,12 +138,12 @@ export default Vue.extend({
         if (el2.getBoundingClientRect().top <= 128) {
           this.expanded = true
           this.partial_open = false
-          log.style.top = (desc.getBoundingClientRect().height + exhibitions.getBoundingClientRect().height + desc.offsetTop + 72) + "px"
+          log.style.top = (desc.getBoundingClientRect().height + exhibitions.getBoundingClientRect().height + desc.offsetTop + 48) + "px"
           el2.style.height = (log.getBoundingClientRect().height - 5*16) + "px"
         } else if (el.getBoundingClientRect().bottom <= 64) {
           this.partial_open = true
           this.expanded = false
-          // log.style.top = "4rem"
+          log.style.top = "0px"
         } else {
           this.partial_open = false
           this.expanded = false
@@ -248,6 +248,7 @@ export default Vue.extend({
     top: 0rem;
     left:3.5rem;
     padding-top:5rem;
+    padding-right:3rem;
     transition: transform 333ms ease-in-out;
     transform:translateX(100%);
     width: calc(100% - 6.5rem);
@@ -255,6 +256,7 @@ export default Vue.extend({
     @media screen and (max-width:768px) {
       left:3.5rem;
       padding-top:5rem;
+      padding-right:0px;
     }
   }
   display: block;
