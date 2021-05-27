@@ -440,6 +440,11 @@ export default Vue.extend({
 body.exhibition-single .container {
   overflow:visible;
 }
+.container.log-open {
+  .more-exhibitions {
+    display:none;
+  }
+}
 
 @media screen and (max-width:768px) {
   body.exhibition-single {

@@ -73,7 +73,7 @@ export default Vue.extend({
         this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'exhibitions') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'exhibition') || o.category == 'exhibitions')
+        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'exhibition'))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'fairs-slug') {
         this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
