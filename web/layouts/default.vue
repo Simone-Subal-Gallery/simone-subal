@@ -106,6 +106,17 @@ const Link = {
 }
 
 export default Vue.extend({
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.site.seo_description,
+        },
+      ]
+    }
+  },
   data() {
     return {
       overlayOpen: false,

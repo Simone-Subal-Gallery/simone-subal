@@ -123,8 +123,12 @@ export default Vue.extend({
         this.$emit('opened')
       } else if ( this.partial_open == true ) {
         // scroll down to expanded breakpoint
-      } else if ( this.expanded == true ) {
+        const yOffset = -72
+        const element = document.querySelector('#logRow')
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+        window.scrollTo({top: y, behavior: 'smooth'});
 
+      } else if ( this.expanded == true ) {
       }
     },
     handleScroll() {
