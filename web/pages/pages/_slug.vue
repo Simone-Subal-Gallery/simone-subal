@@ -61,6 +61,11 @@ export default Vue.extend({
   //   const page = await $sanity.fetch(query)
   //   return { page }
   // },
+  head: {
+    bodyAttrs: {
+      class: 'page-single'
+    }
+  },
   async asyncData({ params, app: { $sanity }}) {
     const query = groq`{
       "page": *[_type == "page" && slug.current == "${params.slug}"][0] {
@@ -103,6 +108,11 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+body.page-single {
+  .container {
+    padding-top:4rem;
+  }
+}
 main.page-single {
   background-color: #fff;
   border: 1px solid #000;

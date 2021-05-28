@@ -3,6 +3,7 @@
     :data-src="lazySrc"
     :data-srcset="lazySrcset"
     :style="style"
+    :sizes="sizes"
     class="lazy-img"
   >
 </template>
@@ -26,6 +27,10 @@ export default {
       default: null,
     },
     lazySrcset: {
+      type: String,
+      default: null,
+    },
+    sizes: {
       type: String,
       default: null,
     },

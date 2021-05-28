@@ -4,10 +4,17 @@
       <a :href="$urlFor(image).size(2800)" class="lightbox-image">
         <lazy-img
           :background-color="image.asset.metadata.palette.vibrant.background"
-          :lazy-src="$urlFor(image).size(1400)"
+          :lazy-src="$urlFor(image).size(1920)"
           :width="image.asset.metadata.dimensions.width"
           :height="image.asset.metadata.dimensions.height"
-          :lazy-srcset="$urlFor(image).size(700) + ' 0.5x, ' + $urlFor(image).size(2800) + ' 2x'"
+          :lazy-srcset="`
+            ${$urlFor(image).size(2880)} 2880w,
+            ${$urlFor(image).size(1920)} 1920w,
+            ${$urlFor(image).size(1024)} 1024w,
+            ${$urlFor(image).size(960)} 960w,
+            ${$urlFor(image).size(720)} 720w,
+            ${$urlFor(image).size(480)} 480w,
+            ${$urlFor(image).size(270)} 270w`"
           :alt="caption"
         />
       </a>
@@ -63,7 +70,6 @@ export default {
 
     let query = '#' + this.id + ' .lightbox-image'
     let lightbox = new SimpleLightbox(query, this.lightboxOptions)
-    console.log(lightbox)
   },
   methods: {
   }

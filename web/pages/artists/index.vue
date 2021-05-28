@@ -32,6 +32,11 @@ export default Vue.extend({
       artists
     }
   },
+  watch: {
+    '$route' () {
+      document.body.removeChild(document.body.querySelector('.bg-image'))
+    }
+  },
   methods: {
     loadImages (artists) {
       for (var i = 0; i < artists.length; i++) {
