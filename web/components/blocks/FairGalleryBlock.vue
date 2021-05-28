@@ -119,14 +119,14 @@ export default {
   .install, .work {
   }
   .install {
-    width:100%;
+    width:67%;
     figcaption {
-      font-size: 0.5em;
+      font-size: 0.75em;
       max-width:720px;
     }
   }
   .work {
-    width:100%;
+    width:67%;
     figure {
       margin:1em 0;
       display: grid;
@@ -135,7 +135,7 @@ export default {
       img {
       }
       figcaption {
-        font-size:0.5em;
+        font-size:0.75em;
         align-self:end;
         max-width:360px;
       }

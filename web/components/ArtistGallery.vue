@@ -6,8 +6,8 @@
     </div>
     <flickity ref="flickity" v-show="view == 'flow'" :options="flickityOptions" class="carousel" @init="onInit"
       @mouseenter.native="pause" @mouseleave.native="play" @focusin.native="pause" @focusout.native="play">
-        <a :href="$urlFor(image).size(1920)" v-for="image in images" :key="image._key">
           <img
+            v-for="image in images" :key="image._key"
             :src="$urlFor(image).size(800)"
             style="margin:0 0.25em"
             :width="image.asset.metadata.dimensions.width"
@@ -31,7 +31,6 @@
             :data-flickity-lazyload-src="$urlFor(image).size(1920)"
             :alt="image.asset.altText"
           />
-        </a>
     </flickity>
     <div class="image-grid" v-show="view == 'grid'">
       <a class="grid-item" v-for="image in images" :key="image._key" :href="$urlFor(image).size(1920)">
@@ -100,7 +99,6 @@ export default {
     },
     update () {
       const tickerSpeed = 1
-
       if (this.isPaused) return
       if (this.view != 'flow') return
       if (this.$refs.flickity.$flickity.slides) {
@@ -144,9 +142,7 @@ export default {
   },
   mounted () {
     let lightbox = new SimpleLightbox('.image-grid a', this.lightboxOptions)
-     this.$nextTick(() => {
-       this.onInit()
-     })
+    this.onInit()
   }
 }
 </script>

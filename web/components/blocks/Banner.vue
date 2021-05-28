@@ -45,7 +45,7 @@ export default {
 .banner {
   margin: 1em -4rem 1em -1.5rem;
   &.image {
-    max-height: calc(100vh - 3rem);
+    max-height: calc(75vh - 3rem);
     figure {
       height:100%;
       img {
@@ -53,7 +53,7 @@ export default {
         max-width:100%;
         height: 100%;
         width:100%;
-        max-height: calc(100vh - 3rem);
+        max-height: calc(75vh - 3rem);
       }
     }
   }

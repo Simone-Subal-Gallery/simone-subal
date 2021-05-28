@@ -41,7 +41,7 @@ export default Vue.extend({
     loadImages (artists) {
       for (var i = 0; i < artists.length; i++) {
         let img = new Image()
-        let url = this.$urlFor(artists[i].thumbnail).url()
+        let url = this.$urlFor(artists[i].thumbnail).size(1920, 1080).url()
         img.src = url
         img.classList.add('bg-image')
         this.bgImages[i] = img
