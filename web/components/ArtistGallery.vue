@@ -9,7 +9,7 @@
         <a :href="$urlFor(image).size(1920)" v-for="image in images" :key="image._key">
           <img
             :src="$urlFor(image).size(800)"
-            :style="`background-color:${image.asset.metadata.palette.vibrant.background}`"
+            style="margin:0 0.25em"
             :width="image.asset.metadata.dimensions.width"
             :height="image.asset.metadata.dimensions.height"
             :data-flickity-lazyload="$urlFor(image).size(1920)"
@@ -66,7 +66,7 @@ export default {
         friction: 0.15,
         cellSelector: 'img',
         imagesLoaded: true,
-        lazyLoad: 4,
+        lazyLoad: 5,
         freeMode: true,
         cellAlign: 'left'
       },
@@ -124,6 +124,16 @@ export default {
     onInit () {
       // console.log(this.$refs.flickity.$flickity)
       if (this.$refs.flickity.$flickity != undefined) {
+        let imagesLoaded = 0
+        this.$refs.flickity.$flickity.on( 'lazyLoad', function( event, cellElement ) {
+          imagesLoaded++
+          console.log(imagesLoaded)
+        })
+        if (imagesLoaded > 3) {
+          this.$refs.flickity.$flickity.resize()
+          console.log('resize slideshow!)')
+        }
+
         this.$refs.flickity.$flickity.x = 0
         this.$refs.flickity.$flickity.on('dragStart', () => {
           this.isPaused = true
@@ -134,7 +144,7 @@ export default {
   },
   mounted () {
     let lightbox = new SimpleLightbox('.image-grid a', this.lightboxOptions)
-    this.onInit()
+    // this.onInit()
   }
 }
 </script>
@@ -183,7 +193,7 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       a {
-        padding: 0.5em 0.5em 0.4em 0.5em;
+        padding: 0.5em;
         font-size: 0.65em;
       }
     }
@@ -194,7 +204,6 @@ export default {
       display:block;
       max-height: 67vh;
       min-height:67vh;
-      margin-right:0.5em;
       max-width:none;
       opacity:0;
       transition: opacity 333ms ease-out;
@@ -210,7 +219,8 @@ export default {
     @media screen and (max-width: 768px) {
       height: 50vh;
       img {
-        height: 50vh;
+        max-height: 50vh;
+        min-height:50vh;
       }
     }
   }

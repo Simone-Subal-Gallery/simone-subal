@@ -334,7 +334,7 @@ main.exhibitions {
             border:1px solid #000;
             border-radius: 1em;
             width: 100%;
-            padding: 0.5em 0.5em 0.5em 0.75em;
+            padding: 0.5em;
           }
         }
       }
@@ -423,14 +423,14 @@ main.exhibitions {
             align-items:center;
             a {
               font-size: 0.65em;
-              padding: 0.5em 0.5em 0.4em 0.5em;
+              padding: 0.5em;
             }
           }
           .exhibition-search {
             flex:1;
             margin-left:0.5em;
             input {
-              padding:0.25em 0.25em 0.25em 0.5em;
+              padding:0.25em;
               font-size:0.75em;
               height:1.5rem;
             }
@@ -482,7 +482,7 @@ main.exhibitions {
     margin:0.5em;
     a {
       flex: 1;
-      padding:0.5em 0.5em 0.4em 0.5em;
+      padding:0.5em;
       background-color: transparent;
       border:1px solid #000;
       margin:0;
