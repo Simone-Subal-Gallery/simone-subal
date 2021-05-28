@@ -741,6 +741,132 @@ body.hidden-scroll {
     }
 }
 
+// ARTIST GALLERY SINGLES
+.gallery.artist-gallery {
+  margin: 0 -2rem;
+  @media screen and (max-width: 768px) {
+    margin: 0 -1rem;
+  }
+  .view-controls {
+    display: flex;
+    width: 120px;
+    margin:0.5em;
+    position: absolute;
+    top: 1.25em;
+    right: 1.5em;
+    margin: 0.5em;
+    a {
+      flex: 1;
+      padding: 0.5em;
+      background-color: transparent;
+      border:1px solid #000;
+      margin:0;
+      text-align: center;
+      font-size: 0.85em;
+      line-height:1;
+      text-transform:uppercase;
+      cursor: pointer;
+      &.active {
+        background-color: #eee;
+      }
+      &:first-child {
+        border-radius: 2em 0em 0em 2em;
+        border-right:0px;
+      }
+      &:last-child {
+        border-radius: 0em 2em 2em 0em;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      width: 96px;
+      margin: 0.25em;
+      top: 0.5em;
+      right: unset;
+      left: 50%;
+      transform: translateX(-50%);
+      a {
+        padding: 0.5em;
+        font-size: 0.65em;
+      }
+    }
+  }
+  .carousel {
+    height:67vh;
+    img {
+      display:block;
+      max-height: 67vh;
+      min-height:67vh;
+      width:auto;
+      max-width:none;
+      opacity:0;
+      transition: opacity 333ms ease-out;
+      &.flickity-lazyloaded {
+        opacity:1;
+      }
+      &:after {
+        content:'+';
+        display:block;
+        cursor:pointer;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      height: 50vh;
+      img {
+        max-height:50vh;
+        min-height:50vh;
+      }
+    }
+  }
+  figcaption {
+    font-size:0.85rem;
+    padding: 0.5rem 0;
+  }
+  .image-grid {
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    a {
+      display:block;
+      width:160px;
+      margin:0.5em;
+      line-height:0;
+      &:hover {
+        outline: 1px solid #000;
+        img {
+          opacity:0;
+        }
+        .caption {
+          display:block;
+        }
+      }
+    }
+    .caption {
+      font-size:0.5em;
+      line-height:1;
+      display:none;
+      position: absolute;
+      padding: 1em;
+      max-width:160px;
+    }
+    @media screen and (max-width: 768px) {
+      padding: 0 0.25em;
+      a {
+        width:96px;
+        margin:0.25em;
+        &:hover {
+          img {
+            opacity:1;
+          }
+          .caption {
+            display:none;
+          }
+        }
+      }
+    }
+  }
+}
+
 .sl-spinner {
     display: none;
     border: 5px solid #333;

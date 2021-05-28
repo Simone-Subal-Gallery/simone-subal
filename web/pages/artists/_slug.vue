@@ -2,7 +2,10 @@
   <div class="artist-single">
   <main>
     <h1 class="title" v-text="artist.title" />
+    <client-only>
     <ArtistGallery :images="artist.gallery" id="gallery" />
+    </client-only>
+    
     <div class="content">
       <SanityContent :blocks="artist.description" :serializers="serializers" id="description" class="description"/>
       <section class="selected-exhibitions" v-if="artist.selected_exhibitions!=undefined && artist.selected_exhibitions.length > 0" id="selected_exhibitions">

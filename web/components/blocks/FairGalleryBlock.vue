@@ -119,25 +119,31 @@ export default {
   .install, .work {
   }
   .install {
-    width:67%;
+    max-width:768px;
+    width:100%;
+    img {
+      max-height: 90vh;
+      object-fit: cover;
+    }
     figcaption {
       font-size: 0.75em;
-      max-width:720px;
     }
   }
   .work {
-    width:67%;
+    max-width:768px;
+    width:100%;
     figure {
       margin:1em 0;
       display: grid;
       grid-template-columns: 1fr;
       grid-gap: 0.25em;
       img {
+        max-height: 90vh;
+        object-fit: cover;
       }
       figcaption {
         font-size:0.75em;
         align-self:end;
-        max-width:360px;
       }
     }
   }
