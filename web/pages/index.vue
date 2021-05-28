@@ -63,6 +63,11 @@ import ReloadIcon from '~/components/ReloadIcon.vue'
 import ShuffleIcon from '~/components/ShuffleIcon.vue'
 
 export default Vue.extend({
+  head: {
+    bodyAttrs: {
+      class: 'home-index'
+    }
+  },
   components: {
     Swiper,
     SwiperSlide,
@@ -238,6 +243,12 @@ export default Vue.extend({
   position: absolute;
   z-index:-1;
   left:0;
+}
+
+body.home-index {
+  #log {
+    display: block;
+  }
 }
 
 main.index {
