@@ -21,8 +21,8 @@
               ${$urlFor(image).size(720)} 720w,
               ${$urlFor(image).size(480)} 480w,
               ${$urlFor(image).size(270)} 270w`"
-            sizes="(min-width: 1920px) 2880px,
-                   (min-width: 1280px) 1920px,
+            sizes="(min-width: 2440px) 2880px,
+                   (min-width: 1440px) 1920px,
                    (min-width: 960px) 1024px,
                    (min-width: 720px) 960px,
                    (min-width: 480px) 720px,
@@ -204,6 +204,7 @@ export default {
       display:block;
       max-height: 67vh;
       min-height:67vh;
+      width:auto;
       max-width:none;
       opacity:0;
       transition: opacity 333ms ease-out;
@@ -219,7 +220,7 @@ export default {
     @media screen and (max-width: 768px) {
       height: 50vh;
       img {
-        max-height: 50vh;
+        max-height:50vh;
         min-height:50vh;
       }
     }
