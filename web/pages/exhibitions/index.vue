@@ -321,11 +321,10 @@ main.exhibitions {
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0.5em;
-        position: sticky;
-        top: 4.5rem;
+        // position: sticky;
+        // top: 4.5rem;
         padding: 0.5rem 0;
         h2 {
-          align-self: flex-end;
           margin:0;
           width:240px;
         }
