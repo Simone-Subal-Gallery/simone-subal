@@ -281,7 +281,7 @@ export default Vue.extend({
         font-size:1em;
       }
       .exhibition-search {
-        width: 240px;
+        width: 30vw;
         input {
           border:1px solid #000;
           border-radius: 1em;
@@ -291,7 +291,7 @@ export default Vue.extend({
       }
     }
     .exhibition-list {
-      font-size: 1.25rem;
+      // font-size: 1.25rem;
       .exhibition-listing {
         margin-bottom: 2em;
         line-height: 1;
@@ -316,7 +316,7 @@ export default Vue.extend({
         }
       }
       &.list {
-        font-size: 1.25rem;
+        // font-size: 1.25rem;
         padding-top:2em;
         .exhibition-item {
           display: flex;

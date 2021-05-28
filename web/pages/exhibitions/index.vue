@@ -329,7 +329,7 @@ main.exhibitions {
           width:240px;
         }
         .exhibition-search {
-          width: 240px;
+          width: 30vw;
           input {
             border:1px solid #000;
             border-radius: 1em;
@@ -339,7 +339,7 @@ main.exhibitions {
         }
       }
       .exhibition-list {
-        font-size: 1.25rem;
+        // font-size: 1.25rem;
         .exhibition-listing {
           margin-bottom: 0.5em;
           line-height: 1;
@@ -375,7 +375,7 @@ main.exhibitions {
           }
         }
         &.list {
-          font-size: 1.25rem;
+          // font-size: 1.25rem;
           padding-top:2em;
           .exhibition-item {
             display: flex;

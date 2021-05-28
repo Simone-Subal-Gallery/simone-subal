@@ -8,7 +8,10 @@
       @mouseenter.native="pause" @mouseleave.native="play" @focusin.native="pause" @focusout.native="play">
         <a :href="$urlFor(image).size(1920)" v-for="image in images" :key="image._key">
           <img
-            :src="$urlFor(image).size(400)"
+            :src="$urlFor(image).size(800)"
+            :style="`background-color:${image.asset.metadata.palette.vibrant.background}`"
+            :width="image.asset.metadata.dimensions.width"
+            :height="image.asset.metadata.dimensions.height"
             :data-flickity-lazyload="$urlFor(image).size(1920)"
             :data-flickity-lazyload-srcset="`
               ${$urlFor(image).size(2880)} 2880w,
@@ -189,7 +192,8 @@ export default {
     height:67vh;
     img {
       display:block;
-      height: 67vh;
+      max-height: 67vh;
+      min-height:67vh;
       margin-right:0.5em;
       max-width:none;
       opacity:0;
