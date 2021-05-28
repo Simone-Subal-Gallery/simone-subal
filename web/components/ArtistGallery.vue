@@ -144,7 +144,9 @@ export default {
   },
   mounted () {
     let lightbox = new SimpleLightbox('.image-grid a', this.lightboxOptions)
-    // this.onInit()
+     this.$nextTick(() => {
+       this.onInit()
+     })
   }
 }
 </script>
