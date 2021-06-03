@@ -65,6 +65,7 @@ import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
 import mixinLinkClickRouting from '~/plugins/mixinLinkClickRouting'
 import LazyImg from '~/components/LazyImg.vue'
+import Log from '~/components/Log.vue'
 
 import Banner from '~/components/blocks/Banner.vue'
 import CTABlock from '~/components/blocks/CTABlock.vue'
@@ -277,7 +278,7 @@ export default Vue.extend({
       h2 {
         align-self: flex-end;
         margin:0;
-        width:240px;
+        width:30vw;
         font-size:1em;
       }
       .exhibition-search {

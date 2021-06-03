@@ -2,7 +2,7 @@
   <div :class="['exhibition-gallery', !block.display?'sticky_col':block.display]" :id="'exhibitionGallery'+index">
     <div class="install" v-if="block.install!=undefined && block.install.length > 0">
       <!-- <h3>Installation</h3> -->
-        <Lightbox :id="'installlightbox'+index" :images="block.install" />
+        <Lightbox v-if="block.install!=undefined && block.install.length > 0" :id="'installlightbox'+index" :images="block.install" />
     </div>
     <div class="work">
       <!-- <h3>Works</h3> -->

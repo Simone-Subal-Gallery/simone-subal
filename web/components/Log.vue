@@ -63,6 +63,8 @@ export default Vue.extend({
   watch: {
     '$route' () {
       this.open = false
+      this.partial_open = false
+      this.expanded = false
       if (this.$route.name == 'artists-slug') {
         this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
         window.addEventListener('scroll', this.handleScroll)
@@ -89,6 +91,8 @@ export default Vue.extend({
   },
   props: ['open', 'primary'],
   created() {
+  },
+  mounted() {
     this.log = this.$store.state.log
     if (this.$route.name == 'artists-slug') {
       this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist') && o.references.some(ref => ref.slug.current == this.$route.params.slug))
@@ -106,15 +110,12 @@ export default Vue.extend({
       this.filteredLog = this.log
     }
   },
-  mounted() {
-  },
   beforeMount () {
     if (this.$route.name == 'artists-slug') {
       window.addEventListener('scroll', this.handleScroll, { passive: true })
     }
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
     openLog() {
@@ -273,6 +274,12 @@ export default Vue.extend({
     &:not(.mobile) {
       overflow: scroll;
       height: 100vh;
+      padding-right:0px;
+      left:3rem;
+      @media screen and (max-width:768px) {
+        left:2rem;
+        width:calc(100vw - 4rem);
+      }
     }
   }
   &.is-expanded {

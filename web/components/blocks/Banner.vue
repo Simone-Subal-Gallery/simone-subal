@@ -51,9 +51,9 @@ export default {
       img {
         object-fit: cover;
         max-width:100%;
-        height: 100%;
         width:100%;
-        max-height: calc(75vh - 3rem);
+        height: calc(75vh - 3rem);
+        max-height: 100%;
       }
     }
   }

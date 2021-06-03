@@ -5,7 +5,7 @@
     <client-only>
     <ArtistGallery :images="artist.gallery" id="gallery" />
     </client-only>
-    
+
     <div class="content">
       <SanityContent :blocks="artist.description" :serializers="serializers" id="description" class="description"/>
       <section class="selected-exhibitions" v-if="artist.selected_exhibitions!=undefined && artist.selected_exhibitions.length > 0" id="selected_exhibitions">
@@ -201,8 +201,8 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log(this.$store.state.log)
-    console.log(this.$store.state.logFilter)
+    // console.log(this.$store.state.log)
+    // console.log(this.$store.state.logFilter)
     const logRow = document.querySelector('#logRow')
     const log = document.querySelector('#log')
     logRow.style.height = log.getBoundingClientRect().height + "px"
@@ -211,7 +211,7 @@ export default Vue.extend({
   },
   methods: {
     formatArtists (artists) {
-      console.log('artists', artists)
+      // console.log('artists', artists)
       return artists.map(artist => artist.title).join(', ')
     },
     formatDates (open, close) {

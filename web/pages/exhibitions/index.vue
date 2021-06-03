@@ -326,7 +326,7 @@ main.exhibitions {
         padding: 0.5rem 0;
         h2 {
           margin:0;
-          width:240px;
+          width:30vw;
         }
         .exhibition-search {
           width: 30vw;

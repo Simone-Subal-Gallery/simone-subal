@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import imagesLoaded from 'flickity-imagesloaded'
+
 export default {
   props: {
     images: {
@@ -62,12 +64,14 @@ export default {
         draggable: true,
         wrapAround: true,
         selectedAttraction: 0.01,
-        friction: 0.15,
+        friction: 0.1,
         cellSelector: 'img',
-        imagesLoaded: true,
         lazyLoad: 5,
         freeMode: true,
-        cellAlign: 'left'
+        cellAlign: 'left',
+        on: {
+          ready: () => { imagesLoaded(this.$refs.flickity.$flickity, this.loadComplete) }
+        }
       },
       lightboxOptions: {
         fadeSpeed: 0,
@@ -87,6 +91,29 @@ export default {
     }
   },
   methods: {
+    loadComplete () {
+      if (this.$refs.flickity.$flickity) {
+        this.$refs.flickity.$flickity.reloadCells()
+        console.log('reload cells!')
+
+        this.$refs.flickity.$flickity.x = 0
+
+        this.$refs.flickity.$flickity.on('ready', () => {
+          this.$refs.flickity.$flickity.reloadCells()
+          this.play()
+        })
+        this.$refs.flickity.$flickity.on('dragStart', () => {
+          this.isPaused = true
+        })
+        this.$refs.flickity.$flickity.on('dragEnd', () => {
+          this.play()
+        })
+
+        this.$refs.flickity.$flickity.reloadCells()
+        this.update()
+
+      }
+    },
     setView(view) {
       this.view = view
       if (view == 'flow') {
@@ -102,11 +129,11 @@ export default {
       if (this.isPaused) return
       if (this.view != 'flow') return
       if (this.$refs.flickity.$flickity.slides) {
-        this.$refs.flickity.$flickity.x = (this.$refs.flickity.$flickity.x - this.tickerSpeed) % this.$refs.flickity.$flickity.slideableWidth
-        this.$refs.flickity.$flickity.selectedIndex = this.$refs.flickity.$flickity.dragEndRestingSelect()
+        this.$refs.flickity.x = (this.$refs.flickity.$flickity.x - this.tickerSpeed) % this.$refs.flickity.$flickity.slideableWidth
+        this.$refs.flickity.$flickity.selectedIndex = this.$refs.flickity.$flickity.y.dragEndRestingSelect()
         this.$refs.flickity.$flickity.updateSelectedSlide()
         this.$refs.flickity.$flickity.settle(this.$refs.flickity.$flickity.x)
-        this.$refs.flickity.lazyLoad
+        this.$refs.flickity.$flickity.lazyLoad
       }
       window.requestAnimationFrame(this.update)
     },
@@ -120,30 +147,30 @@ export default {
       }
     },
     onInit () {
-      // console.log(this.$refs.flickity.$flickity)
-      if (this.$refs.flickity.$flickity != undefined) {
-        this.$refs.flickity.$flickity.x = 0
-
-        this.$refs.flickity.$flickity.on('ready', () => {
-          this.$refs.flickity.$flickity.resize()
-          this.play()
-        })
-        this.$refs.flickity.$flickity.on('dragStart', () => {
-          this.isPaused = true
-        })
-        this.$refs.flickity.$flickity.on('dragEnd', () => {
-          this.play()
-        })
-
-        this.$refs.flickity.$flickity.resize()
-        this.$refs.flickity.$flickity.reposition()
-        this.update()
-      }
+      console.log(this.$refs.flickity.$flickity)
+      // if (this.$refs.flickity != undefined) {
+      //   this.$refs.flickity.x = 0
+      //
+      //   this.$refs.flickity.on('ready', () => {
+      //     this.$refs.flickity.reloadCells()
+      //     this.play()
+      //   })
+      //   this.$refs.flickity.on('dragStart', () => {
+      //     this.isPaused = true
+      //   })
+      //   this.$refs.flickity.on('dragEnd', () => {
+      //     this.play()
+      //   })
+      //
+      //   this.$refs.flickity.reloadCells()
+      //   this.update()
+      // }
     }
   },
   mounted () {
     let lightbox = new SimpleLightbox('.image-grid a', this.lightboxOptions)
-    this.onInit()
+    // this.onInit()
+    console.log(this.$refs)
   }
 }
 </script>

@@ -139,7 +139,7 @@ main.artists .wrapper {
 @media screen and (max-width: 640px) {
   body.artists-index {
     #log {
-      display:none;
+      // display:none;
     }
   }
   main.artists {
