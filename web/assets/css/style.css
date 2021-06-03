@@ -51,6 +51,10 @@ a.button {
   margin:1em 0;
 }
 
+p {
+  overflow-wrap: anywhere;
+}
+
 img {
   max-width: 100%;
 }
