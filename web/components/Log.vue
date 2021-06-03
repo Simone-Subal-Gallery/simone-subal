@@ -109,6 +109,8 @@ export default Vue.extend({
     } else {
       this.filteredLog = this.log
     }
+
+    console.log(this.filteredLog)
   },
   beforeMount () {
     if (this.$route.name == 'artists-slug') {
@@ -172,10 +174,11 @@ export default Vue.extend({
           window.open(item.pdf, '_blank')
         } else if (item.fair != undefined) {
           this.$router.push({ name: 'fairs-slug', params: { slug: item.fair.slug.current }})
-        } else if (item.exhibition != undefined) {
-          this.$router.push({ name: 'exhibitions-slug', params: { slug: item.exhibition.slug.current }})
-        } else if (item.artist != undefined) {
-          this.$router.push({ name: 'artists-slug', params: { slug: item.artist.slug.current }})
+        } else if (item.references[0] != undefined) {
+          let type = item.references[0]._type + 's'
+          let slug = item.references[0].slug.current
+          let name = type + '-slug'
+          this.$router.push({ name: name, params: { slug: slug }})
         }
       }
     },

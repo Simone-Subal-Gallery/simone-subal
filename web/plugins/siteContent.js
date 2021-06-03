@@ -24,6 +24,7 @@ const query = groq`{
   },
   "events": *[_type == "event"]{
     ...,
+    'pdf': pdf.asset->url,
     references[]->{
       _id,
       _type,
