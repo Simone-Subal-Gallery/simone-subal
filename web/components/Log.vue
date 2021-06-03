@@ -1,6 +1,6 @@
 <template>
   <div :class="['log', open?'is-open':'', expanded?'is-expanded':'', partial_open?'is-partial-open':'']" @click="openLog()">
-    <div v-for="item in filteredLog" :class="['log-item', item.category]" :key="item._key">
+    <div v-for="item in filteredLog" :class="['log-item', item.category, isLink(item)?'link':'']" :key="item._key">
       <div class="date" v-text="formatDate(item.date)" v-if="open || partial_open || expanded" />
       <component :is="item.category" class="dot"/>
       <div class="main-info" v-if="open || expanded">
@@ -155,6 +155,13 @@ export default Vue.extend({
         }
       }
     },
+    isLink(item) {
+      if (item.external_link != undefined || item.url != undefined || item.pdf != undefined || item.fair != undefined || item.exhibition != undefined || item.artist != undefined) {
+        return true
+      } else {
+        return false
+      }
+    },
     itemClick(item) {
       if (this.open == true || this.expanded == true) {
         if (item.external_link != undefined) {
@@ -290,6 +297,9 @@ export default Vue.extend({
     align-items: flex-start;
     margin:1em 0;
     grid-column-gap:1.5rem;
+    &.link {
+       cursor: pointer;
+    }
   }
   .date {
     flex:0;
@@ -300,7 +310,6 @@ export default Vue.extend({
   }
   .main-info {
     flex: 1;
-    cursor:pointer;
     .title {
 
     }
