@@ -156,7 +156,7 @@ export default Vue.extend({
       }
     },
     itemClick(item) {
-      if (this.open == true) {
+      if (this.open == true || this.expanded == true) {
         if (item.external_link != undefined) {
           window.open(item.external_link, '_blank')
         } else if (item.url != undefined) {
@@ -276,10 +276,6 @@ export default Vue.extend({
       height: 100vh;
       padding-right:0px;
       left:3rem;
-      @media screen and (max-width:768px) {
-        left:2rem;
-        width:calc(100vw - 4rem);
-      }
     }
   }
   &.is-expanded {
