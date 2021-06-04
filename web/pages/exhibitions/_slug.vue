@@ -117,7 +117,11 @@ export default Vue.extend({
             ...,
             works[]{
               ...,
-              artist[]->
+              artist[]->,
+              images[]{
+                ...,
+                asset->
+              }
             }
           }
         },
@@ -161,8 +165,6 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log(this.exhibition.content)
-
     if (this.exhibition.bg_color != undefined) {
       document.body.style.backgroundColor = this.exhibition.bg_color
     } else {

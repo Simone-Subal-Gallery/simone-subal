@@ -88,6 +88,22 @@ import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { mapState } from 'vuex'
 
+const Image = {
+  props: {
+    asset: {
+      type: Object
+    }
+  },
+  render(createElement) {
+    const props = {
+      attrs: {
+        src: this.asset.url
+      }
+    }
+    return createElement('img', props, this.$slots.default)
+  }
+}
+
 const Link = {
   props: {
     href: {
@@ -123,6 +139,9 @@ export default Vue.extend({
       logOpen: false,
       success: false,
       serializers: {
+        types: {
+          image: Image
+        },
         marks: {
           link: Link
         }

@@ -7,23 +7,7 @@
 <script>
 import PDFBlock from '~/components/blocks/PDFBlock.vue'
 import URLBlock from '~/components/blocks/URLBlock.vue'
-
-const Link = {
-  props: {
-    href: {
-      type: String
-    }
-  },
-  render(createElement) {
-    const props = {
-      attrs: {
-        href: this.href,
-        target: '_blank'
-      }
-    }
-    return createElement('a', props, this.$slots.default)
-  }
-}
+import Link from '~/components/blocks/Link.vue'
 
 const Image = {
   props: {
@@ -47,11 +31,8 @@ export default {
       serializers: {
         types: {
           pdf: PDFBlock,
-          link: URLBlock,
+          link: Link,
           image: Image
-        },
-        marks: {
-          link: Link
         }
       }
     }
@@ -93,6 +74,9 @@ section.text {
     &:last-of-type {
       margin-bottom:0px;
     }
+  }
+  a {
+    text-decoration:underline;
   }
   @media screen and (max-width:768px) {
     margin:1.5em 0;
