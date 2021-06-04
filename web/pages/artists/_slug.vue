@@ -130,7 +130,7 @@ import { DateTime } from 'luxon'
 import { mapMutations } from 'vuex'
 
 import PDFBlock from '~/components/blocks/PDFBlock.vue'
-import URLBlock from '~/components/blocks/URLBlock.vue'
+import ArtistURLBlock from '~/components/blocks/ArtistURLBlock.vue'
 
 const Link = {
   props: {
@@ -192,10 +192,7 @@ export default Vue.extend({
       serializers: {
         types: {
           pdf: PDFBlock,
-          link: URLBlock
-        },
-        marks: {
-          link: Link
+          link: ArtistURLBlock
         }
       }
     }
