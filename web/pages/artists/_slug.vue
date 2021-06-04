@@ -337,7 +337,7 @@ body.artist-single div.artist-single {
     }
     .log-row {
       display: block;
-      position: relative;
+      min-height:33vh;
     }
     @media screen and (max-width: 768px) {
       width: calc(100vw - 3rem);

@@ -278,7 +278,7 @@ main {
   padding-bottom:1.5rem;
   .content section {
     &:last-of-type {
-      margin-bottom:0px !important;
+      margin-bottom:2em !important;
     }
   }
   @media screen and (max-width: 768px) {
@@ -287,7 +287,7 @@ main {
 }
 
 footer {
-  margin-top: 2rem;
+  margin-top: 3rem;
   @media screen and (max-width:768px) {
     font-size:0.75em;
   }
@@ -817,7 +817,7 @@ body.hidden-scroll {
       min-height:67vh;
       width:auto;
       max-width:none;
-      opacity:0;
+      // opacity:0;
       transition: opacity 333ms ease-out;
       &.flickity-lazyloaded {
         opacity:1;

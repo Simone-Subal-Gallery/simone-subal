@@ -30,7 +30,7 @@ section.cta {
   margin: 6em 0;
   display: flex;
   justify-content: center;
-  align-items:center;
+  align-items:flex-start;
   flex-direction: column;
   a {
     border-radius: 2em;
