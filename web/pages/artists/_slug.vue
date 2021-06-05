@@ -182,9 +182,34 @@ export default Vue.extend({
     const response = await $sanity.fetch(query)
     return { artist: response.artist, artists: response.artists }
   },
-  head: {
-    bodyAttrs: {
-      class: 'artist-single'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'artist-single'
+      },
+      title: this.artist.title + ' | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.artist.description[0].children[0].text
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.artist.title + ' | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: `${this.$urlFor(this.artist.thumbnail.asset).size(1200)}`,
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/artists/${this.artist.slug.current}`,
+        },
+      ]
     }
   },
   data () {

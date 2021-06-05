@@ -61,9 +61,29 @@ export default Vue.extend({
   //   const page = await $sanity.fetch(query)
   //   return { page }
   // },
-  head: {
-    bodyAttrs: {
-      class: 'page-single'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'page-single'
+      },
+      title: this.page.title + ' | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.page.content[0].children[0].text
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.page.title + ' | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/pages/${this.page.slug.current}`,
+        },
+      ]
     }
   },
   async asyncData({ params, app: { $sanity }}) {

@@ -76,9 +76,34 @@ import CodeBlock from '~/components/blocks/CodeBlock.vue'
 
 export default Vue.extend({
   mixins: [mixinLinkClickRouting],
-  head: {
-    bodyAttrs: {
-      class: 'exhibition-single'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'exhibition-single'
+      },
+      title: this.exhibition.hide_title?this.exhibition.artists.map(artist => artist.title).join(", "):this.exhibition.title + ' | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.exhibition.artists.map(artist => artist.title).join(", ") + '. ' + this.formatDates(this.exhibition.open_date, this.exhibition.close_date, 'future')
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.exhibition.hide_title?this.exhibition.artists.map(artist => artist.title).join(", "):this.exhibition.title + ' | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: `${this.$urlFor(this.exhibition.thumbnail.asset).size(1200)}`,
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/exhibitions/${this.exhibition.slug.current}`,
+        },
+      ]
     }
   },
   async asyncData({ params, app: { $sanity }}) {
