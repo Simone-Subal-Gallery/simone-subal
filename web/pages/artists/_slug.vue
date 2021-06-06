@@ -24,7 +24,7 @@
                    width="1280"
                    height="1024"
                    v-if="exhibition.thumbnail == undefined">
-                <rect width="1280" height="1024" fill="#eee"></rect>
+                <rect width="1280" height="1024" fill="#ddd"></rect>
               </svg>
             </div>
             <div class="artists">
@@ -45,7 +45,7 @@
                    width="1280"
                    height="1024"
                    v-if="exhibition.thumbnail == undefined">
-                <rect width="1280" height="1024" fill="#eee"></rect>
+                <rect width="1280" height="1024" fill="#ddd"></rect>
               </svg>
             </div>
             <div class="title"><span>{{ exhibition.title }}</span></div>
@@ -63,7 +63,7 @@
                    width="1280"
                    height="1024"
                    v-if="exhibition.thumbnail == undefined">
-                <rect width="1280" height="1024" fill="#eee"></rect>
+                <rect width="1280" height="1024" fill="#ddd"></rect>
               </svg>
             </div>
             <div class="title"><span>{{ exhibition.title }}</span></div>

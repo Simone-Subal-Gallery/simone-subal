@@ -63,6 +63,7 @@
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
+import { mapState } from 'vuex'
 import mixinLinkClickRouting from '~/plugins/mixinLinkClickRouting'
 import LazyImg from '~/components/LazyImg.vue'
 import Log from '~/components/Log.vue'
@@ -191,9 +192,9 @@ export default Vue.extend({
   },
   mounted() {
     if (this.exhibition.bg_color != undefined) {
-      document.body.style.backgroundColor = this.exhibition.bg_color
+      this.$store.commit('backgroundColor', this.exhibition.bg_color)
     } else {
-      document.body.style.backgroundColor = "#fff"
+      this.$store.commit('backgroundColor', this.site.bg_color)
     }
   },
   beforeMount () {
@@ -201,9 +202,9 @@ export default Vue.extend({
   },
   beforeDestroy() {
     // window.removeEventListener('scroll', this.handleScroll)
-    document.body.style.backgroundColor = "#eee"
   },
   computed: {
+    ...mapState(['site']),
     artistsString () {
       let artists = this.exhibition.artists
       let array = []
@@ -285,7 +286,7 @@ export default Vue.extend({
     }
   }
   .more-exhibitions {
-    background: #eee;
+    background-color: var(--background-color-secondary);
     margin-left:-1.5rem;
     margin-right: -4rem;
     margin-bottom:-5rem;
