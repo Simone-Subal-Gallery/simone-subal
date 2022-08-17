@@ -400,7 +400,7 @@ footer {
       margin: 0 auto;
       .mailing-list {
         display:flex;
-        grid-gap:0.5em;
+        grid-gap:0.4em;
       }
       input {
         flex:1;
