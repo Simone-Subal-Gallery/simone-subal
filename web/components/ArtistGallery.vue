@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import imagesLoaded from 'flickity-imagesloaded'
 
 export default {
   props: {
@@ -68,10 +67,7 @@ export default {
         cellSelector: 'img',
         lazyLoad: 5,
         freeMode: true,
-        cellAlign: 'left',
-        on: {
-          ready: () => { imagesLoaded(this.$refs.flickity.$flickity, this.onInit) }
-        }
+        cellAlign: 'left'
       },
       lightboxOptions: {
         fadeSpeed: 0,
