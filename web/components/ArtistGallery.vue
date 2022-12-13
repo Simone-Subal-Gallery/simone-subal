@@ -33,7 +33,7 @@
           />
     </flickity>
     <div class="image-grid" v-show="view == 'grid'">
-      <a class="grid-item" v-for="image in images" :key="image._key" :href="$urlFor(image).size(1920)">
+      <a class="grid-item" v-for="image in images" :key="image._key" :href="image.asset.url">
         <SanityContent :blocks="image.caption" class="caption"/>
         <img
           :src="$urlFor(image).size(480)"
