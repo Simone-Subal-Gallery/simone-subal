@@ -1,7 +1,7 @@
 <template>
   <div :id="id">
     <figure class="image" v-for="image, i in images" :key="image._id">
-      <a :href="$urlFor(image).size(2800)" class="lightbox-image">
+      <a :href="image.asset.url" class="lightbox-image">
         <lazy-img
           :background-color="image.asset.metadata.palette.vibrant.background"
           :lazy-src="$urlFor(image).size(1920)"
