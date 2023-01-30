@@ -11,6 +11,11 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'twitter:card',
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -21,7 +26,7 @@ export default {
       { rel: 'stylesheet', href: 'https://use.typekit.net/kde2jgu.css' }
     ]
   },
-  
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     { src: 'assets/css/normalize.css' },
@@ -43,8 +48,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
-    '@nuxtjs/sanity'
+    '@nuxtjs/sanity/module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

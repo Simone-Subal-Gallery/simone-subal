@@ -1,6 +1,6 @@
 <template>
     <a :href="href" target="_blank">
-      {{ title }}
+      <slot></slot>
       <!-- <span class="date">{{ date_published }}</span> -->
     </a>
 </template>

@@ -63,6 +63,7 @@
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
+import { mapState } from 'vuex'
 import mixinLinkClickRouting from '~/plugins/mixinLinkClickRouting'
 import LazyImg from '~/components/LazyImg.vue'
 import Log from '~/components/Log.vue'
@@ -76,9 +77,34 @@ import CodeBlock from '~/components/blocks/CodeBlock.vue'
 
 export default Vue.extend({
   mixins: [mixinLinkClickRouting],
-  head: {
-    bodyAttrs: {
-      class: 'exhibition-single'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'exhibition-single'
+      },
+      title: this.exhibition.hide_title?this.exhibition.artists.map(artist => artist.title).join(", "):this.exhibition.title + ' | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.exhibition.artists.map(artist => artist.title).join(", ") + '. ' + this.formatDates(this.exhibition.open_date, this.exhibition.close_date, 'future')
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.exhibition.hide_title?this.exhibition.artists.map(artist => artist.title).join(", "):this.exhibition.title + ' | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: `${this.$urlFor(this.exhibition.thumbnail.asset).size(1200)}`,
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/exhibitions/${this.exhibition.slug.current}`,
+        },
+      ]
     }
   },
   async asyncData({ params, app: { $sanity }}) {
@@ -117,7 +143,11 @@ export default Vue.extend({
             ...,
             works[]{
               ...,
-              artist[]->
+              artist[]->,
+              images[]{
+                ...,
+                asset->
+              }
             }
           }
         },
@@ -161,12 +191,10 @@ export default Vue.extend({
     }
   },
   mounted() {
-    console.log(this.exhibition.content)
-
     if (this.exhibition.bg_color != undefined) {
-      document.body.style.backgroundColor = this.exhibition.bg_color
+      this.$store.commit('backgroundColor', this.exhibition.bg_color)
     } else {
-      document.body.style.backgroundColor = "#fff"
+      this.$store.commit('backgroundColor', this.site.bg_color)
     }
   },
   beforeMount () {
@@ -174,9 +202,9 @@ export default Vue.extend({
   },
   beforeDestroy() {
     // window.removeEventListener('scroll', this.handleScroll)
-    document.body.style.backgroundColor = "#eee"
   },
   computed: {
+    ...mapState(['site']),
     artistsString () {
       let artists = this.exhibition.artists
       let array = []
@@ -258,7 +286,7 @@ export default Vue.extend({
     }
   }
   .more-exhibitions {
-    background: #eee;
+    background-color: var(--background-color-secondary);
     margin-left:-1.5rem;
     margin-right: -4rem;
     margin-bottom:-5rem;

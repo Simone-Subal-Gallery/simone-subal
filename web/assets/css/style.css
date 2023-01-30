@@ -7,6 +7,10 @@
   font-style: normal;
 } */
 
+:root {
+  --background-color-secondary: #ddd;
+}
+
 html {
   font-size: 16px;
   word-spacing: 1px;
@@ -25,7 +29,7 @@ html {
 }
 
 body {
-  background-color: #eee;
+  background-color: var(--background-color);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

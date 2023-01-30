@@ -20,9 +20,29 @@ import { groq } from '@nuxtjs/sanity'
 
 export default Vue.extend({
   name: 'Artists',
-  head: {
-    bodyAttrs: {
-      class: 'artists-index'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'artists-index'
+      },
+      title: 'Artists | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.artists.map(artist => artist.title).join(", ") + '.'
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: 'Artists | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/artists/`,
+        },
+      ]
     }
   },
   async asyncData({ app: { $sanity }}) {

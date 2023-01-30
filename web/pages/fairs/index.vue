@@ -145,9 +145,29 @@ export default Vue.extend({
       title: 'Fairs'
     }
   },
-  head: {
-    bodyAttrs: {
-      class: 'fairs-index'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'fairs-index'
+      },
+      title: 'Fairs | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.years[0] + ': ' + this.groups[this.years[0]].map(fair => fair.title).join(", ")
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: 'Fairs | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/fairs/`,
+        },
+      ]
     }
   },
   created() {

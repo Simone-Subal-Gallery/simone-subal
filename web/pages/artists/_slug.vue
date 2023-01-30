@@ -24,7 +24,7 @@
                    width="1280"
                    height="1024"
                    v-if="exhibition.thumbnail == undefined">
-                <rect width="1280" height="1024" fill="#eee"></rect>
+                <rect width="1280" height="1024" fill="#ddd"></rect>
               </svg>
             </div>
             <div class="artists">
@@ -45,7 +45,7 @@
                    width="1280"
                    height="1024"
                    v-if="exhibition.thumbnail == undefined">
-                <rect width="1280" height="1024" fill="#eee"></rect>
+                <rect width="1280" height="1024" fill="#ddd"></rect>
               </svg>
             </div>
             <div class="title"><span>{{ exhibition.title }}</span></div>
@@ -63,7 +63,7 @@
                    width="1280"
                    height="1024"
                    v-if="exhibition.thumbnail == undefined">
-                <rect width="1280" height="1024" fill="#eee"></rect>
+                <rect width="1280" height="1024" fill="#ddd"></rect>
               </svg>
             </div>
             <div class="title"><span>{{ exhibition.title }}</span></div>
@@ -130,7 +130,7 @@ import { DateTime } from 'luxon'
 import { mapMutations } from 'vuex'
 
 import PDFBlock from '~/components/blocks/PDFBlock.vue'
-import URLBlock from '~/components/blocks/URLBlock.vue'
+import ArtistURLBlock from '~/components/blocks/ArtistURLBlock.vue'
 
 const Link = {
   props: {
@@ -182,9 +182,34 @@ export default Vue.extend({
     const response = await $sanity.fetch(query)
     return { artist: response.artist, artists: response.artists }
   },
-  head: {
-    bodyAttrs: {
-      class: 'artist-single'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'artist-single'
+      },
+      title: this.artist.title + ' | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.artist.description[0].children[0].text
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.artist.title + ' | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: `${this.$urlFor(this.artist.thumbnail.asset).size(1200)}`,
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/artists/${this.artist.slug.current}`,
+        },
+      ]
     }
   },
   data () {
@@ -192,10 +217,7 @@ export default Vue.extend({
       serializers: {
         types: {
           pdf: PDFBlock,
-          link: URLBlock
-        },
-        marks: {
-          link: Link
+          link: ArtistURLBlock
         }
       }
     }
@@ -337,7 +359,7 @@ body.artist-single div.artist-single {
     }
     .log-row {
       display: block;
-      position: relative;
+      min-height:33vh;
     }
     @media screen and (max-width: 768px) {
       width: calc(100vw - 3rem);

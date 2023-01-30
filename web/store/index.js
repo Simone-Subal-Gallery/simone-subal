@@ -2,7 +2,8 @@ export const state = () => ({
   site: {},
   contact: {},
   log: [],
-  logFilter: ''
+  logFilter: '',
+  backgroundColor: 'yellow'
 })
 
 export const getters = {
@@ -17,6 +18,9 @@ export const getters = {
   },
   logFilter(state) {
     return state.logFilter
+  },
+  backgroundColor(state) {
+    return state.backgroundColor
   }
 }
 
@@ -32,5 +36,8 @@ export const mutations = {
   },
   logFilter(state, content) {
     state.logFilter = content
+  },
+  backgroundColor(state, content) {
+    state.backgroundColor = content
   }
 }

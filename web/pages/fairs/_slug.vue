@@ -2,7 +2,7 @@
   <main class="fair-single">
     <h1 class="title" v-html="fair.title" />
     <p class="artists" v-if="fair.artists != undefined && fair.artists.length > 0" v-html="formatArtists(fair.artists)" />
-    <p class="dates" v-text="formatDates(fair.open_date, fair.close_date, 'future')" />
+    <p class="dates" v-text="formatDates(fair.open_date, fair.close_date)" />
     <p class="opening" v-if="fair.opening != undefined" v-text="fair.opening" />
     <div class="content" v-if="fair.content != undefined && fair.content.length > 0">
       <component
@@ -95,13 +95,37 @@ export default Vue.extend({
       view: 'grid',
     }
   },
-  head: {
-    bodyAttrs: {
-      class: 'fair-single'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'fair-single'
+      },
+      title: this.fair.title + ' | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.fair.artists.map(artist => artist.title).join(", ") + '. ' + this.formatDates(this.fair.open_date, this.fair.close_date)
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.fair.title + ' | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: `${this.$urlFor(this.fair.thumbnail.asset).size(1200)}`,
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/fairs/${this.fair.slug.current}`,
+        },
+      ]
     }
   },
   mounted() {
-    console.log(this.fair)
   },
   methods: {
     formatArtists (artists) {

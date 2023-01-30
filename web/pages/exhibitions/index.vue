@@ -195,9 +195,34 @@ export default Vue.extend({
       return feed
     }
   },
-  head: {
-    bodyAttrs: {
-      class: 'exhibitions-index'
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'exhibitions-index'
+      },
+      title: 'Exhibitions | Simone Subal Gallery',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.current!=undefined?'Current: '+this.current[0].title+' - '+this.formatArtists(this.current[0].artists)+'.':'Upcoming: '+this.future[0].title+' - '+this.formatArtists(this.future[0].artists)+'.'
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: this.current!=undefined?`${this.$urlFor(this.current[0].thumbnail.asset).size(1200)}`:`${this.$urlFor(this.future[0].thumbnail.asset).size(1200)}`,
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: 'Exhibitions | Simone Subal Gallery',
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `https://simonesubal.com/exhibitions/`,
+        },
+      ]
     }
   },
   data () {

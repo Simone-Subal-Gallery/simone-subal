@@ -1,24 +1,20 @@
 <template>
-  <section class="cta">
-    <a :href="block.url" :target="block.blank?'_blank':''" v-text="block.text" />
+  <section class="artist-url">
+    <a :href="href" target="_blank">
+      {{ title }}
+    </a>
   </section>
 </template>
 
 <script>
 export default {
   props: {
-    block: {
-      type: Object
-    }
-    // link: {
-    //   type: String
-    // },
-    // text: {
-    //   type: String
-    // },
-    // blank: {
-    //   type: Boolean
-    // }
+    title: {
+      type: String
+    },
+    href: {
+      type: String
+    },
   },
   methods: {
   }
@@ -26,8 +22,8 @@ export default {
 </script>
 
 <style lang="scss">
-section.cta {
-  margin: 6em 0;
+section.artist-url {
+  margin: 3em 0;
   display: flex;
   justify-content: center;
   align-items:flex-start;

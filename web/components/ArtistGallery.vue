@@ -4,15 +4,15 @@
       <a :class="view == 'flow'?'active':''" @click="setView('flow')">Flow</a>
       <a :class="view == 'grid'?'active':''" @click="setView('grid')">Grid</a>
     </div>
-    <flickity ref="flickity" v-show="view == 'flow'" :options="flickityOptions" class="carousel" @init="onInit"
-      @mouseenter.native="pause" @mouseleave.native="play" @focusin.native="pause" @focusout.native="play">
+    <flickity ref="flickity" v-show="view == 'flow'" :options="flickityOptions" class="carousel"
+     @focusin.native="pause" @focusout.native="play">
           <img
             v-for="image in images" :key="image._key"
             :src="$urlFor(image).size(800)"
             style="margin:0 0.25em"
             :width="image.asset.metadata.dimensions.width"
             :height="image.asset.metadata.dimensions.height"
-            :data-flickity-lazyload="$urlFor(image).size(1920)"
+            :data-flickity-lazyload="$urlFor(image).size(1440)"
             :data-flickity-lazyload-srcset="`
               ${$urlFor(image).size(2880)} 2880w,
               ${$urlFor(image).size(1920)} 1920w,
@@ -28,12 +28,12 @@
                    (min-width: 480px) 720px,
                    (min-width: 360px) 480px,
                    270px"
-            :data-flickity-lazyload-src="$urlFor(image).size(1920)"
+            :data-flickity-lazyload-src="$urlFor(image).size(1440)"
             :alt="image.asset.altText"
           />
     </flickity>
     <div class="image-grid" v-show="view == 'grid'">
-      <a class="grid-item" v-for="image in images" :key="image._key" :href="$urlFor(image).size(1920)">
+      <a class="grid-item" v-for="image in images" :key="image._key" :href="image.asset.url">
         <SanityContent :blocks="image.caption" class="caption"/>
         <img
           :src="$urlFor(image).size(480)"
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import imagesLoaded from 'flickity-imagesloaded'
 
 export default {
   props: {
@@ -68,10 +67,7 @@ export default {
         cellSelector: 'img',
         lazyLoad: 5,
         freeMode: true,
-        cellAlign: 'left',
-        on: {
-          ready: () => { imagesLoaded(this.$refs.flickity.$flickity, this.loadComplete) }
-        }
+        cellAlign: 'left'
       },
       lightboxOptions: {
         fadeSpeed: 0,
@@ -129,11 +125,11 @@ export default {
       if (this.isPaused) return
       if (this.view != 'flow') return
       if (this.$refs.flickity.$flickity.slides) {
-        this.$refs.flickity.x = (this.$refs.flickity.$flickity.x - this.tickerSpeed) % this.$refs.flickity.$flickity.slideableWidth
-        this.$refs.flickity.$flickity.selectedIndex = this.$refs.flickity.$flickity.y.dragEndRestingSelect()
+        this.$refs.flickity.$flickity.x = (this.$refs.flickity.$flickity.x - this.tickerSpeed) % this.$refs.flickity.$flickity.slideableWidth
+        this.$refs.flickity.$flickity.selectedIndex = this.$refs.flickity.$flickity.dragEndRestingSelect()
         this.$refs.flickity.$flickity.updateSelectedSlide()
         this.$refs.flickity.$flickity.settle(this.$refs.flickity.$flickity.x)
-        this.$refs.flickity.$flickity.lazyLoad
+        this.$refs.flickity.lazyLoad
       }
       window.requestAnimationFrame(this.update)
     },
@@ -147,30 +143,27 @@ export default {
       }
     },
     onInit () {
-      console.log(this.$refs.flickity.$flickity)
-      // if (this.$refs.flickity != undefined) {
-      //   this.$refs.flickity.x = 0
-      //
-      //   this.$refs.flickity.on('ready', () => {
-      //     this.$refs.flickity.reloadCells()
-      //     this.play()
-      //   })
-      //   this.$refs.flickity.on('dragStart', () => {
-      //     this.isPaused = true
-      //   })
-      //   this.$refs.flickity.on('dragEnd', () => {
-      //     this.play()
-      //   })
-      //
-      //   this.$refs.flickity.reloadCells()
-      //   this.update()
-      // }
+      if (this.$refs.flickity.$flickity != undefined) {
+        this.$refs.flickity.$flickity.x = 0
+        this.$refs.flickity.$flickity.on('ready', () => {
+          this.$refs.flickity.$flickity.resize()
+          this.play()
+        })
+        this.$refs.flickity.$flickity.on('dragStart', () => {
+          this.isPaused = true
+        })
+        this.$refs.flickity.$flickity.on('dragEnd', () => {
+          this.play()
+        })
+        this.$refs.flickity.$flickity.reloadCells()
+        this.update()
+      }
     }
   },
   mounted () {
+    this.onInit()
     let lightbox = new SimpleLightbox('.image-grid a', this.lightboxOptions)
-    // this.onInit()
-    console.log(this.$refs)
+    setTimeout(this.onInit(), 3000)
   }
 }
 </script>

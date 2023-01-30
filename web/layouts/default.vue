@@ -88,6 +88,22 @@ import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { mapState } from 'vuex'
 
+const Image = {
+  props: {
+    asset: {
+      type: Object
+    }
+  },
+  render(createElement) {
+    const props = {
+      attrs: {
+        src: this.asset.url
+      }
+    }
+    return createElement('img', props, this.$slots.default)
+  }
+}
+
 const Link = {
   props: {
     href: {
@@ -123,6 +139,9 @@ export default Vue.extend({
       logOpen: false,
       success: false,
       serializers: {
+        types: {
+          image: Image
+        },
         marks: {
           link: Link
         }
@@ -133,17 +152,19 @@ export default Vue.extend({
     MailchimpSubscribe,
   },
   computed: {
-    ...mapState(['site', 'contact']),
-    bodyBg () {
-      if (this.$store.state.site.bg_color != undefined) {
-        return this.$store.state.site.bg_color }
-      else { return '#eee' }
-    }
+    ...mapState(['site', 'contact'])
   },
   watch: {
+    '$store.state.backgroundColor' () {
+      let root = document.documentElement
+      root.style.setProperty('--background-color', this.$store.state.backgroundColor)
+    },
     '$route' () {
       this.overlayOpen = false
       this.logOpen = false
+      if (this.$route.name != 'exhibitions-slug') {
+        this.$store.commit('backgroundColor', this.site.bg_color)
+      }
     },
     overlayOpen () {
       let container = document.querySelector('.container')
@@ -190,14 +211,23 @@ export default Vue.extend({
     this.$nuxt.$on('toggleOverlay', () => {
       this.overlayToggleHandler()
     })
+
+  },
+  beforeMount () {
+    if (this.site.bg_color != undefined) {
+      let root = document.documentElement
+      root.style.setProperty('--background-color', this.site.bg_color)
+      this.$store.commit('backgroundColor', this.site.bg_color)
+    }
   },
   mounted () {
-    document.body.style.backgroundColor = this.bodyBg
+    // document.body.style.backgroundColor = this.bodyBg
   }
 })
 </script>
 
 <style lang="scss">
+
 .container {
   min-height: calc(100vh - 3rem);
   display: flex;
@@ -259,7 +289,7 @@ main {
   padding-bottom:1.5rem;
   .content section {
     &:last-of-type {
-      margin-bottom:0px !important;
+      margin-bottom:2em !important;
     }
   }
   @media screen and (max-width: 768px) {
@@ -268,7 +298,7 @@ main {
 }
 
 footer {
-  margin-top: 2rem;
+  margin-top: 3rem;
   @media screen and (max-width:768px) {
     font-size:0.75em;
   }
@@ -288,7 +318,7 @@ footer {
   justify-content: center;
   cursor: pointer;
   box-sizing: content-box;
-  background-color: #eee;
+  background-color: var(--background-color);
 }
 
 .overlay-toggle .circle {
@@ -370,7 +400,7 @@ footer {
       margin: 0 auto;
       .mailing-list {
         display:flex;
-        grid-gap:0.5em;
+        grid-gap:0.4em;
       }
       input {
         flex:1;
@@ -767,7 +797,7 @@ body.hidden-scroll {
       text-transform:uppercase;
       cursor: pointer;
       &.active {
-        background-color: #eee;
+        background-color: var(--background-color);
       }
       &:first-child {
         border-radius: 2em 0em 0em 2em;
@@ -798,7 +828,7 @@ body.hidden-scroll {
       min-height:67vh;
       width:auto;
       max-width:none;
-      opacity:0;
+      // opacity:0;
       transition: opacity 333ms ease-out;
       &.flickity-lazyloaded {
         opacity:1;

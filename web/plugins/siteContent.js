@@ -20,6 +20,12 @@ const query = groq`{
   },
   "contact": *[_id == "singleton-contact"][0] {
     ...,
+    content[]{
+      ...,
+      _type == 'image' => {
+        asset->
+      }
+    },
     secondary_nav[]->
   },
   "events": *[_type == "event"]{
