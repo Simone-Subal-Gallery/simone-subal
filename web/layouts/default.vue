@@ -9,7 +9,8 @@
       </div>
     </header>
     <div :class="['overlay-toggle', (overlayOpen==true)?'is-open':'']" @click="overlayToggleHandler">
-      <div class="circle" v-if="!logOpen"></div>
+      <!-- <div class="circle" v-if="!logOpen"></div> -->
+      <div class="hamburger" v-if="!logOpen"></div>
       <div class="close-log" v-if="logOpen">←</div>
     </div>
 
@@ -321,27 +322,70 @@ footer {
   background-color: var(--background-color);
 }
 
-.overlay-toggle .circle {
-  border-radius: 100%;
-  width: 0.75rem;
-  height: 0.75rem;
-  border: 1px solid #000;
+.hamburger {
+  display: block;
+  border: 1px solid black;
+  width: 1.75em;
+  height: 3px;
+  position: relative;
 }
 
-.overlay-toggle:hover .circle, .overlay-toggle.is-open .circle {
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  left: -1px;
+  right: 0;
+  border: 1px solid black;
+  width: 1.75em;
+  height: 3px;
+}
+.hamburger::before {top: 6px;}
+.hamburger::after {bottom: 6px;}
+ 
+.overlay-toggle:hover .hamburger, .overlay-toggle.is-open .hamburger {
   background-color: #000;
+  &:before,
+  &:after { background-color: #000; }
 }
 
-.overlay-toggle:hover .circle {
+.overlay-toggle:hover .hamburger {
   @media screen and (max-width:768px) {
     background-color:transparent;
+    &:before,
+    &:after { background-color:transparent; }
   }
 }
-.overlay-toggle.is-open .circle {
+
+.overlay-toggle.is-open .hamburger {
   @media screen and (max-width:768px) {
     background-color:#000;
+    &:before,
+    &:after { background-color: #000; }
   }
 }
+
+// .overlay-toggle .circle {
+//   border-radius: 100%;
+//   width: 0.75rem;
+//   height: 0.75rem;
+//   border: 1px solid #000;
+// }
+
+// .overlay-toggle:hover .circle, .overlay-toggle.is-open .circle {
+//   background-color: #000;
+// }
+
+// .overlay-toggle:hover .circle {
+//   @media screen and (max-width:768px) {
+//     background-color:transparent;
+//   }
+// }
+// .overlay-toggle.is-open .circle {
+//   @media screen and (max-width:768px) {
+//     background-color:#000;
+//   }
+// }
 
 .overlay-toggle .close-log {
   font-size:1.5rem;
