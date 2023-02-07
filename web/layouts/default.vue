@@ -325,7 +325,7 @@ footer {
 .hamburger {
   display: block;
   border: 1px solid black;
-  width: 2.2em;
+  width: 1.75em;
   height: 3px;
   position: relative;
 }
@@ -337,7 +337,7 @@ footer {
   left: -1px;
   right: 0;
   border: 1px solid black;
-  width: 2.2em;
+  width: 1.75em;
   height: 3px;
 }
 .hamburger::before {top: 6px;}
