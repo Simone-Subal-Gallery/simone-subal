@@ -4,17 +4,17 @@
       <a :href="image.asset.url" class="lightbox-image">
         <lazy-img
           :background-color="image.asset.metadata.palette.vibrant.background"
-          :lazy-src="$urlFor(image).size(1920)"
+          :lazy-src="$urlFor(image).size(1920).toString()"
           :width="image.asset.metadata.dimensions.width"
           :height="image.asset.metadata.dimensions.height"
           :lazy-srcset="`
-            ${$urlFor(image).size(2880)} 2880w,
-            ${$urlFor(image).size(1920)} 1920w,
-            ${$urlFor(image).size(1024)} 1024w,
-            ${$urlFor(image).size(960)} 960w,
-            ${$urlFor(image).size(720)} 720w,
-            ${$urlFor(image).size(480)} 480w,
-            ${$urlFor(image).size(270)} 270w`"
+            ${$urlFor(image).size(2880).toString()} 2880w,
+            ${$urlFor(image).size(1920).toString()} 1920w,
+            ${$urlFor(image).size(1024).toString()} 1024w,
+            ${$urlFor(image).size(960).toString()} 960w,
+            ${$urlFor(image).size(720).toString()} 720w,
+            ${$urlFor(image).size(480).toString()} 480w,
+            ${$urlFor(image).size(270).toString()} 270w`"
           :alt="caption"
         />
       </a>
