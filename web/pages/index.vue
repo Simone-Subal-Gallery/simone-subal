@@ -36,7 +36,7 @@
     <div class="recent">
       <div v-for="item in filteredFeed" :key="item._id" :class="item._type">
         <template v-if="item._type == 'contact'">
-          <div class="overlay-toggle" @click="toggleOverlay">
+          <div class="overlay-toggle" @click="toggleOverlay" role="button">
             <span>Contact</span>
             <div class="circle"></div>
           </div>
