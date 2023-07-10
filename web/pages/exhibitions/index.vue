@@ -52,8 +52,8 @@
           <a :class="view == 'list'?'active':''" @click="setView('list')">List</a>
         </div>
         <div class="exhibition-search">
-          <label id="search-exhibition">
-            <input id="search-exhibition" type="text" placeholder="Search" v-model="searchFeedValue" />
+          <label id="search-exhibition-label">
+            <input id="search-exhibition-input" type="text" placeholder="Search" v-model="searchFeedValue" />
           </label>
         </div>
       </div>
