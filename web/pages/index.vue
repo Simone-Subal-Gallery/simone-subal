@@ -358,6 +358,9 @@ main.index {
       justify-content: flex-start;
       padding:0 3rem;
       z-index:1;
+      label#search {
+        width: 100%;
+      }
       input {
         font-size: 2em;
         height: 100%;
