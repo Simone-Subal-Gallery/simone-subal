@@ -30,7 +30,7 @@
       <SanityContent :blocks="site.announcement" />
     </section>
     <section class="search">
-      <label id="search-home-label">
+      <label id="search-home-label" for="search-home-input">
         <input id="search-home-input" type="text" placeholder="Search" v-model="searchFeedValue" />
       </label>
       <div class="shuffle-btn" @click="shuffleFeed(feed)"><ShuffleIcon /></div>
