@@ -31,7 +31,7 @@
     </section>
     <section class="search">
       <label id="search">
-        <input id="search" type="text" placeholder="Search" v-model="searchFeedValue" />
+        <input id="search" type="text" aria-labelledby="search" placeholder="Search" v-model="searchFeedValue" />
       </label>
       <div class="shuffle-btn" @click="shuffleFeed(feed)"><ShuffleIcon /></div>
     </section>
