@@ -30,7 +30,7 @@
         </div>
         <div class="exhibition-search">
           <label id="search-exhibition">
-            <input type="text" placeholder="Search" v-model="searchFeedValue" />
+            <input id="search-exhibition" type="text" placeholder="Search" v-model="searchFeedValue" />
           </label>
         </div>
       </div>
