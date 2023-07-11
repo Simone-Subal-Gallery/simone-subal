@@ -8,10 +8,10 @@
         <Nav />
       </div>
     </header>
-    <div :class="['overlay-toggle', (overlayOpen==true)?'is-open':'']" @click="overlayToggleHandler">
+    <div :class="['overlay-toggle', (overlayOpen==true)?'is-open':'']" :tabindex="0" @click="overlayToggleHandler">
       <!-- <div class="circle" v-if="!logOpen"></div> -->
-      <div class="hamburger" aria-label="open" v-if="!logOpen"></div>
-      <div class="close-log" aria-label="close" v-if="logOpen">←</div>
+      <div class="hamburger" v-if="!logOpen"></div>
+      <div class="close-log" v-if="logOpen">←</div>
     </div>
 
     <Log @opened="logOpened" :open="logOpen" :primary="true" id="log"/>
