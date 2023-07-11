@@ -29,7 +29,7 @@
     <section class="announcement">
       <SanityContent :blocks="site.announcement" />
     </section>
-    <section class="search">
+    <section class="search" role="search">
       <label id="search-home-label" for="search-home-input">
         <input id="search-home-input" type="text" placeholder="Search" v-model="searchFeedValue" />
       </label>
