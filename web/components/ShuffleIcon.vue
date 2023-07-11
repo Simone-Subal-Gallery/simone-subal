@@ -1,5 +1,5 @@
 <template>
-<svg id="emrp6nw7fy7p1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300 260" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" width="300" height="300">
+<svg id="emrp6nw7fy7p1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300 260" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" width="300" height="300" role="presentation">
   <g id="emrp6nw7fy7p2">
     <g id="emrp6nw7fy7p3_to" transform="translate(89.362035,129.500000)">
       <rect id="emrp6nw7fy7p3" width="120" height="60" rx="29.500000" ry="29.500000" transform="translate(-69.362035,-29.500000)" vector-effect="non-scaling-stroke" fill="rgb(255,255,255)" fill-rule="evenodd" stroke="rgb(0,0,0)" stroke-width="1"/>
