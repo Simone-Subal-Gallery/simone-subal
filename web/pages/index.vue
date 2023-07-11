@@ -4,6 +4,7 @@
       <section :class="['featured-block', item._type]"
            v-for="item in site.featured"
            :key="item._id"
+           :tabindex="0"
            :style="'background-image:url('+featuredBG(item)+')'"
            @click="clickFeatured(item)">
         <template v-if="item._type!='artist'">
@@ -38,7 +39,7 @@
     <div class="recent">
       <div v-for="item in filteredFeed" :key="item._id" :class="item._type">
         <template v-if="item._type == 'contact'">
-          <div class="overlay-toggle" @click="toggleOverlay" role="button">
+          <div class="overlay-toggle" @click="toggleOverlay" role="button" tabindex="0">
             <span>Contact</span>
             <div class="circle"></div>
           </div>
@@ -48,7 +49,7 @@
         </template>
         <template v-else>
           <nuxt-link :to="'/'+item._type+'s/'+item.slug.current" :class="item._type + '-title'" v-text="item.title" />
-          <span v-if="item._type == 'fair'" v-text="item.open_date.slice(0,4)" />
+          <span v-if="item._type == 'fair'" v-text="item.open_date.slice(0,4)" tabindex="0" />
         </template>
       </div>
     </div>
