@@ -278,7 +278,7 @@ main.index {
       justify-content: center;
       padding: 1.5em;
       span {
-        color: #fff;
+        color: #FF7D15;
         cursor: pointer;
       }
       @media screen and (max-width:768px) {
