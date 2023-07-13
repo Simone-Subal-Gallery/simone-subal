@@ -30,7 +30,8 @@
         </div>
         <div class="exhibition-search" role="search">
           <label id="search-more-exhibitions-label" for="search-more-exhibitions-input">
-            <input id="search-more-exhibitions-input" type="text" placeholder="Search" v-model="searchFeedValue" />
+            Search:
+            <input id="search-more-exhibitions-input" type="text" v-model="searchFeedValue" />
           </label>
         </div>
       </div>
@@ -313,6 +314,11 @@ export default Vue.extend({
       }
       .exhibition-search {
         width: 30vw;
+        #search-more-exhibitions-label{
+            display: flex;
+            align-items: center;
+            color: #FF7D15;
+          }
         input {
           border:1px solid #000;
           border-radius: 1em;

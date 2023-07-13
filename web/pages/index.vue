@@ -358,7 +358,7 @@ main.index {
       display: flex;
       align-items:center;
       justify-content: flex-start;
-      padding:0 3rem;
+      padding:0 3rem 0 2rem;
       z-index:1;
       color:#FF7D15;
       label#search-home-label {
