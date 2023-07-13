@@ -53,7 +53,8 @@
         </div>
         <div class="exhibition-search" role="search">
           <label id="search-exhibition-label" for="search-exhibition-input">
-            <input id="search-exhibition-input" type="text" placeholder="Search" v-model="searchFeedValue" />
+            Search:
+            <input id="search-exhibition-input" type="text" v-model="searchFeedValue" />
           </label>
         </div>
       </div>
@@ -353,6 +354,11 @@ main.exhibitions {
         }
         .exhibition-search {
           width: 30vw;
+          #search-exhibition-label{
+            display: flex;
+            align-items: center;
+            color: #FF7D15;
+          }
           input {
             border:1px solid #000;
             border-radius: 1em;

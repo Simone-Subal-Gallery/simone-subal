@@ -31,8 +31,9 @@
       <SanityContent :blocks="site.announcement" />
     </section>
     <section class="search" role="search">
+      Search:
       <label id="search-home-label" for="search-home-input">
-        <input id="search-home-input" type="text" placeholder="Search" v-model="searchFeedValue" />
+        <input id="search-home-input" type="text" v-model="searchFeedValue" />
       </label>
       <div class="shuffle-btn" @click="shuffleFeed(feed)"><ShuffleIcon /></div>
     </section>
@@ -357,8 +358,9 @@ main.index {
       display: flex;
       align-items:center;
       justify-content: flex-start;
-      padding:0 3rem;
+      padding:0 3rem 0 2rem;
       z-index:1;
+      color:#FF7D15;
       label#search-home-label {
         width: 100%;
       }
