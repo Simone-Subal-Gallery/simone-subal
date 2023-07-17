@@ -279,7 +279,7 @@ main.index {
       justify-content: center;
       padding: 1.5em;
       span {
-        color: #FF7D15;
+        color: #4F4F4F;
         cursor: pointer;
       }
       @media screen and (max-width:768px) {
@@ -360,7 +360,7 @@ main.index {
       justify-content: flex-start;
       padding:0 3rem 0 2rem;
       z-index:1;
-      color:#FF7D15;
+      color:#4F4F4F;
       label#search-home-label {
         width: 100%;
         height: 100%;
