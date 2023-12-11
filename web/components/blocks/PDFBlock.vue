@@ -1,5 +1,5 @@
 <template>
-    <a :href="getUrlFromId(asset._ref)" target="_blank" class="pdf button">
+    <a :href="getUrlFromId(asset._ref)" target="_blank" class="pdf button" aria-label="CV pdf opens in new tab" >
       {{ title }}
       <!-- <span class="date">{{ date_published }}</span> -->
     </a>

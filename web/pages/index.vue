@@ -4,6 +4,7 @@
       <section :class="['featured-block', item._type]"
            v-for="item in site.featured"
            :key="item._id"
+           :tabindex="0"
            :style="'background-image:url('+featuredBG(item)+')'"
            @click="clickFeatured(item)">
         <template v-if="item._type!='artist'">
@@ -29,14 +30,17 @@
     <section class="announcement">
       <SanityContent :blocks="site.announcement" />
     </section>
-    <section class="search">
-      <input type="text" placeholder="Search" v-model="searchFeedValue" />
+    <section class="search" role="search">
+      <label id="search-home-label" for="search-home-input">
+        Search:
+        <input id="search-home-input" type="text" v-model="searchFeedValue" />
+      </label>
       <div class="shuffle-btn" @click="shuffleFeed(feed)"><ShuffleIcon /></div>
     </section>
     <div class="recent">
       <div v-for="item in filteredFeed" :key="item._id" :class="item._type">
         <template v-if="item._type == 'contact'">
-          <div class="overlay-toggle" @click="toggleOverlay">
+          <div class="overlay-toggle" @click="toggleOverlay" role="button" tabindex="0">
             <span>Contact</span>
             <div class="circle"></div>
           </div>
@@ -46,7 +50,7 @@
         </template>
         <template v-else>
           <nuxt-link :to="'/'+item._type+'s/'+item.slug.current" :class="item._type + '-title'" v-text="item.title" />
-          <span v-if="item._type == 'fair'" v-text="item.open_date.slice(0,4)" />
+          <span v-if="item._type == 'fair'" v-text="item.open_date.slice(0,4)" tabindex="0" />
         </template>
       </div>
     </div>
@@ -275,7 +279,7 @@ main.index {
       justify-content: center;
       padding: 1.5em;
       span {
-        color: #fff;
+        color: #4F4F4F;
         cursor: pointer;
       }
       @media screen and (max-width:768px) {
@@ -354,8 +358,16 @@ main.index {
       display: flex;
       align-items:center;
       justify-content: flex-start;
-      padding:0 3rem;
+      padding:0 3rem 0 2rem;
       z-index:1;
+      color:#4F4F4F;
+      label#search-home-label {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 1.5em;
+      }
       input {
         font-size: 2em;
         height: 100%;

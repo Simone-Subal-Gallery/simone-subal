@@ -8,7 +8,7 @@
         <Nav />
       </div>
     </header>
-    <div :class="['overlay-toggle', (overlayOpen==true)?'is-open':'']" @click="overlayToggleHandler">
+    <div :class="['overlay-toggle', (overlayOpen==true)?'is-open':'']" :tabindex="0" @click="overlayToggleHandler">
       <!-- <div class="circle" v-if="!logOpen"></div> -->
       <div class="hamburger" v-if="!logOpen"></div>
       <div class="close-log" v-if="logOpen">←</div>
@@ -38,7 +38,7 @@
               <template v-slot="{ subscribe, setEmail, error, success, loading }">
                 <form @submit.prevent="subscribe">
                   <div class="mailing-list">
-                    <input type="email" placeholder="Email" @input="setEmail($event.target.value)" />
+                    <input type="email" placeholder="Email" @input="setEmail($event.target.value)" aria-label="inputLabel" />
                     <button type="submit" v-html="error?error:success?'Thanks!':loading?'Loading...':'Sign Up'" />
                   </div>
                   <!-- <div v-if="error">{{ error }}</div>

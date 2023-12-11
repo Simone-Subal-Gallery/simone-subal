@@ -25,34 +25,36 @@ export default {
   },
   methods: {
     getCaption(work) {
-      console.log(work)
-      let string = ''
-      if (work.artist!=undefined && work.artist.length > 0) {
-        string = `${work.artist[0].title}.`
+      if (!work) {
+        return '';
       }
-      let title = work.title || 'Untitled'
-      string += ` <em>${title}</em>`
-      if (work.year!=undefined) {
-        let year = work.year.slice(0, 4)
-        string += `, ${year}.`
+      let string = '';
+      if (work.artist[0] && work.artist[0].title) {
+        string = `${work.artist[0].title}.`;
       }
-      if (work.medium!=undefined) {
-        let medium = work.medium
-        string += ` ${medium}.`
+      let title = work.title || 'Untitled';
+      string += ` <em>${title}</em>`;
+      if (work.year) {
+        let year = work.year.slice(0, 4);
+        string += `, ${year}.`;
       }
-      if (work.dimensions!=undefined) {
-        let dimensions = work.dimensions
-        string += ` ${dimensions}.`
+      if (work.medium) {
+        let medium = work.medium;
+        string += ` ${medium}.`;
       }
-      if (work.description!=undefined) {
-        let description = work.description
-        string += ` ${description}`
+      if (work.dimensions) {
+        let dimensions = work.dimensions;
+        string += ` ${dimensions}.`;
       }
-      if (work.more_info!=undefined) {
-        let more = work.more_info
-        string += `<br class="more-info"><br class="more-info"><span class="more-info">${more}</span>`
+      if (work.description) {
+        let description = work.description;
+        string += ` ${description}`;
       }
-      return string
+      if (work.more_info) {
+        let more = work.more_info;
+        string += `<br class="more-info"><br class="more-info"><span class="more-info">${more}</span>`;
+      }
+      return string;
     }
   }
 }

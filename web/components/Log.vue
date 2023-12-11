@@ -1,6 +1,6 @@
 <template>
   <div :class="['log', open?'is-open':'', expanded?'is-expanded':'', partial_open?'is-partial-open':'']" @click="openLog()">
-    <div v-for="item in filteredLog" :class="['log-item', item.category, isLink(item)?'link':'']" :key="item._key">
+    <div v-for="item in filteredLog" :class="['log-item', item.category, isLink(item)?'link':'']" :key="item._key" :aria-label="item.category">
       <div class="date" v-text="formatDate(item.date)" v-if="open || partial_open || expanded" />
       <component :is="item.category" class="dot"/>
       <div class="main-info" v-if="open || expanded">
