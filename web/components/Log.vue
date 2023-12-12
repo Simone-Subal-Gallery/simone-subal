@@ -66,22 +66,22 @@ export default Vue.extend({
       this.partial_open = false
       this.expanded = false
       if (this.$route.name == 'artists-slug') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
+        this.filteredLog = this.log.filter(o => o.references?.some(ref => ref?.slug.current == this.$route.params.slug))
         window.addEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'artists') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist') || o.category == 'artists')
+        this.filteredLog = this.log.filter(o => o.references?.some(ref => ref._type == 'artist') || o.category == 'artists')
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'exhibitions-slug') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
+        this.filteredLog = this.log.filter(o => o.references?.some(ref => ref?.slug.current == this.$route.params.slug))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'exhibitions') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'exhibition'))
+        this.filteredLog = this.log.filter(o => o.references?.some(ref => ref._type == 'exhibition'))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'fairs-slug') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref.slug.current == this.$route.params.slug))
+        this.filteredLog = this.log.filter(o => o.references?.some(ref => ref?.slug.current == this.$route.params.slug))
         window.removeEventListener('scroll', this.handleScroll)
       } else if (this.$route.name == 'fairs') {
-        this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'fair') || o.category == 'fairs')
+        this.filteredLog = this.log.filter(o => o.references?.some(ref => ref?._type == 'fair') || o.category == 'fairs')
         window.removeEventListener('scroll', this.handleScroll)
       } else {
         this.filteredLog = this.log
@@ -94,22 +94,22 @@ export default Vue.extend({
   },
   mounted() {
     this.log = this.$store.state.log
+
     if (this.$route.name == 'artists-slug') {
-      this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist') && o.references.some(ref => ref.slug.current == this.$route.params.slug))
+      this.filteredLog = this.log.filter(o => o.references?.some(ref => ref._type == 'artist') && o.references?.some(ref => ref?.slug.current == this.$route.params.slug))
     } else if (this.$route.name == 'artists') {
-      this.filteredLog = this.log.filter(o => o.references.some(ref => ref._type == 'artist'))
+      this.filteredLog = this.log.filter(o => o.references?.some(ref => ref._type == 'artist'))
     } else if (this.$route.name == 'exhibitions-slug') {
-      this.filteredLog = this.log.filter(o => ('exhibition' in o) && (o.exhibition.slug.current==this.$route.params.slug))
+      this.filteredLog = this.log.filter(o => ('exhibition' in o) && (o.exhibition?.slug.current==this.$route.params.slug))
     } else if (this.$route.name == 'exhibitions') {
       this.filteredLog = this.log.filter(o => ('exhibition' in o))
     } else if (this.$route.name == 'fairs-slug') {
-      this.filteredLog = this.log.filter(o => ('fair' in o) && (o.fair.slug.current==this.$route.params.slug))
+      this.filteredLog = this.log.filter(o => ('fair' in o) && (o.fair?.slug.current==this.$route.params.slug))
     } else if (this.$route.name == 'fairs') {
       this.filteredLog = this.log.filter(o => ('fair' in o))
     } else {
       this.filteredLog = this.log
     }
-
     console.log(this.filteredLog)
   },
   beforeMount () {
@@ -126,7 +126,7 @@ export default Vue.extend({
         this.$emit('opened')
       } else if ( this.partial_open == true ) {
         // scroll down to expanded breakpoint
-        const yOffset = -72
+        const yOffset = -96
         const element = document.querySelector('#logRow')
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
         window.scrollTo({top: y, behavior: 'smooth'});
@@ -291,6 +291,10 @@ export default Vue.extend({
   &.is-expanded {
     transform:translateX(0);
     position: absolute;
+    padding-top: 8rem;
+    @media screen and (max-width:768px) {
+      padding-top: 5rem;
+    }
   }
   &.mobile {
     position: static;
