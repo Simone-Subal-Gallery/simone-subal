@@ -28,8 +28,11 @@
           <a :class="view == 'grid'?'active':''" @click="setView('grid')">Grid</a>
           <a :class="view == 'list'?'active':''" @click="setView('list')">List</a>
         </div>
-        <div class="exhibition-search">
-          <input type="text" placeholder="Search" v-model="searchFeedValue" />
+        <div class="exhibition-search" role="search">
+          <label id="search-more-exhibitions-label" for="search-more-exhibitions-input">
+            Search:
+            <input id="search-more-exhibitions-input" type="text" v-model="searchFeedValue" />
+          </label>
         </div>
       </div>
       <div :class="['exhibition-list', view=='grid'?'grid':'list']">
@@ -311,6 +314,11 @@ export default Vue.extend({
       }
       .exhibition-search {
         width: 30vw;
+        #search-more-exhibitions-label{
+            display: flex;
+            align-items: center;
+            color: #FF7D15;
+          }
         input {
           border:1px solid #000;
           border-radius: 1em;

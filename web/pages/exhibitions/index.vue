@@ -7,7 +7,7 @@
         <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
           <div class="thumbnail" :style="'background-image:url('+$urlFor(exhibition.thumbnail.asset).size(2800)+')'">
             <h3 :class="['exhibition-header', exhibition.artists.length==1?'solo':'']">
-              <div class="exhibition-title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
+              <div v-if="exhibition.title && exhibition.hide_title != true" class="exhibition-title" v-text="exhibition.title" />
               <div v-if="exhibition.artists" v-text="formatArtists(exhibition.artists)" class="artist-title" />
             </h3>
           </div>
@@ -34,7 +34,7 @@
         <div v-for="exhibition in future" :key="exhibition._id" class="exhibition-listing">
           <nuxt-link :to="'/exhibitions/'+exhibition.slug.current" class="exhibition-item">
               <div :class="['exhibition-header', exhibition.artists.length==1?'solo':'']">
-                <div class="title" v-text="exhibition.title" v-if="exhibition.hide_title != true"/>
+                <div class="title" v-text="exhibition.title" v-if="exhibition.title && exhibition.hide_title != true"/>
                 <div class="artists" v-if="exhibition.artists && exhibition.artists.length > 0" >
                   <p v-text="formatArtists(exhibition.artists)"/>
                 </div>
@@ -51,8 +51,11 @@
           <a :class="view == 'grid'?'active':''" @click="setView('grid')">Grid</a>
           <a :class="view == 'list'?'active':''" @click="setView('list')">List</a>
         </div>
-        <div class="exhibition-search">
-          <input type="text" placeholder="Search" v-model="searchFeedValue" />
+        <div class="exhibition-search" role="search">
+          <label id="search-exhibition-label" for="search-exhibition-input">
+            Search:
+            <input id="search-exhibition-input" type="text" v-model="searchFeedValue" />
+          </label>
         </div>
       </div>
       <div :class="['exhibition-list', view=='grid'?'grid':'list']">
@@ -79,7 +82,7 @@
               </div>
 
               <div :class="['exhibition-header', exhibition.artists.length==1?'solo':'']">
-                <p class="title"><span v-if="exhibition.hide_title != true">{{ exhibition.title }}</span></p>
+                <p class="title"><span v-if="exhibition.title && exhibition.hide_title != true">{{ exhibition.title }}</span></p>
                 <p class="artists" v-if="exhibition.artists && exhibition.artists.length > 0" v-text="formatArtists(exhibition.artists)"/>
               </div>
               <p class="dates" v-html="formatDates(exhibition.open_date, exhibition.close_date, 'past')" />
@@ -94,10 +97,6 @@
 import Vue from 'vue'
 import { groq } from '@nuxtjs/sanity'
 import { DateTime } from 'luxon'
-import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
-import "swiper/css/swiper.css"
-
-import LazyImg from '~/components/LazyImg.vue'
 
 export default Vue.extend({
   name: 'Exhibitions',
@@ -142,13 +141,6 @@ export default Vue.extend({
       past,
       current
     }
-  },
-  components: {
-    Swiper,
-    SwiperSlide
-  },
-  directives: {
-    swiper: directive
   },
   methods: {
     setView(view) {
@@ -196,6 +188,22 @@ export default Vue.extend({
     }
   },
   head() {
+    const currentDescription = this.current.length
+    ? 'Current: ' + this.current[0].title + ' - ' + this.formatArtists(this.current[0].artists) + '.'
+    : '';
+    const futureDescription = this.future.length
+      ? 'Upcoming: ' + this.future[0].title + ' - ' + this.formatArtists(this.future[0].artists) + '.'
+      : '';
+    const contentDescription = currentDescription || futureDescription;
+
+    const currentImage = this.current.length
+      ? `${this.$urlFor(this.current[0].thumbnail.asset).size(1200)}`
+      : '';
+    const futureImage = this.future.length
+      ? `${this.$urlFor(this.future[0].thumbnail.asset).size(1200)}`
+      : '';
+    const ogImage = currentImage || futureImage;
+
     return {
       bodyAttrs: {
         class: 'exhibitions-index'
@@ -205,12 +213,12 @@ export default Vue.extend({
         {
           hid: 'description',
           name: 'description',
-          content: this.current!=undefined?'Current: '+this.current[0].title+' - '+this.formatArtists(this.current[0].artists)+'.':'Upcoming: '+this.future[0].title+' - '+this.formatArtists(this.future[0].artists)+'.'
+          content: contentDescription,
         },
         {
           hid: 'og:image',
           property: 'og:image',
-          content: this.current!=undefined?`${this.$urlFor(this.current[0].thumbnail.asset).size(1200)}`:`${this.$urlFor(this.future[0].thumbnail.asset).size(1200)}`,
+          content: ogImage,
         },
         {
           hid: 'og:title',
@@ -229,15 +237,6 @@ export default Vue.extend({
     return {
       title: 'Exhibitions',
       view: 'grid',
-      swiperOption: {
-        loop: true,
-        autoplay: {
-          delay: 1,
-          disableOnInteraction: false
-        },
-        slidesPerView: 'auto',
-        speed: 1000,
-      },
       searchFeedValue: ''
     }
   },
@@ -355,6 +354,11 @@ main.exhibitions {
         }
         .exhibition-search {
           width: 30vw;
+          #search-exhibition-label{
+            display: flex;
+            align-items: center;
+            color: #FF7D15;
+          }
           input {
             border:1px solid #000;
             border-radius: 1em;
@@ -408,14 +412,10 @@ main.exhibitions {
             .title {
               order: -1;
               width:50%;
-              span {
-              }
             }
             .artists {
               width:40%;
               margin:0 1em;
-              p {
-              }
             }
             .dates {
               margin: 0.5em 0;
