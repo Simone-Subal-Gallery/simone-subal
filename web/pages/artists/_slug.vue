@@ -261,6 +261,7 @@ body.artist-single div.artist-single {
     border: 1px solid #000;
     border-radius: 2em;
     padding: 2rem;
+    padding-bottom: 0px;
     @media screen and (max-width: 768px) {
       padding: 1rem;
       overflow:hidden;
